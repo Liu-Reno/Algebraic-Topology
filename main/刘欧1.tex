@@ -28,7 +28,7 @@
 
 \begin{flushright}\begin{minipage}{0.3 \textwidth}
 	\begin{tabular}{c}
-		{作者: \kaishu 红糖} \\
+		{作者: \kaishu 刘欧} \\
 		2024.9  
 	\end{tabular}
 \end{minipage}\end{flushright}
@@ -151,7 +151,20 @@
         \item 称 $f$ 为\textbf{单态射}, 如果对任意 $Z\in \cal{C}$ 以及一对态射 $g,h : Z \to X$ 都有 $fg = fh \Leftrightarrow g=h$(左消去律);
         \item 称 $f$ 为\textbf{满态射}, 如果对任意 $Z \in \cal{C}$ 以及一对态射 $g,h : Y \to Z$ 都有 $gf = hf \Leftrightarrow g=h$(右消去律);
     \end{itemize}
-    如果存在 $g$ 使得 $gf = \identity_X$ 则称 $f$ 左可逆而 $g$ 为其左逆; 类似地, $fg = \identity_Y$ 则称 $f$ 右可逆而 $g$ 为其右逆;
+    如果存在 $g$ 使得 $gf = \identity_X$ 则称 $f$ 左可逆而 $g$ 为其左逆; 类似地, $fg = \identity_Y$ 则称 $f$ 右可逆而 $g$ 为其右逆; 左可逆又右可逆的态射称为同构.
+\end{definition}
+\begin{definition}[子对象]\label{定义-子对象}
+    在一般的范畴中, 称指向 $X$ 的单态射 $U\to X$ 的同构类为 $X$ 的子对象, 其中单态射的同构是指形如
+    \[\begin{tikzcd}
+	U \\
+	&& X \\
+	{\tilde{U}}
+	\arrow[hook, from=1-1, to=2-3]
+	\arrow["\simeq"', shift right, from=1-1, to=3-1]
+	\arrow[shift right, from=3-1, to=1-1]
+	\arrow[hook, from=3-1, to=2-3]
+    \end{tikzcd}\]
+    的交换图. $X$ 的子对象构成偏序集 $\Sub_{\cal{C}}(X)$.
 \end{definition}
 显然地,左可逆蕴含单而右可逆蕴含满, 一个态射是同构当且仅当它左右均可逆.但是一个态射$f: X \to Y$即单又满并不代表其为同构, 这是缘于它不一定是严格态射($\Image(f)\rightiso \op{coim}(f)$\footnote{事实上, 可以说明满态射相当于说 $\Image(f) \rightiso Y$, 而单态射相当于说 $X \rightiso \op{coim}(f)$.},但很可惜, 我们估计不会讲), 这也是在同调代数中, 我们一般考虑 Abel 范畴(Abel 范畴 $\cal{A}$ 为加性范畴, 所有态射皆有核与余核且严格.).
 而后, 我们就可以给出一个新的例子
@@ -380,7 +393,7 @@
     \end{align*}
     为范畴等价, 这无非是有限维情况下线性映射的矩阵表达, 说明在有限维情况下矩阵包含了线性映射的全体信息.
 \end{exercise}
-\subsection{函子范畴}
+\subsection{函子范畴}\label{函子范畴}
 考虑 2-胞腔
 \[\begin{tikzcd}
 	{\cal{C}} && {\cal{D}}
@@ -476,7 +489,26 @@
         (f \downarrow g) \quad \text{或} \quad (f \mathbin{/} g) .$
     \end{center}
 \end{definition}
-一般而言, 泛性质可以描述为某种切片范畴的始/终对象, 具体见讲述时的例子(懒得写了).
+一般而言, 泛性质可以描述为某种切片范畴的始/终对象.
+\begin{example}
+    \begin{itemize}
+        \item 模的张量积 : 取 $R \in \cate{CRing}$ 为交换环, 考虑 $R$-模构成的范畴 $R\dcate{Mod}$, 对于 $M,N \in R\dcate{Mod}$ 我们现在想将 $M$ 和 $N$ 的元素形式地 ``配对'', 这可以理解为映向某个 $R$-模(由于此时为交换环) $A$ 的平衡积 $B \colon M \times N \to A$. 所谓平衡积是满足以下条件的映射: 对于 $x,x'\in M$, $y,y'\in N$ 以及 $r \in R$
+        \begin{itemize}
+            \item (作为群同态) $B(x+x',y) = B(x,y) + B(x',y)$, $B(x,y+y') = B(x,y) + B(x,y')$.
+            \item (与 $R$-模结构相容) $B(xr,y) = B(x,ry)$.
+        \end{itemize}
+        从 $M\times N$ 全体平衡积构成的范畴即为 $\cate{Bil}(M,N,*)$, 不难发现, 平衡积总是会减少 $M$ 和 $N$ 中的信息, 我们想尽可能保留这些信息, 相当于说选取一个最``大''的平衡积, 使得它不会商掉多余的信息.
+        这相当于说考虑 $\cate{Bil}(M,N,*)$ 的始对象. 
+        \[\begin{tikzcd}
+	{M\times N} & {M\otimes N} \\
+	& A
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-2]
+	\arrow["{\exists !}", dashed, from=1-2, to=2-2]
+        \end{tikzcd}\]
+        把 $M\otimes N$ 称为 $M$ 和 $N$ 的张量积.
+    \end{itemize}
+\end{example}
 \subsection{极限与完备性}
 本节来讲述在范畴论中最为常见也是最为基本的万有构造---(余)极限.\\
 我们将使用很多种方式(可能会配上相应图表)来理解(余)极限这一概念, 粗略来说, (余)极限就是满足一些态射条件的最小(大)的对象\footnote{如果我们将 $A \to B$ 称为 $A$ 比 $B$ 大.}. 我们先讲解\cite[$\S$ 2.7 极限]{李文威卷一}一节中关于极限的定义.
@@ -582,6 +614,28 @@
         \item $I \xrightarrow{j_{\alpha}}\mathcal{C}^I \xleftarrow{\Delta} \cal{C}$ 所确定的逗号范畴中若存在始对象则记作 $\indlim \alpha$, 称作 $\alpha$ 的\textbf{余极限}.
         \item $\mathcal{C} \xrightarrow{\Delta}\mathcal{C}^I \xleftarrow{j_{\alpha}} I$ 所确定的逗号范畴中若存在终对象则记作 $\prolim \alpha$, 称作 $\alpha$ 的\textbf{极限}.
     \end{itemize}
+    此外, 可以将极限的泛性质表为(左侧为余极限泛性质而右侧为极限泛性质)
+    \[\begin{tikzcd}
+	{\alpha(i)} && {\alpha(j)} \\
+	& {\indlim \alpha} \\
+	& X
+	\arrow[from=1-1, to=1-3]
+	\arrow[from=1-1, to=2-2]
+	\arrow[from=1-1, to=3-2]
+	\arrow[from=1-3, to=2-2]
+	\arrow[from=1-3, to=3-2]
+	\arrow["{\exists !}"{description}, dashed, from=2-2, to=3-2]
+    \end{tikzcd} \quad \text{以及} \quad \begin{tikzcd}
+	{\alpha(i)} && {\alpha(j)} \\
+	& {\prolim \alpha} \\
+	& X
+	\arrow[from=1-1, to=1-3]
+	\arrow[from=2-2, to=1-1]
+	\arrow[from=2-2, to=1-3]
+	\arrow[from=3-2, to=1-1]
+	\arrow[from=3-2, to=1-3]
+	\arrow["{\exists !}"{description}, dashed, from=3-2, to=2-2]
+\end{tikzcd}\]
 \end{definition}
 命题~\ref{命题:始对象存在则唯一} 说明(余)极限若存在则(在同构意义下)唯一.
 \begin{lemma}[函子性]
@@ -692,7 +746,7 @@
 	\arrow["f"', from=2-2, to=1-2]
 	\arrow["g", from=2-2, to=2-1]
     \end{tikzcd}\]
-    的推出记为 $B \dsqcup{D} C$.
+    的推出记为 $B \dsqcup{D} C$. 它表示将两个对象沿着该态射粘接起来的过程.
 \end{example}
 \begin{exercise}
     请读者使用我们刚刚的思路思考拉回和推出分别代表什么, 此外, 说明拉回相当于``原像'', 推出相当于``像''.
@@ -761,13 +815,548 @@
 \[
     \coprod_{i\in I} \alpha(i) /\sim
 \]
-一般而言, 我们喜欢在滤过的东西上讨论余极限, 首先容许我介绍一下何谓滤过:
+但是目前我们只给出了关系, 我们想要具体刻画等价关系还需要再滤过范畴之上(或者说我们需要将 $\alpha(i)$ 和 $\alpha(j)$ 中的信息拉到某个具体的对象 $\alpha(k)$ 上, 由此更加精确地刻画等价关系), 首先容许我介绍一下何谓滤过:
+\begin{definition}[滤过]
+    非空范畴 $I$ 若满足以下条件, 则称是\textbf{滤过}的:
+    \begin{itemize}
+        \item 对于任意 $i,j \in \Obj(I)$, 存在 $k \in \Obj(I)$, 使得 $i \to k$, $j \to k$.
+        \item 对于任意 $f,g \colon i \to j$ 存在 $k \in \Obj(I)$ 以及 $h \colon j \to k$ 使得 $hf = hg$.
+    \end{itemize}
+\end{definition}
+此时前文生成的等价关系可以具体的写为
+\[
+   \text{存在}\left\{
+   \begin{array}{cc}
+       f\colon i \to k ,  \\
+       g \colon j \to k 
+   \end{array}\right.
+   \quad \text{使得} \quad \alpha(f)(x_i) = \alpha(g)(x_j)\in \alpha(k)
+\]
+现在, 我们来给出一些日后经常打交道的例子.
+\begin{example}[积, 余积, 等子, 余等子]
+    \begin{enumerate}
+        \item 如前文一般, 取 $I$ 为离散范畴, 不妨把 $I$ 等同于 $\Obj(I)$. 此时 $\indlim \alpha$ 称作对象 $X_i\coloneqq \alpha(i)$ 的\textbf{余积}, 写作 $\coprod_{i\in I} X_i$; 相应地, $\prod_{i\in I} X_i \coloneqq \prolim \alpha$ 称为对象 $X_i$ 的\textbf{积}.
+        \item 取 $I = $
+        \begin{tikzcd}
+	\bullet & \bullet
+	\arrow[shift left, from=1-1, to=1-2]
+	\arrow[shift right, from=1-1, to=1-2]
+        \end{tikzcd}
+        给出的范畴(两个对象, 两个非 $\identity$ 的态射), 此时 $\alpha \colon I \to \cal{C}$ 可以描述为 
+        \begin{tikzcd}
+	X & Y
+	\arrow["f", shift left, from=1-1, to=1-2]
+	\arrow["g"', shift right, from=1-1, to=1-2]
+        \end{tikzcd}
+        我们想要探究这两个态射中``相同''的部分, 放在集合上看, 就是讨论 $f,g$ 在 $X$ 中上使得 $f(x) = g(x)$ 的部分, 但是我们现在的工作环境是范畴, 无法描绘对象内部的东西, 因此我们需要迂回一下(这目前看来可能并不严谨), 我们从外部视角来看``相同''的部分, 它满足的条件就是在说对于 $\phi \colon T \to X$, 若其``像''(记作 $\Image(\phi)$, 反映了 $\phi$ 在 $X$ 上的信息)落在``相同部分''(记作 $\ker(f,g)$) 之内, 则 $f\phi = g\phi$, 图解为我们总是有该图表交换
+        \[\begin{tikzcd}
+	&& T \\
+	{\Image(\phi)} & {\ker(f,g)} & X & Y
+	\arrow[from=1-3, to=2-1]
+	\arrow["\phi", from=1-3, to=2-3]
+	\arrow[from=1-3, to=2-4]
+	\arrow[hook, from=2-1, to=2-2]
+	\arrow[hook, from=2-2, to=2-3]
+	\arrow["f", shift left, from=2-3, to=2-4]
+	\arrow["g"', shift right, from=2-3, to=2-4]
+        \end{tikzcd}\]
+        因此, 我们需要取``最大''的那个($\Image \phi$)\footnote{当然,此处的``最大''指的是根据 $\hookrightarrow$ 的关系下最大的一个.}, 即 $\ker(f,g)$ 为 $\alpha$ 的极限 $\prolim \alpha$, 其泛性质相当于在说有以下图表交换
+        \[\begin{tikzcd}
+	& T \\
+	{\ker(f,g)} & X & Y
+	\arrow["{\exists !}"{description}, dashed, from=1-2, to=2-1]
+	\arrow["\phi", from=1-2, to=2-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow[hook, from=2-1, to=2-2]
+	\arrow["f", shift left, from=2-2, to=2-3]
+	\arrow["g"', shift right, from=2-2, to=2-3]
+        \end{tikzcd}\]
+        $\ker(f,g)$ 由于描述的是``相等''的部分, 因此不妨称其为\textbf{等子}.
+        我们可以反过来, 问把 $f$ 和 $g$ 的信息粘起来, $Y$ 还剩下什么(记为 $\Coker(f,g)$). 这在集合中相当于说商集 $Y/\sim$, 其中 $\sim$ 为 $f(x) \sim g(x)$ 所生成的等价关系. 现在我们仍然从外部来刻画这一点, 这相当于说对于 $\psi \colon Y \to T$, 若 $\psi f = \psi g$ 那相当于说你不仅粘了, 可能还粘多了, 因此这个时候根据商的性质, 我们应当有 $\Coker(f,g) \to T$. 因此选出最大的对象(即始对象)作为 $\Coker(f,g)$, 即
+        \[\begin{tikzcd}
+	& T \\
+	X & Y & {\Coker(f,g)}
+	\arrow[from=2-1, to=1-2]
+	\arrow["f", shift left, from=2-1, to=2-2]
+	\arrow["g"', shift right, from=2-1, to=2-2]
+	\arrow["\psi"', from=2-2, to=1-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[dashed, from=2-3, to=1-2]
+        \end{tikzcd}\]
+        根据先前的叙述, 相当于在说 $\Coker(f,g)$ 为 $\alpha$ 的余极限 $\indlim \alpha$.
+        \item 现在我们可以更加正式的定义像和余像. 对于 $\cal{C}$ 中态射 $f \colon X \to Y$, 则像为 $f$ 在 $Y$ 中的信息全体, 考虑推出
+        \[\begin{tikzcd}
+	X & Y \\
+	Y & {Y\dsqcup{X} Y}
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        则 $Y \to Y\dsqcup{X}Y$ 相当于将 $f$ 带来的信息进行粘接, 因此可以将像定义为等子
+        \[
+        \Image (f) \coloneqq \ker \left( \begin{tikzcd}
+	Y & {Y\dsqcup{X}Y}
+	\arrow[shift left, from=1-1, to=1-2]
+	\arrow[shift right, from=1-1, to=1-2]
+        \end{tikzcd}\right)
+        \]
+        类似地, 我们可以讨论 $f$ 所反映的 $X$ 中的信息(在集合中, 将 $f(x) = f(y)$ 作为等价关系商去), 考虑拉回
+        \[\begin{tikzcd}
+	{X\dtimes{Y} X} & X \\
+	X & Y
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["f"', from=1-2, to=2-2]
+	\arrow["f", from=2-1, to=2-2]
+        \end{tikzcd}\]
+        则 $X\dtimes{Y} X \to X$ 相当于反映了 $f$ 中像相等的 $x$ 的等价类, 因此将余像定义为余等子
+        \[
+        \Coim(f) \coloneqq \Coker \left(
+        \begin{tikzcd}
+	{X\dtimes{Y} X} & X
+	\arrow[shift left, from=1-1, to=1-2]
+	\arrow[shift right, from=1-1, to=1-2]
+        \end{tikzcd}
+        \right)
+        \]
+        不难发现有典范态射
+        \[\begin{tikzcd}
+	X & Y \\
+	{\Coim(f)} & {\Image(f)}
+	\arrow["f", from=1-1, to=1-2]
+	\arrow[two heads, from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow[hook, from=2-2, to=1-2]
+        \end{tikzcd}\]
+        读者可以验证: 
+        \begin{center}
+            $f$ 满 $\Leftrightarrow$ $\Image(f) \rightiso Y$ 且 $f$ 单 $\Leftrightarrow$ $X\rightiso \Coim(f)$
+        \end{center}
+        但是 $\Coim(f)$ 不一定同构于 $\Image(f)$, 因此即单又满的态射不一定是同构. 当 $\Coim(f) \rightiso \Image(f)$ 时, 我们称 $f$ 为\textbf{严格}态射.
+    \end{enumerate}
+\end{example}
+注意到, 在一般的范畴 $\cal{C}$ 中, 函子 $\alpha$ 的极限或余极限不总是存在, 我们比较喜欢在对于任意小范畴 $I$, (余)极限总是存在的范畴上工作, 这种性质我们称为完备性(当然, 你完全可以类比为我们在完备的度量空间中工作, 这是没有任何问题的.)
+\begin{definition}[完备]
+    对于范畴 $\cal{C}$, 若对所有小范畴 $I$, 所有以 $I$ 为指标的 $\indlim$ 都存在, 则称之为\textbf{完备}的, 若所有以 $I$ 为指标的 $\prolim$ 都存在, 则称之为\textbf{余完备}的.
+\end{definition}
+\begin{example}
+    \begin{itemize}
+        \item 根据我们前文在 $\cate{Set}$ 上的构造可知 $\cate{Set}$ 是完备且余完备的.
+        \item 在拓扑空间中, 我们有极限拓扑和余极限拓扑, 它搭配上对应的极限与余极限集合即可得到极限与余极限拓扑空间.
+        \item 群范畴 $\cate{Grp}$ 也是完备的, 极限和余极限的构造与集合是一致的. 在群范畴中, 推出即为融合积.
+    \end{itemize}
+\end{example}
 
 \subsection{应用 : Kan 延拓}
-\subsection{伴随函子}
-\subsection{可表函子}
-\subsection{幺半范畴}
+现在, 我们考虑范畴 $\cal{C},D,E$, 以及函子 $\mathcal{C} \xrightarrow{K}\cal{D}$ , $\mathcal{C} \xrightarrow{F} \mathcal{E}$, 如图所示
+\[\begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow["F", curve={height=-12pt}, from=1-1, to=2-2]
+	\arrow["{?}"{description}, dashed, from=2-1, to=2-2]
+\end{tikzcd}\]
+我们希望找到函子 $L\colon \mathcal{D} \to \mathcal{E}$ 使得 $LK$ 逼近于 $F$. 和极限一般, 我们有两种逼近方式, 一种是从较大的一侧往小逼近, 一种是较小一侧往大逼近.\\
 
+不妨将``较大''的 $LK$ 放在左手, 较小的 $LK$ 放在右手, 回忆我们在第~\ref{函子范畴}~节对于函子与自然变换的看法, 可以得到
+\[\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Straight Lines [id:da7102542369090952] 
+\draw    (393.11,124.17) -- (414.11,124.17) ;
+\draw [shift={(416.11,124.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da7341960176956119] 
+\draw    (457.11,124.17) -- (478.11,124.17) ;
+\draw [shift={(480.11,124.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da6127211899518781] 
+\draw    (525.11,123.17) -- (546.11,123.17) ;
+\draw [shift={(548.11,123.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da9966989226172298] 
+\draw    (346.11,125.17) -- (363.11,125.17) ;
+\draw [shift={(365.11,125.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da9273012188666165] 
+\draw    (89.11,125.17) -- (106.11,125.17) ;
+\draw [shift={(108.11,125.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da24458156378074092] 
+\draw    (149.11,125.17) -- (166.11,125.17) ;
+\draw [shift={(168.11,125.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da039540146815657096] 
+\draw    (218.11,125.17) -- (235.11,125.17) ;
+\draw [shift={(237.11,125.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da2812032899568666] 
+\draw    (287.11,125.17) -- (304.11,125.17) ;
+\draw [shift={(306.11,125.17)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da7961883799165974] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (70.11,165.5) -- (304.11,165.5)(70.11,168.5) -- (304.11,168.5) ;
+\draw [shift={(312.11,167)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da543630385168764] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (591,168.5) -- (362.11,168.5)(591,165.5) -- (362.11,165.5) ;
+\draw [shift={(354.11,167)}, rotate = 360] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Lamp [id:dp27791867232559975] 
+\draw  [fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (321,173.97) -- (321,161.51) .. controls (321,158.38) and (324.39,155.84) .. (328.56,155.84) .. controls (332.73,155.84) and (336.11,158.38) .. (336.11,161.51) -- (336.11,173.97) -- (321,173.97) -- cycle (324.02,178.51) -- (324.02,167.17) .. controls (324.02,165.3) and (326.05,163.77) .. (328.56,163.77) .. controls (331.06,163.77) and (333.09,165.3) .. (333.09,167.17) -- (333.09,178.51) ;
+%Straight Lines [id:da2531485777379041] 
+\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=0.5 ][line width=3]    (591,168.5) -- (374,168.5)(591,165.5) -- (374,165.5) ;
+%Shape: Free Drawing [id:dp0409551019615928] 
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=5.25] [line join = round][line cap = round] (374.22,166.67) .. controls (374.22,166.67) and (374.22,166.67) .. (374.22,166.67) ;
+
+% Text Node
+\draw (321,118.4) node [anchor=north west][inner sep=0.75pt]    {$F$};
+% Text Node
+\draw (364,117.4) node [anchor=north west][inner sep=0.75pt]    {$L_{1} K$};
+% Text Node
+\draw (416,116.4) node [anchor=north west][inner sep=0.75pt]    {$L_{2} K$};
+% Text Node
+\draw (483,116.4) node [anchor=north west][inner sep=0.75pt]    {$L_{3} K$};
+% Text Node
+\draw (558,117.4) node [anchor=north west][inner sep=0.75pt]    {$\cdots $};
+% Text Node
+\draw (243,117.4) node [anchor=north west][inner sep=0.75pt]    {$L_{1} 'K$};
+% Text Node
+\draw (350,176) node [anchor=north west][inner sep=0.75pt]   [align=left] {接近 $\displaystyle F$};
+% Text Node
+\draw (269,176) node [anchor=north west][inner sep=0.75pt]   [align=left] {接近$\displaystyle F$};
+% Text Node
+\draw (171,117.4) node [anchor=north west][inner sep=0.75pt]    {$L_{2} 'K$};
+% Text Node
+\draw (112,117.4) node [anchor=north west][inner sep=0.75pt]    {$L_{3} 'K$};
+% Text Node
+\draw (55,176) node [anchor=north west][inner sep=0.75pt]   [align=left] {远离 $\displaystyle F$};
+% Text Node
+\draw (552,176) node [anchor=north west][inner sep=0.75pt]   [align=left] {远离 $\displaystyle F$};
+% Text Node
+\draw (58,118.4) node [anchor=north west][inner sep=0.75pt]    {$\cdots $};
+
+
+\end{tikzpicture}\]
+其中箭头均为自然变换, 现在我们寻求对于 $F$ 的逼近, 就相当于说以 $F$ 为中心, 我们向从某一侧往中间逼近(即为图中带虚线的箭头).\\
+现在我们以从右向左的逼近为例, 此时不妨将 $F$ 视为灯泡(图中亮黄灯的), 而取定的函子 $L$ 为一个物体, 则灯泡产生的影子即为 $L$ 可以往``更小''的对象中投射自然变换的部分. 因此最接近于 $F$ 的 $LK$ 应当对于任意``小于'' $F$ 的 $L';K$ 的$L'$ 都带有自然变换 $L \Rightarrow L'$. 我们将如此得到的 $L$ 称为 $F$ 沿着 $K$ 的左 Kan 延拓, 对偶地, 从左侧往右的逼近称为右 Kan 延拓.
+\begin{definition}[Kan延拓]\label{Def:Kan延拓}
+    考虑范畴$\mathcal{C,D,E}$间的图表
+    \[\begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow["F", curve={height=-10pt}, from=1-1, to=2-2]
+    \end{tikzcd}\]
+    其中$K \colon \mathcal{C} \to \mathcal{D}$, $F\colon \mathcal{C} \to \mathcal{E}$.
+    \begin{itemize}
+        \item 函子$F$沿$K$的左Kan延拓意谓以下资料$(\Lan_K F,\eta)$,其中
+        \begin{itemize}
+            \item $\Lan_KF\colon \mathcal{D} \to \mathcal{E}$是函子.
+            \item $\eta \colon F\to (\Lan_K F)K$是函子间的态射.
+        \end{itemize}
+        使得以下泛性质成立:对任何资料$L \colon\mathcal{D} \to \mathcal{E}$,和$\xi \colon F \to LK$,存在唯一的态射$\chi\colon \Lan_K F \to L$使得$\xi = (\chi K)\eta$(态射的纵横合成),或以2-胞腔图解为
+        \[\begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=2-2]
+	\arrow["L"', from=2-1, to=2-2]
+	\arrow["\xi"{description}, shorten <=4pt, Rightarrow, from=0, to=2-1]
+        \end{tikzcd}=
+        \begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Lan_K F}"', from=2-1, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "L"', curve={height=30pt}, from=2-1, to=2-2]
+	\arrow["\eta"{description}, shorten <=4pt, Rightarrow, from=0, to=2-1]
+	\arrow["\chi", shorten <=7pt, shorten >=2pt, Rightarrow, from=1, to=2]
+    \end{tikzcd}\]
+    \item 函子$F$沿$K$的右延拓意谓以下资料$(\Ran_K F , \varepsilon)$,其中
+    \begin{itemize}
+        \item $\Ran_K F\colon \mathcal{D} \to \mathcal{E}$是函子.
+        \item $\varepsilon\colon (\Ran_K F)K \to F$是函子间的态射.
+    \end{itemize}
+    使得以下泛性质成立:对任何资料$R \colon \mathcal{D} \to \mathcal{E}$和$\delta \colon RK \to F$,存在唯一的$\theta \colon R \to (\Ran_KF)K$使得$\delta = \varepsilon(\theta K)$,或用2-胞腔图解为
+    \[\begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=2-2]
+	\arrow["R"', from=2-1, to=2-2]
+	\arrow["\delta"{description}, shorten >=4pt, Rightarrow, from=2-1, to=0]
+\end{tikzcd}=\begin{tikzcd}
+	{\mathcal{C}} \\
+	{\mathcal{D}} & {\mathcal{E}}
+	\arrow["K"', from=1-1, to=2-1]
+	\arrow[""{name=0, anchor=center, inner sep=0}, "F", curve={height=-12pt}, from=1-1, to=2-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Ran_K F}"', from=2-1, to=2-2]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "R"', curve={height=30pt}, from=2-1, to=2-2]
+	\arrow["\varepsilon"{description}, shorten >=4pt, Rightarrow, from=2-1, to=0]
+	\arrow["\theta", shorten <=2pt, shorten >=7pt, Rightarrow, from=2, to=1]
+    \end{tikzcd}\]
+    \end{itemize}
+\end{definition}
+使用函子范畴 $\mathcal{E}^{\mathcal{C}}$ 以及 $\mathcal{E}^{\mathcal{D}}$ 的概念, 可以发现左, 右 Kan 延拓分别在说有双射
+\begin{align*}
+    \Hom_{\mathcal{E}^{\mathcal{D}}}(\Lan_K F,L) &\xrightarrow{1:1} \Hom_{\mathcal{E}^{\mathcal{C}}}(F,LK)\\
+    \chi &\mapsto (\chi K)\eta,\\
+    \Hom_{\mathcal{E}^{\mathcal{D}}}(R,\Ran_K F) &\xrightarrow{1:1} \Hom_{\mathcal{E}^{\mathcal{C}}}(RK,F)\\
+    \theta &\mapsto \varepsilon(\theta K);
+\end{align*}
+证明这一点只需要观察到 $\xi \colon F \Rightarrow L$ 都唯一确定了一个 $\chi$, 而 $\chi$ 又可以反向决定 $\xi = (\chi K)\eta$ 即可. \\
+此外 Kan 延拓还有诸多的性质, 不过受限于本文讲解顺序, 将会在伴随函子之后讲解.
+\subsection{可表函子,自由余完备化}
+本节将介绍一些``广义对象'', 可以理解为漂浮在范畴上的幽灵, 事实上, 一般的函子都可以视为这样的广义对象, 不过目前我们主要关注取值在集合上的情况, 这种广义对象称为(集合)预层, 该定义有一些拓扑学渊源, 我们先来看拓扑空间上的情况.
+\begin{definition}[$\mathcal{D}$-值预层]
+    令 $X$ 为拓扑空间, $\mathcal{D}$为范畴, $\open(X)$为$X$上开集构成(以包含关系作为态射)的范畴.则$X$上的$\mathcal{D}$-值预层$\mathcal{F}$就是一个函子
+    \[
+        \mathcal{F}: \open(X)^{\opposite} \to \mathcal{D}
+    \]
+    也即$\open(X)$到$\mathcal{D}$的一个反变函子.将全体$\mathcal{D}$-值预层构成的范畴记为$\presheaves(\open(X),\mathcal{D})$,特别地,取$\mathcal{D} = \operatorname{Set}$时记为$\open(X)^{\land}$.
+\end{definition}
+这样的定义有些许的抽象,但是我们可以将其显式的写出来\footnote{抄的预层的代码.}
+\begin{definition}
+    设 $X$ 是拓扑空间, $\mathcal{D}$ 是范畴.
+    则 $X$ 上取值于 $\mathcal{D}$ 的\textbf{预层} $\mathcal{F}$
+    由以下信息组成:
+    \begin{itemize}
+        \item
+            对每个开集 $U \subset X$, 有一个对象
+            \[
+                \mathcal{F} (U) \in \mathcal{D},
+            \]
+            称为 $U$ 上 $\mathcal{F}$ 的所有\textbf{截面}构成的空间.
+        \item
+            对任两个开集 $U \subset V \subset X$, 有一个 $\mathcal{D}$ 中的态射
+            \[
+                \operatorname{res}_U^V
+                \colon \mathcal{F} (V) \to \mathcal{F} (U),
+            \]
+            称为\textbf{限制映射}.
+            这个映射通常也记为 $(-)|_U$.
+
+            限制映射还满足如下函子性要求:
+            \begin{itemize}
+                \item $\operatorname{res}_U^U = \identity_{\mathcal{F} (U)}$.
+                \item 对于任意满足 $U \subset V \subset W$ 的开集,都有 
+                $\operatorname{res}_U^W = \operatorname{res}_U^V \circ 
+                \operatorname{res}_V^W$.
+            \end{itemize}
+    \end{itemize}
+    当 $\mathcal{D} = \mathsf{Set}$ 为集合范畴时,
+    通常称 $\mathcal{F}$ 为\textbf{集合预层};
+    当 $\mathcal{D} = \mathsf{Ab}$ 为Abel 群范畴时,
+    通常称 $\mathcal{F}$ 为\textbf{Abel 预层}, 以此类推.
+\end{definition}
+\begin{remark}
+    不妨将预层视为 $U$ 上一堆函数的集合, 而限制映射此时就可以视为函数的限制, 因此自然为反变函子.
+\end{remark}
+接下来将定义推广到一般范畴上, 不难发现 $\presheaves(\mathcal{C},\mathcal{D})$ 即为 $\Fct(\mathcal{C}^{\opposite},\mathcal{D})$. 本节取 $\mathcal{D} = \cate{Set}$, 将对应预层范畴记为 $\mathcal{C}^{\wedge}$.\\
+此外, 还可以定义 
+\[
+    \mathcal{C}^{\vee} \coloneqq \Fct(\mathcal{C}^{\opposite},\cate{Set}^{\opposite}) = \Fct(\mathcal{C},\cate{Set})^{\opposite}.
+\]
+接下来观察 $\Hom$-集, 不难发现 $\Hom$-集实际上可以视为双函子 
+\begin{align*}
+    \Hom \colon \mathcal{C}^{\opposite} \times \mathcal{C} &\to \cate{Set}\\
+    (X,Y) &\mapsto \Hom_{\cal{C}}(X,Y).
+\end{align*}
+前一个 $\mathcal{C}$ 为反变的原因在于 $f \colon X' \to X$ 可以诱导拉回 $(X \xrightarrow{a} Y) \mapsto (X' \xrightarrow{a\circ f}Y) \in \Hom(X',Y)$.\\
+现在, 我们只选定一个部分, 得到函子 $h_{\mathcal{C}}$ 与 $k_{\mathcal{C}}$ 如下
+\begin{align*}
+    h_{\mathcal{C}} \colon \mathcal{C} &\to \mathcal{C}^{\wedge}\\
+    S &\mapsto \Hom_{\cal{C}}(-,S)\\
+    k_{\mathcal{C}} \colon \mathcal{C} &\to \mathcal{C}^{\vee}\\
+    S &\mapsto \Hom(S,-).
+\end{align*}
+此时具有自然地求值函子
+\[
+\ev^{\wedge} \colon \mathcal{C}^{\opposite}\times \mathcal{C}^{\wedge} \to \cate{Set}, \quad (S,A) \mapsto A(S)
+\]
+以及对偶版本. 
+我们有以下重要引理
+\begin{theorem}[Yoneda]
+    对于 $S \in \Obj(\mathcal{C})$ 以及 $A \in \Obj(\mathcal{C}^{\land})$ 映射
+    \begin{align*}
+        \Hom_{\mathcal{C}^{\wedge}}(h_{\mathcal{C}}(S),A) &\to A(S)\\
+        \left(\Hom_{\cal{C}}(-,S)\xRightarrow{\phi} A(-)\right) &\mapsto \phi_S(\identity_S)
+    \end{align*}
+    为双射; 它给出函子的同构 $\Hom_{\cal{C}^{\wedge}}(h_{\mathcal{C}}(-),-) \rightiso \ev^{\wedge}$. 函子 $h_{\cal{C}}$ 是全忠实的.\\
+    反之可以得到对偶情况.
+\end{theorem}
+\begin{proof}
+    该证明其实是无趣的集合论证明, 只需证明上述映射可逆. 也就是说对于 $A(S)$ 中的元素 $u_S$, 我们要将其视为某个自然变换 $\phi$ 的像 $\phi_S(\identity_S)$, 而后反向构造出对应的 $\phi$ 即可. 考虑图表
+    \[\begin{tikzcd}
+	{\identity_S} & {\Hom_{\cal{C}}(S,S)} & {A(S)} & {u_S} \\
+	f & {\Hom_{\cal{C}}(T,S)} & {A(T)} & { A(f)(u_S)}
+	\arrow["\in"{marking, allow upside down}, draw=none, from=1-1, to=1-2]
+	\arrow[maps to, from=1-1, to=2-1]
+	\arrow["{\phi_S}", from=1-2, to=1-3]
+	\arrow["{f^{}*}"', from=1-2, to=2-2]
+	\arrow["{A(f)}", from=1-3, to=2-3]
+	\arrow["\in"{marking, allow upside down}, draw=none, from=1-4, to=1-3]
+	\arrow[maps to, from=1-4, to=2-4]
+	\arrow["\in"{marking, allow upside down}, draw=none, from=2-1, to=2-2]
+	\arrow["{\phi_T}"', from=2-2, to=2-3]
+	\arrow["\in"{marking, allow upside down}, draw=none, from=2-4, to=2-3]
+    \end{tikzcd}\]
+    道尽半切. 此时显然有 $\phi_S(\identity_S) = u_S$, 而根据图表交换性可知 $A(f)\phi_S(\identity_S) = \phi_T(f)$, 由此又给出 $\phi\colon \Hom_{\mathcal{C}}(-,S) \xRightarrow{\phi} A(-)$.\\
+    至于全忠实性考虑 $A = h_{\mathcal{C}}(T)$, 得到 
+    \[
+    \Hom_{\mathcal{C}^{\wedge}}(h_{\mathcal{C}}(S),h_{\mathcal{C}}(T)) \rightiso \Hom_{\mathcal{C}}(T,S).
+    \]
+\end{proof}
+\begin{remark}
+    Yoneda 引理告诉我们,
+范畴中的对象由所有别的对象到它的态射所完全描述.
+例如, 对一个拓扑空间 $X$ 而言,
+如果对任何别的拓扑空间 $Y$,
+都知道从 $Y$ 到 $X$ 的所有连续映射构成的集合 $\Hom_{\mathsf{Top}} (Y, X)$ 是什么样,
+那我们也就能知道 $X$ 是哪个拓扑空间.
+换言之, 我们可以用别的空间 $Y$ 来 ``探测'' $X$ 的拓扑.\\
+Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
+我们将 $X$ 等同于别的对象到它的态射的信息, 我们暂且成为 ``探测信息''.
+这样, 一份合理的探测信息应该(通过同构)能确定(预层)范畴中的对象.
+然而, 有时这样的对象实际并不在原来的范畴中, 我们就称其被该对象被该信息表出.
+\end{remark}
+\begin{definition}[可表性]
+    称 $A \colon \mathcal{C}^{\opposite} \to \cate{Set}$ 是可表函子, 如果存在 $X \in \Obj(\cal{C})$ 以及同构 $\phi \colon h_{\cal{C}}(X) \rightiso A$. 此时称 $(X,\phi)$ 表出了 $A$, 称其为代表元.
+\end{definition}
+\begin{remark}
+    由 Yoneda 引理的证明可知: 给定资料 $(X,\phi)$ 相当于给定 $(X,u)$ 其中 $u = \phi_X(\identity_X) \in A(X)$.
+\end{remark}
+有鉴于此, 可以使用 $(X,u)$, $u\in A(X)$ 来表述 $A$, 此时称 $u$ 为泛族; 这起源于模空间的研究.
+\begin{lemma}
+    若 $A$ 可被 $(X,\phi)$ 所表出, 则代表元在相差至多一个同构的意义下是唯一的.
+\end{lemma}
+\begin{proof}
+    留作习题.
+\end{proof}
+\begin{example}[子对象分类子]
+    在 $\cate{Set}$ 中, 任意子集 $A \subset X$ 都对应于特征映射 $\chi_A\colon X \to \{0,1\}$, 将 $A$ 中元素对应于 $1$ 而其它元素为 $0$. 使得我们有拉回图表
+    \[\begin{tikzcd}
+	A & {\{1\}} \\
+	X & {\{0,1\}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow["{\text{子对象分类子}}", hook, from=1-2, to=2-2]
+	\arrow["{\chi_A}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    可以视为对于 $X$ 的``分类''. \\
+    在范畴 $\cal{C}$ 中, 若存在拉回且子对象函子(定义~\ref{定义-子对象}) $\Sub \colon \cal{C}^{\opposite} \to \cate{Set}$ 可表, 则存在 $\Omega$ 使得
+    \[
+    \Sub_{\cal{C}}(X) \simeq \Hom_{\cal{C}}(X,\Omega)
+    \]
+    此时 $\Omega$ 称为 $\cal{C}$ 的子对象分类子.\\
+    由前文不难看出 $\{0,1\}$ 为 $\cate{Set}$ 的子对象分类子.因此我们可以得知 $\Hom_{\cate{Set}}(X,\{0,1\}) = \Sub_{\cal{C}}(X) = \mathcal{P}(X)$. 即幂集可表. \footnote{这也是某群入群题的fancy解法.}
+\end{example}
+\begin{example}[Eilenberg-Maclane 空间]
+    Eilenberg-Maclane 空间 $X = K(M,n)$ 为使得 $\pi_n(X) \simeq M$ 而 对于 $k \neq n$ 有 $\pi_k(X) =0 $ 的 CW 复形. 它表示了约化上同调函子 $H^n(-,M)$, 即 
+    \[
+    H^n(-;M) \simeq [-,K(M,n)]_* = \Hom_{h\cate{Top}_*}(-,K(M,n)).
+    \].
+    在\cite{aguilar2002algebraic}中, 就使用上述定义直接定义出上同调.
+\end{example}
+\subsubsection{题外话:上同调理论与 Brown 可表定理}
+\begin{remark}
+    本节为题外话, 乖宝宝不要看. $[X,Y]_* = \Hom_{h\cate{An}_*}(X,Y)$
+\end{remark}
+令 $\cate{An}$ 为空间(Kan 复形)构成的 $\infty$-范畴\footnote{或称生象范畴, 但是由于我们考虑带点空间, 因此使用空间一词.}, 则
+\begin{definition}
+    二元组 $(E^*,\partial)$ 被称为是上同调理论, 指
+    \[
+    E^* \colon h\cate{An}_* \to \cate{grAb}
+    \]
+    为从带点空间范畴的同伦范畴到分次 Abel 群范畴的函子, 且
+    \[
+    \partial \colon E^* \simeq E^{*+1}\circ \Sigma
+    \]
+    为自然同构, 满足以下条件
+    \begin{enumerate}
+        \item 对于每族带点空间 $\{X_{\alpha}\}_{\alpha \in A}$ 自然映射
+        \[
+        E^*(\coprod_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}E^*(X_{\alpha})
+        \]
+        为同构. 特别地 $E^*(*) \simeq 0$.
+        \item 对于余纤维列
+        \[
+        X' \to X \to X''
+        \]
+        有正合列
+        \[
+        E^*(X'') \to E^*(X) \to E^*(X').
+        \]
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    对于带点空间 $X$, 其约化上同调 $\tilde{H}^*(X)$ 为上同调理论.
+\end{example}
+此时, 我们有如下的表示定理
+\begin{theorem}[Brown 可表定理]\label{定理-Brown 可表}
+    令 $h\cate{An}_*^{\geq 0}$ 为连通带点空间范畴的同伦范畴. 则函子 $F \colon (h\cate{An}_*^{\geq 0})^{\opposite}\to \cate{Set}$ 可表当且仅当其具有以下两个性质:
+    \begin{enumerate}
+        \item 对于每族连通带点空间 $\{X_{\alpha}\}_{\alpha \in A}$, 有双射
+        \[
+        F(\bigvee_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}F(X_{\alpha})
+        \]
+        \item 对于每个 $\cate{An}_*^{\geq 0}$ 中的推出图表
+        \[\begin{tikzcd}
+	X & Y \\
+	{X'} & {Y'}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        有满射
+        \[
+        F(Y') \to F(X') \dtimes{F(X)} F(Y)
+        \]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    将在第~\ref{稳定同伦一瞥}~中证明.
+\end{proof}
+\begin{corollary}
+    令 $E \colon h\cate{An}_* \to \cate{grAb}$ 为上同调理论. 则存在唯一的一族带点空间 $E_n \in \cate{An}_*$ 以及同伦等价
+    \[
+    \delta_n \colon E_n \xrightarrow{\Omega}E_{n+1}
+    \]
+    使得有自然同构
+    \[
+    \varphi_n \colon E^n(X) \simeq [X,E_n]_*
+    \]
+    且 $\partial \colon E^n(X) \simeq E^{n+1}(\Sigma X)$ 由下式给出
+    \[
+    E^n(X) \simeq [X,E_n]_* \simeq [X,\Omega E_{n+1}]_* \simeq [\Sigma X, E_{n+1}]_* \simeq E^{n+1}(\Sigma X).
+    \]
+\end{corollary}
+\begin{proof}
+    同上.
+\end{proof}
+这告诉我们可以定义出以下一列空间
+\begin{definition}[拓扑谱]
+    \textbf{拓扑谱} $E = (\{E_n\}_{n\in \Z}, \delta_n)$ 由以下信息构成:
+    \begin{itemize}
+        \item 一列带点空间 $X_0,X_1, \cdots$
+        \item 对任何 $n \geq 0$, 有带点映射 $\sigma_n \colon \Sigma X_n \to X_{n+1}$.
+    \end{itemize}
+    称 $X$ 为 \textbf{$\Omega$-谱}, 若:
+    \begin{itemize}
+        \item 对任何 $n \geq 0$ 有 $\sigma_n$ 诱导的 $X_n \to \Omega X_{n+1}$ 为弱同伦等价.
+    \end{itemize}
+    准确来说, 可以定义 $\Omega$-谱的 $\infty$-范畴为
+    \[
+    \cate{Sp} \simeq \prolim \left(\cate{An}_* \xleftarrow{\Omega} \cate{An}_* \xleftarrow{\Omega}\cate{An}_* \xleftarrow{\Omega} \cdots\right)
+    \]
+\end{definition}
+对于经典的上同调理论 $\tilde{H}^*(-,M)$ 使用定理~\ref{定理-Brown 可表}可以给出谱 $HM$, 称为 \textbf{Eilenberg-Maclane 谱}, 此时
+\[
+\pi_n(HM_m) = [S^n , HM_m]_* = \tilde{H}^n(S^n,M) = \left\{
+\begin{array}{cc}
+     M,& n=m \\
+     0,& \text{其它} 
+\end{array}\right.
+\]
+因此此时 $HM_m$ 实际为 Eilberg-Maclane 空间 $K(M,n)$.
+\subsection{伴随函子}
+(未完待续)
+\subsection{幺半范畴}
+\subsection{群对象}
 \section{方便的空间范畴}
 本节来讲述方便的空间范畴概念, 一般来说, 方便的空间范畴指的是拓扑空间范畴中满足以下条件的饱和\footnote{replete, 子范畴 $\cal{D}$ 称为是饱和的, 指对于任意 $x\in \cal{D}$, 若在 $\cal{C}$ 中有 $f \colon y \simeq x$, 则 $f$ 和 $y$ 都在 $\cal{D}$ 中.}全子范畴. 本节主要参考\cite{StricklandCGWH}以及\cite[7.好用的空间范畴]{李思}
 \begin{definition}[方便的空间范畴]
