@@ -1,0 +1,901 @@
+\chapter{抽象同伦论}
+\begin{introduction}
+    \item 本节的核心内容为使用模型范畴的语言来处理拓扑空间, 并重写代数拓扑中的若干经典结论.
+    \item 最后, 我们将给出纬悬-环路伴随, 由此一窥稳定同伦结构.
+\end{introduction}
+\section{模型范畴}
+\subsection{同伦范畴}
+\begin{definition}[弱等价范畴]
+    \textbf{弱等价}是指范畴 $\cal{C}$ 配上一个宽子范畴 $\cal{W}$(即包含全体对象的子范畴) 
+    且满足\textbf{6选2性质},即对于$\cal{W}$中可复合的态射 
+    \[
+    X\xrightarrow{f}Y \xrightarrow{g}Z \xrightarrow{h} K
+    \] 
+    若 $gf$ 和 $hg$ 都在 $\mathcal{W}$ 中, 则 $f,g,h,hgf$ 也在 $\mathcal{W}$ 中.
+\end{definition}
+\begin{remark}
+    事实上, 一般使用更强的 3 选 2 性质, 即对于可复合的态射 $X \xrightarrow{f} Y \xrightarrow{g} Z$, 若
+    三者有两者在 $\mathcal{W}$ 内, 则最后一者也在. 6 选 2 推出 3 选 2 不过是选取 
+    $X \xrightarrow{f} Y \xrightarrow{\mathbb{1}_Y} Y \xrightarrow{g} Z$
+    即可得到若 $f, g \in \mathcal{W}$ 则 $gf\in \mathcal{W}$, 而后取 
+    $X\xrightarrow{\mathbb{1}_X} X \xrightarrow{f}Y \xrightarrow{g} Z$ 
+    即可得到若 $gf$ 和 $f$ 在 $\mathcal{W}$ 中, 则 $g$ 也在 $\mathcal{W}$ 中.
+\end{remark}
+现在我们来讲述如何从弱等价范畴中得到同伦范畴, 回忆到在前文中, 
+我们定义拓扑空间范畴的同伦范畴 $\mathsf{hTop}$ 时, 是想得到这样的范畴: 两个拓扑空间同伦等价, 则在同伦范畴中是同构的.
+即, 同伦范畴就是将弱等价范畴中弱等价变为同构之后所得到的范畴, 由弱等价范畴得到同伦范畴的过程也称为关于弱等价的局部化.
+\begin{definition}[同伦范畴]
+    给定弱等价范畴 $(\mathcal{C},\mathcal{W})$, 其\textbf{同伦范畴} $\operatorname{Ho}(\cal{C})$ 
+    为 $\mathcal{C}$ 关于 $\mathcal{W}$ 的局部化, 带有函子 $\gamma \colon \mathcal{C} \to \operatorname{Ho}(\mathcal{C})$,
+    满足以下泛性质:
+    * 对于任意函子 $F\colon \mathcal{C} \to \mathcal{D}$, 如果 $F$ 将 $\mathcal{W}$ 中所有态射都映为同构,
+    则存在(在相差自然同构意义下)唯一的函子 $\tilde{F} \colon \operatorname{Ho}(\mathcal{C}) \to \mathcal{D}$
+    使得图表
+    \[ \begin{tikzcd}[column sep=10pt]
+                \mathcal{C} \ar[rr,"F"]\ar[dr] & & \mathcal{D}\\
+                & \operatorname{Ho}(\mathcal{C}) \ar[ur,dashed,"\exists!\ \tilde F"']
+    \end{tikzcd} \]
+    在相差自然同构的意义下交换.
+    换句话说, 对于任意范畴 $\mathcal{D}$, 令 $\mathsf{Fct}_{\mathcal{W}}(\mathcal{C},\mathcal{D})$ 
+    表示 $\mathsf{Fct}(\mathcal{C},\mathcal{D})$ 中将 $\mathcal{W}$ 中态射映为同构的函子所张成的[[全子范畴]], 则
+    $\gamma$ 诱导范畴等价
+    \[
+        \gamma^* \colon \mathsf{Fct}(\operatorname{Ho}(\mathcal{C}),\mathcal{D}) \to\mathsf{Fct}_{\mathcal{W}}(\mathcal{C},\mathcal{D})
+    \]
+\end{definition}
+\begin{remark}
+    同伦范畴也可以写为 $\mathcal{C}[\mathcal{W}^{-1}]$.
+\end{remark}
+Pierre Gabriel 以及 Michel Zisman 在\cite[1.1]{Gabriel-Zisman67}给出局部化的形式构造, 由此可以给出同伦范畴构造如下:
+\begin{enumerate}
+    \item $\operatorname{Ho}(\mathcal{C})$ 中的对象即为 $\mathcal{C}$ 中的对象.
+    \item 态射表现为有限长的``锯齿''
+    \[\begin{tikzcd}
+	\cdots && Y && W && \cdots \\
+	& X && Z && U
+	\arrow[from=1-1, to=2-2]
+	\arrow["s"', from=1-3, to=2-2]
+	\arrow["a", from=1-3, to=2-4]
+	\arrow["t"', from=1-5, to=2-4]
+	\arrow["b", from=1-5, to=2-6]
+	\arrow[from=1-7, to=2-6]
+    \end{tikzcd}\]
+    其中如 $t,s$ 等反向箭头都应当在 $\mathcal{W}$ 内, 再商去以下等价关系:
+    \begin{itemize}
+        \item 恒同态射可以去掉,
+        \item 相邻同向箭头可以复合,
+        \item 相邻异向箭头若表示同一个态射则可去掉.
+    \end{itemize}
+\end{enumerate}
+这样的构造是普适的, 但是缺陷也很明显, 我们没有理由说明 $\operatorname{Ho}(\mathcal{C})(X,Y)$ 为小集合,
+这会使得 $\operatorname{Ho}(\mathcal{C})$ 是局部小的. 此外, 由于等价关系难以操作, 我们难以刻画其内部具体长什么样.
+\begin{proposition} \label{thm-1-htop}
+    $\mathsf{hTop}\simeq\mathsf{Top}[\mathsf{HoEq}^{-1}]$.
+\end{proposition}
+
+\begin{proof}
+    明显的函子 $\mathsf{Top}\to\mathsf{hTop}$
+    将 $\mathsf{HoEq}$ 映到同构,
+    从而诱导了函子
+    \[
+        \mathsf{Top}[\mathsf{HoEq}^{-1}]\to\mathsf{hTop}.
+    \]
+    这一函子显然是本质满且全的.
+    为证明它是忠实的, 设 $\mathsf{Top}$ 中的态射 $f, g \: X \to Y$
+    被映到 $\mathsf{hTop}$ 的同一态射.
+    则 $f$ 同伦于 $g$. 设 $H$ 为该同伦,
+    则在 $\mathsf{Top}[\mathsf{HoEq}^{-1}]$ 中有
+    \[ \begin{aligned}
+        f \quad &= \quad X \xrightarrow{\delta_0} X \times I \xrightarrow{H} Y \\
+        &= \quad X \xrightarrow{\delta_0} X \times I
+        \xrightarrow{\operatorname{pr}_1} X
+        \xleftarrow{\operatorname{pr}_1} X \times I \xrightarrow{H} Y \\
+        &= \quad X \xrightarrow{\mathbb{1}_X} X
+        \xleftarrow{\operatorname{pr}_1} X \times I \xrightarrow{H} Y \\
+        &= \quad X \xleftarrow{\operatorname{pr}_1} X \times I \xrightarrow{H} Y \\
+        &= \quad g,
+    \end{aligned} \]
+    其中 $\operatorname{pr}_1$ 是向第一分量的投影,
+    而 $\delta_0$ 表示 $X$ 作为 $X \times \{0\}$ 含入 $X \times I$ 的映射.
+\end{proof}
+\begin{example}
+\begin{itemize}
+    \item $\mathsf{hTop}$ 即为 $(\mathsf{Top},\mathsf{Hoeq})$ 的同伦范畴.
+    \item 选定 Abel 范畴 $\mathcal{A}$, 考虑弱等价范畴 $(\mathsf{Ch}(\mathcal{A}),\mathsf{ChHoEq})$, 
+    则其同伦范畴 $\operatorname{Ho}_{\mathsf{ChHoEq}}(\mathsf{Ch}(\mathcal{A}))$ 为链复形同伦范畴 
+    $\mathsf{K}(\mathcal{A})$.
+    \item 考虑弱等价范畴 $(\mathsf{Ch}(\mathcal{A}),\mathsf{Qis})$, 则其同伦范畴 $\operatorname{Ho}_{\mathsf{Qis}}(\mathsf{Ch}(\mathcal{A}))$ 为导出范畴 $\mathsf{D}(\mathcal{A})$.
+\end{itemize}
+\end{example}
+\subsection{提升性质}
+首先我们给出一些提升性质的说明,这一块的符号并没有什么统一,本文采取\cite{Land}的符号.
+\begin{definition}[提升性质]
+    设 $\mathcal{C}$ 是范畴,$J\subset\operatorname{Mor}(\mathcal{C})$ 是一类态射.
+    \begin{itemize}
+        \item
+            称 $\mathcal{C}$ 中态射 $p : X \to Y$ 对 $J$ 具有\textbf{右提升性质} (简写作 RLP),如果对 $\mathcal{C}$ 中任意实线图表
+            \[
+                \begin{tikzcd}
+                    A \ar[r] \ar[d] & X \ar[d,"p"] \\
+                    B \ar[r] \ar[ur, dashed] & Y \rlap{,}
+                \end{tikzcd}
+            \]
+            其中态射 $A \to B$ 在 $J$ 中,存在虚线箭头使图表交换.所有具有此性质的态射 $p$ 构成的类记为 $\chi_R(J)$.
+        \item
+            称 $\mathcal{C}$ 中态射 $i : A \to B$ 对 $J$具有\textbf{左提升性质} (简写作 LLP) ,如果对 $\mathcal{C}$ 中任意实线图表
+            \[
+                \begin{tikzcd}
+                    A \ar[r] \ar[d,"i"'] & X \ar[d] \\
+                    B \ar[r] \ar[ur, dashed] & Y \rlap{,}
+                \end{tikzcd}
+            \]
+            其中态射 $X \to Y$ 在 $J$ 中,存在虚线箭头使图表交换.所有具有此性质的态射 $i$ 构成的类记为 $\chi_L(J)$.
+    \end{itemize}
+    此外,记$\chi(J)=\chi_L(\chi_R(J))$,它表示这样一类态射,它们对于关于$J$具有右提升性质的态射是具有左提升性质的.
+\end{definition}
+不难证明$\chi_R\chi(J) = \chi_R(J)$.
+\begin{remark}[弱正交, $J$-内射与投射态射]\label{注记:弱正交}
+    右/左提升性质在有些资料(比如\cite{Kerodon})中也叫右/左弱正交. 对于 $J$, 以及 $f\in \Mor(\cal{C})$, 称
+    \begin{itemize}
+        \item $f$ 是 $J$-内射态射, 指 $f\in \chi_R(J)$.
+        \item $f$ 是 $J$-投射态射, 指 $f\in \chi_L(J)$.
+    \end{itemize}
+\end{remark}
+如同代数几何一般,我们希望具有右/左提升性质的态射足够好,此处足够好的定义就是在推出/拉回之下稳定,当然,由于我们比较关心余极限,因此只考虑推出的情况,拉回可以直接对偶地得到.
+\begin{definition}
+    令$\mathcal{C}$为推出均存在的范畴,令$S$为$\mathcal{C}$中一些态射,若每个$\mathcal{C}$中的推出图表
+    \[\begin{tikzcd}
+	A & {A'} \\
+	B & {B'}
+	\arrow[from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{f'}", from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    都有若$f\in S$则$f'\in S$的性质,则称$\mathcal{C}$在推出下是稳定的.
+\end{definition}
+当然这一条对于右提升/拉回情况是很有用的.
+\begin{proposition}\label{命题:推出下稳定}
+    若$\mathcal{C}$为具有推出的范畴, $T$为$\mathcal{C}$中的一些态射,令$S = \chi_L(T)$,则$S$在推出下是稳定的.
+\end{proposition}
+\begin{proof}
+    先给出一个如下图左侧所示的推出图表
+    \[\begin{tikzcd}
+	A & {A'} && {A'} & X \\
+	B & {B'} && {B'} & Y
+	\arrow["s", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{f'}", from=1-2, to=2-2]
+	\arrow["u", from=1-4, to=1-5]
+	\arrow["{f'}"', from=1-4, to=2-4]
+	\arrow["g", from=1-5, to=2-5]
+	\arrow["t"', from=2-1, to=2-2]
+	\arrow[dashed, from=2-4, to=1-5]
+	\arrow["v"', from=2-4, to=2-5]
+    \end{tikzcd}\]
+    其中$f\in S$.只需要证明$f'\in S$即可,由于$S = \chi_L(T)$,因此要做的不过是验证一个左提升性质,对于任意$g\in T$且$g:X \to Y$,需要证明右侧图表中对角的虚线是存在的,不妨把上图拼到一起得到
+    \[\begin{tikzcd}
+	A & X \\
+	B & Y
+	\arrow["{u\circ s}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["{v\circ t}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    而$f\in S = \chi_L(T)$因此存在提升$B \to X$,而后由于上图左侧为推出,因此根据泛性质得到存在提升$B' \to X$,即$f'\in S$.
+\end{proof}
+不难类似得到$\chi_R(T)$关于拉回是稳定的.\\
+接下来我们讨论收缩核,这一概念来自于代数拓扑的收缩核.
+\begin{definition}[收缩核]
+    令$\mathcal{C}$, $X,Y\in \Obj (\mathcal{C})$为一对对象,若存在态射$i : X\to Y$以及$r: Y\to X$使得$r\circ i = \identity_{X}$,则称$X$为$Y$的收缩核.
+\end{definition}
+当然,我们可以对于两个态射讨论收缩概念,这需要我们稍微转变观点,将目光放在$\Fct([1],\mathcal{C})$上.
+\begin{definition}[态射作为收缩核]
+    令$\mathcal{C}$为范畴.考虑态射$f: X \to Y$以及$f' : X' \to Y'$,现在将$f$与$f'$视为$\Fct([1],\mathcal{C})$中的对象,若$f$为$f'$在$\Fct([1],\mathcal{C})$中为收缩核,则称$f$为$f'$的收缩核.显式的看,即存在交换图表
+    \[\begin{tikzcd}
+	X & {X'} & X \\
+	Y & {Y'} & Y
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["r", from=1-2, to=1-3]
+	\arrow["{f'}"', from=1-2, to=2-2]
+	\arrow["f", from=1-3, to=2-3]
+	\arrow["{\bar{i}}"', from=2-1, to=2-2]
+	\arrow["{\bar{r}}"', from=2-2, to=2-3]
+    \end{tikzcd}\]
+    其中$r\circ i = \identity_{X}$且$\bar{r}\circ \bar{i} = \identity_{Y}$.
+\end{definition}
+结合前文关于在推出(拉回)下稳定这一定义,自然可以推导出在收缩核下稳定这一概念,这无非是说若$f$为$f'$的收缩核而$f'\in S$则$f\in S$.接下来我们把它与左右提升结合起来.
+\begin{proposition}\label{命题:左提升收缩核稳定}
+    令$\mathcal{C}$为范畴, $T$为$\mathcal{C}$中的一些态射,而$S = \chi_L(T)$.则$S$在收缩核下是稳定的.
+\end{proposition}
+\begin{proof}
+    取$f'\in S$,考虑如下图左侧所示的收缩核
+    \[\begin{tikzcd}
+	X & {X'} & X && X & A \\
+	Y & {Y'} & Y && Y & B
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["r", from=1-2, to=1-3]
+	\arrow["{f'}"', from=1-2, to=2-2]
+	\arrow["f", from=1-3, to=2-3]
+	\arrow["u", from=1-5, to=1-6]
+	\arrow["f"', from=1-5, to=2-5]
+	\arrow["g", from=1-6, to=2-6]
+	\arrow["{\bar{i}}"', from=2-1, to=2-2]
+	\arrow["{\bar{r}}"', from=2-2, to=2-3]
+	\arrow["h", dashed, from=2-5, to=1-6]
+	\arrow["v"', from=2-5, to=2-6]
+    \end{tikzcd}\]
+    其中$r\circ i = \identity_{X}$且$\bar{r}\circ \bar{i} = \identity_{Y}$.需要说明$f\in S = \chi_L(T)$,这只需要验证对于任意的$g\in T$,上图右侧的交换图表中虚线箭头所表示的提升确实存在即可,和命题\ref{命题:推出下稳定}中证明一样,把上图左侧和右侧结合起来得到
+    \[\begin{tikzcd}
+	{X'} & A \\
+	{Y'} & B
+	\arrow["{u\circ r}", from=1-1, to=1-2]
+	\arrow["{f'}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow["{h'}"{description}, dashed, from=2-1, to=1-2]
+	\arrow["{v\circ \bar{r}}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    由$f'\in S = \chi_L(T)$保证了提升的存在性,而后由于$u \circ r \circ i = u$,$v\circ \bar{r} \circ \bar{i} = v$因此取$h = \bar{h}\circ \bar{i}$即可.
+\end{proof}
+右提升的情况自然类似可证.\\
+接下来的概念(超限复合)需要一点点序数以及超限归纳法的知识,\cite[$\S$1.2-1.3]{李文威卷一}中的内容应当是完全足够的,或者读者也可以看\cite[\href{https://kerodon.net/tag/03PV}{03PV}]{Kerodon}.\\
+对于每个序数$\alpha$,令$\cate{Ord}_{\leq \alpha} = \{\beta : \beta \leq \alpha\}$为小于等于$\alpha$的全体序数构成的全序集.
+\begin{definition}[超限复合下稳定]
+    取$\mathcal{C}$为范畴, $S$为$\mathcal{C}$中的一些态射.考虑态射$f\in \Mor(\mathcal{C})$,若存在序数$\alpha$以及函子$F: \cate{Ord}_{\leq \alpha} \to \mathcal{C}$,给定一些对象$\{C_{\beta}\}_{\beta \leq \alpha}$以及态射$\{f_{\gamma,\beta}:C_{\beta}\to C_{\gamma}\}_{\beta \leq \gamma}$满足以下条件
+    \begin{enumerate}
+        \item 对于任意非零极限序数 $\lambda \leq \alpha$,函子$F$使得$C_{\lambda}$可被表为图表$\left(\{C_{\beta}\}_{\beta \leq \lambda}, \{f_{\gamma,\beta}\}_{\beta \leq \gamma \leq \lambda}\right)$的余极限.
+        \item 对于任意序数$\beta < \alpha$,态射$f_{\beta+1,\beta}$在$S$内.
+        \item 态射$f$等同于$f_{\alpha,0} : C_0 \to C_{\alpha}$.
+    \end{enumerate}
+    此时称$f$在$S$的超限复合下是稳定的.若对于每个在$S$的超限复合下稳定的$f$都有$f\in S$则称$S$在超限复合下是稳定的.
+\end{definition}
+之后是老生常谈的讨论左右提升性质与超限复合,这次的证明与前文稍显复杂,但是核心还是一致的.
+\begin{proposition}
+    令$\mathcal{C}$为范畴, $T$为$\mathcal{C}$中的一些态射,且$S = \chi_L(T)$,则$S$在超限复合下是稳定的.
+\end{proposition}
+\begin{proof}
+    首先给定序数$\alpha$,并且假设具有函子$F : \cate{Ord}_{\leq \alpha}\to \mathcal{C}$,它由以下满足条件1.的有序对
+    \[
+        \left( \{C_{\beta}\}_{\beta \leq \alpha}, \{f_{\gamma,\beta}\}_{\beta \leq \gamma \leq \alpha} \right)
+    \]
+    给出.假设每个$f_{\beta+1,\beta}$都在$S$内.我们现在希望说明$f = f_{\alpha,0}$在$S$内.这需要验证
+    \[\begin{tikzcd}
+	{C_0} & X \\
+	{C_{\alpha}} & Y
+	\arrow["u", from=1-1, to=1-2]
+	\arrow["{f_{\alpha,0}}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["v"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    中提升的存在性.接下来利用$f_{\beta+1,\beta}$都在$S$内去证明这一点,利用超限归纳的原理,从$u$开始构造一族态射$\left\{ u_{\beta}: C_{\beta} \to X \right\}_{\beta \leq \alpha}$,它满足与$v$和$g$的交换性(下图左侧)$g\circ u_{\beta} = v\circ f_{\alpha,\beta}$以及$u_{\beta}$自身归纳的相容性(下图右侧)$u_{\beta}=u_{\gamma}\circ f_{\gamma,\beta}$用图表表示出来就是
+    \[\begin{tikzcd}
+	{C_{\beta}} & X & {C_{\beta}} & X \\
+	{C_{\alpha}} & Y & {C_{\gamma}}
+	\arrow["{u_{\beta}}", from=1-1, to=1-2]
+	\arrow["{f_{\alpha,\beta}}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow["{u_{\beta}}", from=1-3, to=1-4]
+	\arrow["{f_{\gamma,\beta}}"', from=1-3, to=2-3]
+	\arrow["v"', from=2-1, to=2-2]
+	\arrow["{u_{\gamma}}"', from=2-3, to=1-4]
+    \end{tikzcd}\]
+    接下来显式的来构造它,当然,我们需要从$0$开始,然后处理后继以及极限序数的情况
+    \begin{enumerate}
+        \item[$\triangleright$ \textbf{第零项}] $u_0 = u$给定.
+        \item[$\triangleright$ \textbf{后继项}] 设$\gamma = \beta +1$为后继序数.此时$u_{\gamma}$由以下提升给出(由于$f_{\beta+1,\beta}\in S$保证了提升存在)
+        \[\begin{tikzcd}
+	    {C_{\beta}} & X \\
+	    {C_{\beta+1}} & Y
+	    \arrow["{u_{\beta}}", from=1-1, to=1-2]
+	    \arrow["{f_{\beta+1,\beta}}"', from=1-1, to=2-1]
+	    \arrow["g", from=1-2, to=2-2]
+	    \arrow["{u_{\beta+1}}"{description}, dashed, from=2-1, to=1-2]
+	    \arrow["{v\circ f_{\alpha,\beta+1}}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        \item[$\triangleright$ \textbf{极限项}] 设$\gamma$为非零极限序数,则根据定义$C_{\gamma} = \underset{\beta \leq \gamma}{\indlim} C_{\beta}$,由$\{u_{\beta}:C_{\beta} \to X\}_{\beta \leq \gamma}$通过泛性质给出$u_{\gamma}: C_{\gamma}\to X$.这显然满足前文所述的交换性.
+    \end{enumerate}
+    因此得到提升$u_{\alpha}:C_{\alpha}\to X$.
+\end{proof}
+根据前文的讨论,我们可以介绍以下概念.
+\begin{definition}[弱饱和]
+    令$\mathcal{C}$为范畴且具有小余极限,令$S$为$\mathcal{C}$中一类态射,若$S$
+    \begin{itemize}
+        \item 在推出下稳定.
+        \item 在收缩核下稳定.
+        \item 在超限复合下稳定.
+    \end{itemize}
+    则称$S$是弱饱和的.
+\end{definition}
+
+接下来讨论弱饱和的若干性质, 首先,给出弱饱和的一个重要判准:
+\begin{proposition}[重要]
+    设$\mathcal{C}$为范畴且具有小余极限, $T$为$\mathcal{C}$中一些态射,令$S = \chi_L(T)$则$S$是弱饱和的.
+\end{proposition}
+\begin{proof}
+    前文已经证明.
+\end{proof}
+\begin{corollary}\label{推论:chi(T)}
+    设$\mathcal{C}$为范畴且具有小余极限, $T$为$\mathcal{C}$中一些态射, $\chi(T) = \chi_L(\chi_R(T))$ 也是弱饱和的, 并且显然有 $T \subset \chi(T)$.
+\end{corollary}
+ 
+\begin{remark}[生成的弱饱和态射类]\label{注记:生成的弱饱和态射类}
+    容易得知, 弱饱和态射类的交也是弱饱和的, 因此令$\mathcal{C}$为范畴, $S_0$为$\mathcal{C}$中的一类态射.则存在一个包含$S_0$的最小的弱饱和类(类似于闭包定义,取$\overline{S_0} = \bigcap_{S_0 \subset H,H\text{弱饱和}}H$)称$\overline{S_0}$为由$S_0$所生成的弱饱和态射类.因此,若$S_0$对于$T$具有左提升性质,则$\overline{S_0}$对于$T$也具有左提升性质.
+\end{remark}
+\begin{proposition}
+    令$\mathcal{C}$为范畴且具有小余极限, $S$为$\mathcal{C}$中的弱饱和态射类,则
+    \begin{itemize}
+        \item 所有的同构都在$S$中.
+        \item $S$在态射复合下是稳定的,即若$f:X \to Y$与$g : Y \to Z$都在$S$中则$g\circ f$也在$S$中.
+    \end{itemize}
+\end{proposition}
+\begin{proof}    
+    前者为超限复合中$\alpha = 0$的情况,后者为$\alpha = 2$的情况.
+\end{proof}
+
+\subsection{弱分解系统}\label{弱分解系统}
+
+\begin{lemma}[收缩核论证]
+    若态射 $f: X \to Y$ 可以被分解为如下交换图表
+    \[\begin{tikzcd}
+	X && Y \\
+	& T
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["i"', from=1-1, to=2-2]
+	\arrow["p"', from=2-2, to=1-3]
+    \end{tikzcd}\]
+    若 $f$ 关于 $i$ (或 $p$) 具有右(左) 提升性质, 则 $f$ 为 $p$ (或 $i$) 的收缩核.
+\end{lemma}
+\begin{proof}
+    不妨设 $f\in \chi_R(i)$, 因此以下提升问题有解
+    \[\begin{tikzcd}
+	X & X \\
+	T & Y
+	\arrow[equal, from=1-1, to=1-2]
+	\arrow["i"', from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["r"{description}, dashed, from=2-1, to=1-2]
+	\arrow["p"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    将解记为 $r$, 因此可以得到 $r\circ i = \identity_X$, 因此可以得到收缩核
+    \[\begin{tikzcd}
+	X & T & X \\
+	Y & Y & Y
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["r", from=1-2, to=1-3]
+	\arrow["p", from=1-2, to=2-2]
+	\arrow["f", from=1-3, to=2-3]
+	\arrow[equal, from=2-1, to=2-2]
+	\arrow[equal, from=2-2, to=2-3]
+    \end{tikzcd}\]
+\end{proof}
+而后, 我们来介绍弱分解系统的概念
+\begin{definition}[弱分解系统]
+    \textbf{弱分解系统}是指三元组 $(\mathcal{C},L,R)$, 其中 $\cal{C}$ 为范畴, $L$ 和 $R$ 为 $\cal{C}$ 中满足以下性质的态射所构成的集合:
+    \begin{itemize}
+        \item $L = \chi_L(R)$ 且 $R= \chi_R(L)$.
+        \item  每个 $\cal{C}$ 中的态射 $f:X \to Y$ 都可以被分解为 
+        \[
+        X\xrightarrow{p}T\xrightarrow{i}Y
+        \]
+        其中 $i\in L$ 且 $p\in R$.
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    令 $(\mathcal{C},L,R)$ 为弱分解系统,则
+    \begin{enumerate}
+        \item $L$ 和 $R$ 都包含 $\cal{C}$ 中的同构.
+        \item $L$ 和 $R$ 都在态射复合下稳定, 此外 $L$ 还在超限复合下稳定.
+        \item $L$ 和 $R$ 均在收缩核下稳定.
+        \item $L$ 在推出下稳定, $R$ 在拉回下稳定.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    留作习题.
+\end{proof}
+\begin{example}
+    记 $\cate{HCof}$, $\cate{HFib}$, $\cate{HoEq}$ 为闭 Hurewicz 余纤维化, Hurewicz 纤维化以及同伦等价所构成的类, 则 $(\cate{Top}, \cate{HCof}\cap \cate{Hoeq}, \cate{HFib})$ 以及 $(\cate{Top}, \cate{HCof}, \cate{HFib}\cap \cate{Hoeq})$ 均为弱分解系统.
+\end{example}
+由命题~\ref{命题:小对象论证}可以得到以下推论
+\begin{corollary}
+    令 $\cal{C}$ 为可表现范畴, $T = \{\phi_i : C_i \to D_i\}_{i\in I}$ 为 $\cal{C}$ 中以 $I$ 为指标的一些态射, 则 $(\mathcal{C},\chi(T),\chi_R(T))$ 为弱分解系统.
+\end{corollary}
+接下来给出一种非常有用的结论.
+\begin{proposition}
+    令 $F\colon \mathcal{C} \rightleftarrows \mathcal{C}'\colon G$ 为一对伴随, 若 $(\mathcal{C},L,R)$ 与 $(\mathcal{C}',L',R')$ 为弱分解系统, 则 $F(L)\subset L'$ 当且仅当 $G(R')\subset R$.
+\end{proposition}
+\begin{proof}
+    不妨设 $F(L)\subset L'$ , 对于 $(C\xrightarrow{i}D)\in L$ 以及 $(X\xrightarrow{p}Y)\in R'$, 由假设可知提升问题有解, 而根据伴随性可知下述图表有着自然对应
+    \[\begin{tikzcd}
+	{F(C)} & X \\
+	{F(D)} & Y
+	\arrow[from=1-1, to=1-2]
+	\arrow["{F(i)}"', from=1-1, to=2-1]
+	\arrow["p", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd} \leftrightsquigarrow  \begin{tikzcd}
+	C & {G(X)} \\
+	D & {G(Y)}
+	\arrow[from=1-1, to=1-2]
+	\arrow["i"', from=1-1, to=2-1]
+	\arrow["{G(p)}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+因此 $G(p)\in R$.\\
+对偶地, 可以得到 $F(L) \subset L'$
+\end{proof}
+\subsection{模型范畴}\label{模型范畴定义}
+现在, 我们来给出范畴上的模型结构, 正如本节前言所述, 它是范畴上配备有三类在复合下稳定的态射, 分别称为弱等价(核心), 纤维化以及余纤维化:
+\begin{itemize}
+    \item 弱等价如本章前言所述, 扮演``同伦等价''或者更一般(例如弱同伦等价)的角色.
+    \item 纤维化扮演着``好的满射''这一角色. 比如说拓扑空间范畴中的 Hurewicz 纤维化.
+    \item 余纤维化扮演着``好的单射''这一角色. 比如说拓扑空间范畴中邻域形变收缩核(NDR)就是余纤维化.
+\end{itemize}
+在这种意义下, 模型范畴就是``同伦理论的模型''或``同伦理论的模型的范畴'', 我们真正关心的是由纤维化与余纤维化所产生的对象, 分别称为纤维性对象与余纤维性对象, 以及既是纤维性对象又是余纤维性对象的双纤维性对象.
+\begin{definition}[模型结构]
+    范畴 $\cal{C}$ 上的\textbf{模型结构}是指范畴 $\cal{C}$ 配上三类额外的态射:
+    \begin{itemize}
+        \item \textbf{余纤维化} $\Cof \subset \Mor(\cal{C})$.
+        \item \textbf{纤维化} $\Fib \subset \Mor(\cal{C})$.
+        \item \textbf{弱等价} $\cate{W} \subset \Mor(\cal{C})$.
+    \end{itemize}
+    满足下述条件
+    \begin{enumerate}
+        \item $\cate{W}$ 可以使得 $\cal{C}$ 变成弱等价范畴(定义~\ref{定义:弱等价范畴}), 换言之, 其满足3选2性质.
+        \item $(\mathcal{C},\Cof\cap \cate{W}, \Fib)$ 为弱分解系统.
+        \item $(\mathcal{C},\Cof, \Fib\cap \cate{W})$ 为弱分解系统.
+    \end{enumerate}
+\end{definition}
+事实上, 由于弱分解系统中两类态射能互相确定, 因此 $\Cof$ 和 $\Fib$ 中任一个都能确定另一个.
+\begin{remark}[Waldhausen 范畴]
+    如同弱等价可以单独取出来一般, 我们可以单独把余纤维化, 纤维化取出来, 在此处我们说明该如何将余纤维化取出来\footnote{或者把余纤维化和弱等价单独取出来.}, 纤维化是对偶的, 单独取出来的一部分原因在于我们需要讨论余纤维列和纤维列.\\
+    带余纤维化的范畴称为 Waldhausen 范畴, 指二元组 $(\cal{C},\Cof(C))$, 其中 $\cal{C}$ 为范畴, $\Cof(\cal{C})$ 为其宽子范畴, 其中态射称为\textbf{余纤维化}满足
+    \begin{itemize}
+        \item $\cal{C}$ 有零对象(即为带点范畴).
+        \item 对任意 $X\in \cal{C}$, $0 \to X$ 为余纤维化.
+        \item 对任意余纤维化 $Z \to X$ 以及态射 $Z \to W$ 都有推出 $Y = X\dsqcup{Z}W$ 存在. 当 $W= 0$ 时, 记 $X\dsqcup{Z}0$ 为 $X/Z$, 称序列 $Z\xrightarrow{\in \Cof(\cal{C})}X\to X/Z$ 为\textbf{余纤维列}.
+    \end{itemize}
+    可以对偶得到取出纤维化的情况. 再讨论下去离题万里, 本文仅作一瞥, 若感兴趣可见~K~理论相关资料.
+\end{remark}
+\begin{example}
+    \begin{itemize}
+        \item 若 $\cal{C}$ 为完备且余完备范畴, 则其上可以具有三种模型结构, 只需要选取其中一个为 $\cal{C}$ 中的全体同构, 而剩下二者为 $\cal{C}$ 中的全体态射. 比如选取全体同构为弱等价, 余纤维化和纤维化为 $\cal{C}$ 中的全体态射, 此时 $(x\xrightarrow{f}y)\in \cal{C}$ 分解为 $(\identity_x,f)$ 和 $(f,\identity_y)$, 此时称为\textbf{平凡模型结构}.
+        \item 若 $\cal{C}$ 和 $\cal{D}$ 都具备模型结构, 则 $\cal{C}\times D$ 也具备模型结构 : $(f,g)$ 为余纤维化(或纤维化, 弱等价) 当且仅当 $f$ 和 $g$ 均为余纤维化(或纤维化, 弱等价), 该结构称为\textbf{乘积模型结构}.
+    \end{itemize}
+\end{example}
+\begin{definition}[模型范畴]\label{定义:模型范畴}
+    称四元组 $(\mathcal{C},\cate{W},\Cof,\Fib)$ 为\textbf{模型范畴}, 指 $\cal{C}$ 为完备且余完备的范畴, 并且 $(\cate{W},\Cof,\Fib)$ 构成其上的模型结构. 在不引起歧义的情况下, 一般简写为 $\cal{C}$.
+\end{definition}
+
+而后, 给出一些术语
+\begin{definition}[术语]
+    \begin{itemize}
+        \item $\cate{W}\cap \Fib$ 中的元素(即同时为弱等价的纤维化)称为\textbf{平凡纤维化}或称\textbf{零伦纤维化}.
+        \item $\cate{W}\cap \Cof$ 中的元素(即同时为弱等价的余纤维化)称为\textbf{平凡余纤维化}或称\textbf{零伦余纤维化}.
+        \item 对于 $X\in \cal{C}$, 若始对象到其的态射 $\varnothing \to X$ 为余纤维化, 则称其为\textbf{余纤维性对象}.
+        \item 对于 $X\in \cal{C}$, 若其到终对象的态射 $X \to *$ 为纤维化, 则称其为\textbf{纤维性对象}.
+        \item 对于 $X\in \cal{C}$, 若其既是纤维性又是余纤维性的, 则称其为\textbf{双纤维性对象}.
+    \end{itemize}
+\end{definition}
+以下给出一些常见的模型范畴结构, 并略过证明(至于我们所关心的单纯集上以及单纯范畴上的模型结构我们留待后文给出).
+\begin{example}[常见的模型范畴]\label{例:常见模型结构}
+取 $\mathcal{A}$ 为``好'' Abel 范畴\footnote{此处``好''在投射模型结构下为带有足够多的投射对象, 在内射模型结构下为带有足够多的内射对象.}, 比如令 $R$ 为(交换)环, $\mathcal{A} \coloneqq R\dcate{Mod}$ 为 $R$-模构成的 Abel 范畴, 考虑链复形范畴 $\Chain(\cal{A})$. 则其上具有很多种模型结构, 在此只讲述其中两种\footnote{投射模型结构源自于\cite[2.4 最后 Remark 的 item 5]{quillen2006homotopical}(它们互为对偶, 因此一者为链复形而一者为上链复形), 内射模型结构可参见\cite[Theorem 2.4.5.而证明见 2.5]{dungan2010review}}, 至于更多模型结构可参见\cite[\href{https://ncatlab.org/nlab/show/model+structure+on+chain+complexes}{model structure on chain complexes}]{nlab:homepage}.
+    \begin{itemize}
+        \item[]链复形的\textbf{投射模型结构}
+        \item[]
+        \begin{itemize}
+            \item $\cate{W}$ 为拟同构构成的类.
+            \item $\Fib$ 为(逐点的)满射.
+            \item $\Cof$ 为带有逐点投射余核的(逐点的)单射
+            \item 纤维性对象为全体链复形, 而余纤维性对象为投射对象构成的链复形.
+        \end{itemize}
+        \item[]复形的\textbf{内射模型结构}
+        \item[]
+        \begin{itemize}
+            \item $\cate{W}$ 为拟同构构成的类.
+            \item $\Fib$ 为带有内射核的(逐点的)满射.
+            \item $\Cof$ 为(逐点的)单射.
+            \item 余纤维性对象为全体复形, 而纤维性对象为所有由内射对象构成的上链复形.
+        \end{itemize}
+    \end{itemize}
+\end{example}
+\begin{proposition}\label{命题:模型范畴基本性质}
+    给定模型范畴 $\cal{C}$, 则
+    \begin{itemize}
+        \item $\cate{W},\Cof,\Fib$ 均在收缩核下稳定.
+        \item $\Cof$ 和 $\cate{W} \cap \Cof$ 在推出下稳定.
+        \item $\Fib$ 和 $\cate{W} \cap \Fib$ 在拉回下稳定.
+    \end{itemize}
+\end{proposition}
+因此本文的模型范畴定义与 \cite[Definition 1.1.3.]{Hovey} 等价.
+此时, 我们发现并非所有对象都是纤维性或者说是余纤维性的, 那我们是否能够退而求其次, 找到其替代品, 答案是肯定的.
+\begin{definition}[(余)纤维性替换]
+设 $\cal{C}$ 为模型范畴, 且 $X\in \cal{C}$ 为对象, 则
+\begin{itemize}
+    \item 态射 $\varnothing \to X$ 可以被分解为
+    \[
+    \varnothing \xrightarrow{\in\Cof} QX \xrightarrow{\in \cate{W}\cap \Fib} X,
+    \]
+    则 $QX$ 具有余纤维性, 并且弱等价于 $X$. 进一步, 有函子 $Q \colon \mathcal{C} \to \mathcal{C}$, 称为\textbf{余纤维性替换}(或\textbf{余纤维性消解}, \textbf{余纤维性逼近}).
+    \item 态射 $X \to *$ 可以被分解为
+    \[
+    X\xrightarrow{\in \cate{W}\cap \Cof} RX \xrightarrow{\in \Fib} *
+    \]
+    则 $RX$ 具有纤维性, 并且弱等价于 $X$. 进一步, 有函子 $R\colon \mathcal{C} \to\mathcal{C}$, 称为\textbf{纤维性替换}(或\textbf{纤维性消解, \textbf{纤维性逼近}}).
+\end{itemize}
+一般地, 任何具有上述性质 $Q\colon \mathcal{C} \to \mathcal{C}$(或 $R\colon \mathcal{C} \to \mathcal{C}$)都可以被称为余纤维性替换(或纤维性替换). 此外, $RQX$ 与 $QRX$ 都具有双纤维性, 且弱等价于 $X$.
+\end{definition}
+\begin{proof}
+    使用模型范畴公理可知余纤维性替换与纤维性替换的存在性, 至于后一部分留给读者作为习题.
+\end{proof}
+我们通过以下注记展现余纤维性替换为``消解''之意.
+\begin{remark}
+    考虑链复形的投射模型结构, 则此时余纤维性替换即为投射解消.对偶地, 考虑上链复形的内射模型结构, 则此时纤维性替换为内射解消. 回忆到在同调代数中, 我们曾使用解消来定义导出函子, 这给予我们使用纤维性和余纤维性替换来定义同伦范畴之间的导出函子的动机.
+\end{remark}
+我们仍以一个非常重要的引理来结束本段内容
+\begin{lemma}[Ken Brown]\label{引理:Ken Brown's Lemma}
+    令 $\cal{C}$ 为模型范畴, $\cal{D}$ 为弱等价范畴. 令 $F\colon \cal{C} \to D$ 为函子, 若 $F$ 将余纤维化对象之间的平凡余纤维化变为弱等价, 则 $F$ 将余纤维化对象之间的弱等价变为弱等价. 对偶地, 若 $F$ 将纤维化对象之间的平凡纤维化变为弱等价, 则 $F$ 将纤维化之间的弱等价变为弱等价.
+\end{lemma}
+\begin{proof}
+    只需证明余纤维化对象的情况即可.令 $f\colon A \to B$ 为余纤维化对象之间的弱等价, 考虑推出图表
+    \[\begin{tikzcd}
+	\varnothing & A \\
+	B & {A\sqcup B}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["j", from=1-2, to=2-2]
+	\arrow["i"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    由于 $A$ 和 $B$ 均为余纤维性对象, 因此 $i \colon A\to A \sqcup B$ 以及 $j\colon B \to A \sqcup B$ 均为余纤维化, 进一步 $A\sqcup B$ 为余纤维性对象, 考虑态射 $(f,\identity_Y)\colon  X \sqcup Y \to Y$, 我们可以将其分解为左侧图表
+    \[\begin{tikzcd}
+	{X\sqcup Y} & T \\
+	Y
+	\arrow["{k\in \Cof}", from=1-1, to=1-2]
+	\arrow["{(f,\identity_Y)}"', from=1-1, to=2-1]
+	\arrow["{p\in \Fib \cap \cate{W}}", from=1-2, to=2-1]
+    \end{tikzcd}, \quad \begin{tikzcd}
+	X & T \\
+	Y
+	\arrow["{k\circ i\in \Cof}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{p\in \Fib \cap \cate{W}}", from=1-2, to=2-1]
+    \end{tikzcd}, \quad \begin{tikzcd}
+	Y & T \\
+	Y
+	\arrow["{k\circ j\in \Cof}", from=1-1, to=1-2]
+	\arrow["{\identity_Y}"', from=1-1, to=2-1]
+	\arrow["{p\in \Fib \cap \cate{W}}", from=1-2, to=2-1]
+\end{tikzcd}\] 
+    从而 $T$ 为余纤维性对象, 进一步得到中间和右边的图表, 由于 $f$ 为弱等价, 利用 3 选 2 性质给出 $k\circ i$ 为平凡余纤维化, 因此 $F(k\circ i)$ 为弱等价. 接下来说明 $F(p)$ 为弱等价即可, 考虑最右侧图表, 根据 3 选 2 性质不难得到 $k \circ j$ 为弱等价, 从而为平凡余纤维化, 而 $F(\identity_Y) = \identity_{FY}$ 为同构自然为弱等价, 因此 $F(p)$ 也为弱等价.
+\end{proof} 
+在同伦论中, 我们通常考虑带点空间, 因此我们应该研究模型范畴是否能够诱导带点范畴上的模型结构:
+\begin{definition}[带点范畴]
+    \textbf{带点范畴}指带有零对象的范畴.
+\end{definition}
+对于模型范畴 $\cal{C}$, 考虑其终对象 $*$, 则仰范畴 $\cal{C}_{*/}$ 为带点范畴, 称为 $\cal{C}$ 的\textbf{带点对象范畴}, 记为 $\cal{C}_{*}$. 其中对象 $(*\xrightarrow{v}X)\in \Mor(\cal{C})$ 简记为 $(X,v)$, 其中 $v$ 称为 $X$ 的\textbf{基点}, $\cal{C}_{*}$ 的态射即为保持基点的态射.\\
+注意到 $\cal{C}_{*}$ 具有任意极限与余极限. 给定图表 $F\colon \mathcal{J} \to \cal{C}_{*}$, 其极限即为 $\tilde{F}\colon \mathcal{J}\to \cal{C}$ 的极限. 而余极限的刻画稍显复杂. 考虑锥 $\mathcal{J}^{\triangleleft}$(它是 $\cal{J}$ 配上一个额外的始对象 $*$), 则 $F$ 诱导函子 $G \colon \mathcal{J}^{\triangleleft} \to \cal{C}$ 其中 $G(*) = *$ 且 $* \to i$ 对应于 $F(i)$ 的基点, 则 $G$ 在 $\cal{C}$ 中的余极限自然地带有基点, 记为 $F$ 在 $\cal{C}_*$ 的余极限.
+\begin{example}
+    \begin{itemize}
+        \item 空图表在 $\cal{C}_*$ 的极限和余极限均为 $*$, 因此 $\cal{C}_*$ 确为带点范畴.
+        \item $X$ 和 $Y$ 的余积为 $X \vee Y$, 即为 $X \sqcup Y$ 商去基点.
+    \end{itemize}
+\end{example}
+有显然的函子 $(-)_+\colon \cal{C} \to C_*$ 给 $X$ 附上基点 $X_+ = X \sqcup *$. 它是遗忘函子 $U \colon \cal{C}_* \to C$ 的左伴随, $(-)_+$ 定义出一个忠实(而非全)的嵌入. 若 $\cal{C}$ 已然带点, 则 $(-)_+$ 给出 $\cal{C}$ 到 $\cal{C}_*$ 的范畴等价, 这给出 $\cal{C}_*$ 上的模型结构.
+\begin{proposition}
+    若 $\cal{C}$ 为模型范畴, 对于 $f\in \Mor(\cal{C}_*)$, 称 $f$ 为余纤维化(或纤维化, 弱等价) 指其在遗忘函子下的像 $Uf$ 为 $\cal{C}$ 中的余纤维化(或纤维化, 弱等价). 这给出 $\cal{C}_*$ 上的模型结构.
+\end{proposition}
+\begin{proof}
+    \cite[Proposition 1.1.8.]{Hovey}.
+\end{proof}
+更进一步, 我们可以把终对象 $*$ 换为一般的对象 $A\in\cal{C}$, 上述命题可以被扩张到一般的俯仰范畴之上.
+\begin{remark}
+    因此结合例~\ref{例:常见模型结构}的脚注可知, $\cate{Top}_*$ 和 $\cate{CG}_*$ 都具有来自 $\cate{Top}$ 的模型结构. 
+\end{remark}
+\subsection{同伦与同伦范畴}
+现在我们回归主题, 讨论模型范畴是如何来研究同伦的, 请读者回顾第~\ref{同伦范畴}~节的内容, 我们在节尾处曾经提出过关于弱等价范畴的同伦范畴的若干问题, 其同伦部分将在此处得到解答, 读者也将发现在定义同伦范畴时, 我们也犯了和同调代数时一样的错误, 导出函子部分留待下一小节.\\
+首先进行一些记号上的回顾与设置, 记 $\cal{C}$ 为模型范畴, $\mathcal{C}[\mathcal{W}^{-1}]$ 为将 $\cal{C}$ 视为弱等价范畴时所得到的同伦范畴. 记 $\mathcal{C}_c$ (或 $\mathcal{C}_f$, $\mathcal{C}_{cf}$) 为由 $\cal{C}$ 中的余纤维性对象(或纤维性对象, 双纤维性对象) 所张成的全子范畴, 此时其内弱等价定义为在包含函子的像为弱等价的态射, 记为 $\mathcal{W}_c$(或 $\mathcal{W}_f$, $\mathcal{W}_{cf}$).
+\begin{proposition}\label{命题:模型范畴的同伦范畴与Ccf}
+    令 $\cal{C}$ 为模型范畴, 则包含函子诱导范畴等价 $\mathcal{C}_{cf}[\mathcal{W}_{cf}^{-1}] \to \mathcal{C}_c[\mathcal{W}_{c}^{-1}] \to \mathcal{C}[\mathcal{W}^{-1}]$ 和 $\mathcal{C}_{cf}[\mathcal{W}_{cf}^{-1}] \to \mathcal{C}_f[\mathcal{W}_{f}^{-1}] \to \mathcal{C}[\mathcal{W}^{-1}]$.
+\end{proposition}
+\begin{proof}
+    参见 \cite[Proposition 1.2.3.]{Hovey}.
+\end{proof}
+因此我们只需要研究 $\mathcal{C}_{cf}[\mathcal{W}_{cf}^{-1}]$ 这一同伦范畴即可. 我们将说明它确实是一个小范畴, 从而可以直接地研究它.\\
+回忆到在拓扑空间范畴 $\cate{Top}$ 中, 我们可以将同伦范畴 $h\cate{Top}$ 定义为 $\cate{Top}/\sim$, 其中 $\sim$ 为同伦等价, 此时得到的同伦范畴就是局部小范畴, 这启发着我们在模型范畴上定义出同伦与同伦等价概念, 以此得到商范畴定义的同伦范畴.\\
+在 $\cate{CGWH}$ 中, 对于两个态射 $f,g \colon X \to Y$, 定义同伦为使得图表
+\[\begin{tikzcd}
+	X \\
+	{X\times I} & Y \\
+	X
+	\arrow["{\delta_0}"', from=1-1, to=2-1]
+	\arrow["f", from=1-1, to=2-2]
+	\arrow["H"{description}, from=2-1, to=2-2]
+	\arrow["{\delta_1}", from=3-1, to=2-1]
+	\arrow["g"', from=3-1, to=2-2]
+\end{tikzcd} \quad \text{或} \quad \begin{tikzcd}
+	& Y \\
+	X & {Y^{I}} \\
+	& Y
+	\arrow["f", from=2-1, to=1-2]
+	\arrow["H"{description}, from=2-1, to=2-2]
+	\arrow["g"', from=2-1, to=3-2]
+	\arrow["{p_0}"', from=2-2, to=1-2]
+	\arrow["{p_1}", from=2-2, to=3-2]
+\end{tikzcd}.
+\]
+交换的 $H$, 此外我们称左侧图表为左同伦, $X\times I$ 为柱对象, 而右侧图表为右同伦, $Y^{I}$ 为路径对象. 接下来我们将试着使用模型范畴的公理来恢复左右同伦的概念.
+\begin{definition}[模型范畴的同伦]\label{定义:模型范畴中的同伦}
+设 $\cal{C}$ 为模型范畴, $X,Y \in \cal{C}$ 为两个对象, 且有两个态射 $f,g \colon X \to Y$, 则
+        \begin{itemize}
+            \item $X$ 的\textbf{柱对象}, 记作 $\Cyl(X)$, 指余对角态射 $\nabla_X  =  (\identity_X,\identity_X) \colon X \sqcup X \to X$ 的分解
+            \[\begin{tikzcd}
+	{X\sqcup X} && X \\
+	& {\Cyl(X)}
+	\arrow["{\nabla_X}", from=1-1, to=1-3]
+	\arrow["{\Cof \ni (\delta_0,\delta_1)}"', from=1-1, to=2-2]
+	\arrow["{p\in W}"', from=2-2, to=1-3]
+            \end{tikzcd}\]
+            此外, 若还满足 $p\in \cate{W}\cap \Fib$, 则称此柱对象是\textbf{好}的.
+            \item 从 $f$ 到 $g$ 的\textbf{左同伦}是使得以下图表
+            \[\begin{tikzcd}
+	X \\
+	{\Cyl(X)} & Y \\
+	X
+	\arrow["{{\delta_0}}"', from=1-1, to=2-1]
+	\arrow["f", from=1-1, to=2-2]
+	\arrow["H"{description}, from=2-1, to=2-2]
+	\arrow["{{\delta_1}}", from=3-1, to=2-1]
+	\arrow["g"', from=3-1, to=2-2]
+            \end{tikzcd}\]
+            交换的态射 $H\colon \Cyl(X) \to Y$. 此时称 $f$ \textbf{左同伦于} $g$, 简记为 $f\overset{l}{\sim}g$.
+            \item $Y$ 的\textbf{路径对象}, 记作 $\Path(Y)$, 指对角态射 $\Delta_Y \colon Y \to Y \times Y$ 的分解
+            \[\begin{tikzcd}
+	Y && {Y\times Y} \\
+	& {\Path(Y)}
+	\arrow["{\Delta_Y}", from=1-1, to=1-3]
+	\arrow["{\cate{W}\ni i}"', from=1-1, to=2-2]
+	\arrow["{(p_0,p_1)\in \Fib}"', from=2-2, to=1-3]
+            \end{tikzcd}\]
+            若还满足 $i\in \cate{W}\cap \Cof$, 则称该路径对象是\textbf{好}的.
+            \item 从 $f$ 到 $g$ 的\textbf{右同伦}是使得以下图表
+            \[\begin{tikzcd}
+	& Y \\
+	X & {\Path(Y)} \\
+	& Y
+	\arrow["f", from=2-1, to=1-2]
+	\arrow["H"{description}, from=2-1, to=2-2]
+	\arrow["g"', from=2-1, to=3-2]
+	\arrow["{p_0}"', from=2-2, to=1-2]
+	\arrow["{p_1}", from=2-2, to=3-2]
+            \end{tikzcd}.\]
+            交换的态射 $H\colon X \to \Path(Y)$. 此时称 $f$ \textbf{右同伦于} $g$, 简记为 $f\overset{r}{\sim}g$.
+            \item 若 $f$ 与 $g$ 即为左同伦又为右同伦, 则称它们是\textbf{同伦}的, 简记为 $f\sim g$.
+            \item 称 $f$ 是\textbf{同伦等价}, 指存在 $h \colon Y \to X$ 使得 $hf\sim \identity_X$ 且 $fh \sim \identity_Y$.
+        \end{itemize}
+\end{definition}
+我们可以给出一些简单的性质(大致来自\cite[Lemma 1.1.1.-1.1.5.]{quillen2006homotopical}), 此处我们不跳过证明以让读者熟悉模型范畴的运作方式.
+\begin{proposition}\label{命题:模型范畴上同伦的简单性质}
+    令 $\cal{C}$ 为模型范畴, 且 $f,g \colon X \to Y$ 为 $\cal{C}$ 中的态射.
+    \begin{enumerate}
+        \item 考虑 $h \colon Y \to Z$, 若 $f\overset{l}{\sim} g$, 则 $hf\overset{l}{\sim} hg$. 对偶地, 若 $f\overset{r}{\sim} g$, 考虑 $h\colon T \to X$, 则 $fh\overset{r}{\sim} gh$.
+        \item 若 $Y$ 为纤维性对象, $f\overset{l}{\sim} g$ 且 $h \colon T \to X$, 则 $fh \overset{l}{\sim} gh$. 对偶地, 若 $X$ 为余纤维性对象, $f\overset{r}{\sim}g$ 且 $h \colon Y \to Z$, 则 $hf\overset{r}{\sim}hg$.
+        \item 若 $X$ 余纤维性, 则左同伦为 $\Hom_{\cal{C}}(X,Y)$ 上的等价关系, 若 $Y$ 纤维性, 则右同伦为 $\Hom_{\cal{C}}(X,Y)$ 上的等价关系.
+        \item 若 $X$ 余纤维性, 且 $h \colon Y \to Z$ 为平凡纤维化, 则 $h$ 诱导同构
+        \[
+        \Hom_{\cal{C}}(X,Y)/\overset{l}{\sim} \rightiso \Hom_{\cal{C}}(Y,Z)/\overset{l}{\sim}
+        \]
+        对偶地, 可以得到 $Y$ 纤维性, $h \colon T \to X$ 为平凡余纤维化的版本.
+        \item 若 $X$ 余纤维性, 则 $f\overset{l}{\sim} g$ 可以推知 $f\overset{r}{\sim} g$. 此外, 考虑 $Y$ 的道路对象 $\Path(Y)$, 则存在右同伦 $K \colon X \to \Path(Y)$. 对偶地, 可以得到 $Y$ 纤维性且 $f \overset{r}{\sim} g$ 的情况.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+只证明给定左同伦的情况, 对偶情况完全类似.
+    \begin{enumerate}
+        \item 令左同伦为态射 $H \colon \Cyl(X) \to Y$, 则 $hH \colon \Cyl(X) \to Z$ 为 $hf$ 到 $hg$ 的左同伦.
+        \item 因 $f\overset{l}{\sim} g$, 不妨令 $H \colon \Cyl(X) \to Y$ 为其同伦, 其中 $\Cyl(X)$ 为某个柱对象, 因此有分解 $X\sqcup X\xrightarrow{n\in \Cof} \Cyl(X) \xrightarrow{p\in\cate{W}} X$, 根据模型范畴公理 $\Cyl(X) \xrightarrow{p} X$ 可以分解为 $\Cyl(X) \xrightarrow{i \in \Cof} \Cyl'(X) \xrightarrow{j\in \cate{W}\cap \Fib} X$, 而因 $p$ 为弱等价, 因此 $i$ 为平凡余纤维化, 此时 $X\sqcup X \xrightarrow{i\circ n\in \Cof} \Cyl'(X) \xrightarrow{j\in \cate{W}\cap \Fib} X$ 将 $\Cyl'(X)$ 变为好柱对象, 我们断言 $H \colon \Cyl(X) \to Y$ 可以延拓为 $H' \colon \Cyl'(X) \to Y$. 这只需要考虑以下图表
+        \[\begin{tikzcd}
+	{\Cyl(X)} & Y \\
+	{\Cyl'(X)} & {*}
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\cate{W}\cap \Cof\ni i}"', from=1-1, to=2-1]
+	\arrow["{\in \Fib}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        由模型范畴公理可知 $(\cate{W}\cap \Cof,\Fib)$ 为弱分解系统, 根据弱分解系统定义以及 $Y$ 为纤维性对象可知提升存在. 因此左同伦总是可以来自于一个好的柱对象, 不妨设 $\Cyl(X)$ 即为好柱对象, 现在考虑 $T$ 的柱对象 $\Cyl(T)$ 以及图表
+        \[\begin{tikzcd}
+	{T\sqcup T} & {\Cyl(X)} \\
+	{\Cyl(T)} & X
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\Cof \ni}"', from=1-1, to=2-1]
+	\arrow["{\in \cate{W}\cap \Fib}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        立刻得到提升的存在性, 记为 $k \colon \Cyl(T) \to \Cyl(X)$, 不难发现 $k H \colon \Cyl(T) \to Y$ 给出 $fh$ 到 $gh$ 的左同伦.
+        \item \begin{enumerate}
+            \item[自反性.] 考虑柱对象 $X\sqcup X \to \Cyl(X) \xrightarrow{s} X$, 因此 $\Cyl(X) \xrightarrow{s} X \xrightarrow{f} Y$ 给出 $f$ 到 $f$ 的左同伦.
+            \item[对称性.] 考虑 $f$ 到 $g$ 的左同伦
+            \[\begin{tikzcd}
+	X & {\Cyl(X)} & X \\
+	& Y
+	\arrow["{\delta_0}", from=1-1, to=1-2]
+	\arrow["f"{description}, from=1-1, to=2-2]
+	\arrow["H"{description}, from=1-2, to=2-2]
+	\arrow["{\delta_1}"', from=1-3, to=1-2]
+	\arrow["g"{description}, from=1-3, to=2-2]
+            \end{tikzcd}, \quad \begin{tikzcd}
+	X & {\Cyl'(X)} & X \\
+	& Y
+	\arrow["{\delta_0'}", from=1-1, to=1-2]
+	\arrow["g"{description}, from=1-1, to=2-2]
+	\arrow["H"{description}, from=1-2, to=2-2]
+	\arrow["{\delta_1'}"', from=1-3, to=1-2]
+	\arrow["f"{description}, from=1-3, to=2-2]
+            \end{tikzcd}\]
+            将 $\delta_0$ 与 $\delta_1$ 调换顺序后得到 $g$ 到 $f$ 的左同伦 $H$.
+            \item[传递性.] 令 $f,g,h \colon X\to Y$ 且 $f$ 左同伦于 $g$, $g$ 左同伦于 $h$, 则可以得到以下图表
+            \[\begin{tikzcd}
+	X & {\Cyl(X)} & X \\
+	& Y
+	\arrow["{\delta_0}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["H_1"{description}, from=1-2, to=2-2]
+	\arrow["{\delta_1}"', from=1-3, to=1-2]
+	\arrow["g", from=1-3, to=2-2]
+            \end{tikzcd} \quad \begin{tikzcd}
+	X & {\Cyl'(X)} & X \\
+	& Y
+	\arrow["{\delta_0'}", from=1-1, to=1-2]
+	\arrow["g"', from=1-1, to=2-2]
+	\arrow["{H_2}"{description}, from=1-2, to=2-2]
+	\arrow["{\delta_1'}"', from=1-3, to=1-2]
+	\arrow["h", from=1-3, to=2-2]
+            \end{tikzcd}\]
+            而后考虑推出
+            \[\begin{tikzcd}
+	X & {\Cyl(X)} \\
+	{\Cyl'(X)} & {\Cyl''(X)}
+	\arrow["{{\delta_0}}", from=1-1, to=1-2]
+	\arrow["{{\delta_1'}}"', from=1-1, to=2-1]
+	\arrow["{\op{in}_1}", from=1-2, to=2-2]
+	\arrow["{\op{in}_2}"', from=2-1, to=2-2]
+            \end{tikzcd},\]
+            现在说明 $\Cyl''(X)$ 确实为柱对象, 由泛性质可以给出 $p'' \colon \Cyl''(X) \to X$, 而后定义 $X\sqcup X \xrightarrow{(j_0,j_1)} \Cyl''(X)$ 中 $j_0$ 为合成 $X \xrightarrow{\delta_0} \Cyl(X) \xrightarrow{\op{in}_1} \Cyl''(X)$ , $j_1$ 为合成 $X \xrightarrow{\delta_1'}\Cyl'(X) \xrightarrow{\op{in}_2} \Cyl''(X)$. 接下来说明 $\delta_0$ 和 $\delta_1'$ 均为平凡余纤维化, 由于 $\Cyl(X)$ 为分解 $X\sqcup X \xrightarrow{\nabla_X = (\identity_X,\identity_X)}X$ 的分解, 考虑 $\iota \colon X \to X\sqcup X$ 可以得到 $\nabla_X \iota  = \identity_X$, 从而由 $X$ 为余纤维性对象可知 $\delta_0 =  (\delta_0,\delta_1)\iota$ 为余纤维化, 而由于合成为 $\identity_X$ 自动为弱等价, 因此 $\delta_0$ 为平凡余纤维化, 同理得到 $\delta_1'$, 从而根据命题~\ref{命题:模型范畴基本性质}, 可知 $\op{in}_1$ 和 $\op{in}_2$ 为平凡余纤维化, 由于 $p''$ 由 $p\colon \Cyl(X) \to X$ 以及 $p' \colon \Cyl'(X) \to X$ 诱导, 并且 $p'' \op{in}_1 = p$ 从而 $p''$ 自动为弱等价. 而由于 $\delta_0$ 和 $\delta_1'$ 为余纤维化, 因此可知 $j_0$ 和 $j_1$ 为余纤维化, 从而 $(j_0,j_1)$ 也为余纤维化, 因此 $\Cyl''(X)$ 确实为柱对象, 由泛性质可知, $H_0$ 和 $H_1$ 诱导出 $H \colon \Cyl''(X) \to Y$ 使得  $H j_0 = H_0 \delta_0 = f$, $H j_1 = H_1 \delta_1 = h$, 由此得到左同伦.
+        \end{enumerate}
+        \item 由于 $X$ 余纤维性, 因此根据 3. 可知 $\overset{l}{\sim}$ 确实为等价关系, 而后由 1. 可以给出映射
+        \[
+        F \colon \Hom_{\cal{C}}(X,Y)/\overset{l}{\sim} \to \Hom_{\cal{C}}(X,Z)/\overset{l}{\sim} ,
+        \]
+        接下来我们证明 $F$ 为双射, 首先说明其为满射, 对于 $f' \colon X \to Z$, 因 $X$ 是余纤维性对象, 而 $h$ 为平凡纤维化, 因此考虑左图
+        \[\begin{tikzcd}
+	\varnothing & Y \\
+	X & Z
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\Cof\ni}"', from=1-1, to=2-1]
+	\arrow["{h\in \cate{W}\cap\Fib}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["{{f'}}"', from=2-1, to=2-2]
+        \end{tikzcd}, \quad \begin{tikzcd}
+	{X\sqcup X} & Y \\
+	{\Cyl(X)} & Z
+	\arrow["{(f,g)}", from=1-1, to=1-2]
+	\arrow["{\Cof\ni}"', from=1-1, to=2-1]
+	\arrow["{h\in \cate{W}\cap \Fib}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["{H'}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        可知提升存在性, 因此总是存在 $f$ 使得 $hf = f'$, 因此在不作为商集时即为满射. 接下来证明单射, 若 $hf \overset{l}{\sim} hg$, 此时可以给出 $H' \colon \Cyl(X) \to Z$ 为 $hf$ 到 $hg$ 的左同伦, 因此考虑右图, 不难发现这确实是从 $f$ 到 $g$ 的左同伦.
+        \item 若 $X$ 余纤维性且 $f \overset{l}{\sim} g$ 同伦由 $H \colon \Cyl(X) \to Y$ 给出, 此处记柱对象到 $X$ 的典范态射为 $p$, 从而由与 3. 一样的论证可知 $\delta_0 \colon X \to \Cyl(X)$ 为平凡余纤维化, 考虑 $Y$ 的道路对象 $Y \xrightarrow{i\in \cate{W}} \Path(Y) \xrightarrow{(p_0,p_1) \in \Fib}Y \times Y$, 因此考虑图表
+        \[\begin{tikzcd}
+	X & {\Path(Y)} \\
+	{\Cyl(X)} & {Y\times Y}
+	\arrow["if", from=1-1, to=1-2]
+	\arrow["{\cate{W}\cap\Cof\ni \delta_0}"', from=1-1, to=2-1]
+	\arrow["{(p_0,p_1)\in \cate{Fib}}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["{(fp,H)}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        可知提升存在, 记为 $K \colon \Cyl(X) \to \Path(Y)$, 不难发现 $J\delta_1$ 为所求的右同伦.
+    \end{enumerate}
+\end{proof}
+不难发现, 若我们想将同伦视为一种等价关系, 就需要使得同伦为等价关系, 并且在符合(取逆)下稳定, 根据命题~\ref{命题:模型范畴上同伦的简单性质}, 这相当于说我们总是需要考虑双纤维性对象.
+\begin{corollary}
+    在全子范畴 $\mathcal{C}_{cf}$ 中, 同伦关系为可复合的等价关系. 因此可以考虑 $\mathcal{C}_{cf}/\sim$, 其中 $\sim$ 表示同伦.
+\end{corollary}
+我们想说明 $\mathcal{C}_{cf}/\sim$ 确实为同伦范畴, 因此需要说明此时同伦等价确实为弱等价
+\begin{theorem}[Whitehead]\label{定理:模型范畴的白头定理}
+    令 $\cal{C}$ 为模型范畴, 则双纤维性对象之间的弱等价即为同伦等价.
+\end{theorem}
+\begin{proof}
+    暂时略过.
+\end{proof}
+因此我们知道
+\begin{theorem}\label{定理:模型范畴给出局部小的同伦范畴}
+    对于模型范畴 $\mathcal{C}$, 有范畴等价 
+    \[
+    \mathcal{C}_{cf}/\sim \rightiso \mathcal{C}_{cf}[\mathcal{W}_{cf}^{-1}]\rightiso \mathcal{C}[\mathcal{W}^{-1}].
+    \]
+    这说明模型范畴的同伦范畴都是局部小范畴.
+\end{theorem}
+\section{拓扑空间上的模型结构}
+在本节开始之前, 我们做出一些定义, 回忆注记~\ref{注记:弱正交}
+\begin{definition}[术语]
+    令 $I \subset \Mor(\cal{C})$ 为态射类, 则
+\end{definition}
+\subsection{弱等价}
+首先在拓扑空间中, 定义弱等价概念为弱同伦等价, 它与链复形中拟同构这一定义是类似的.
+\begin{definition}[弱同伦等价]
+    拓扑空间中的连续函数 $f\colon X \to Y$ 被称为是\textbf{弱同伦等价}, 指其诱导的同伦群(以及 $\pi_0$)之间的态射均为同构, 即
+    \[
+    \pi_0 (f) \colon \pi_0(X) \rightiso \pi_0(Y),\quad \text{且对于}\, \forall n\geq 1\quad \pi_n(f)\colon \pi_n(X) \rightiso \pi_n(Y).
+    \]
+\end{definition}
+\begin{proposition}
+    同伦等价均为弱同伦等价.
+\end{proposition}
+\begin{proof}
+    令 $f \colon X \to Y$ 为同伦等价而 $g\colon Y \to X$ 为其同伦逆. 注意到对于任意 $x\in X$ 以及 $n \geq 1$, 都有以下交换图
+    \[\begin{tikzcd}
+	{\pi_n(X,x)} && {\pi_n(X,gf(x))} \\
+	& {\pi_n(Y,f(x))} && {\pi_n(Y,fgf(x))}
+	\arrow["{\pi_n(gf)}", from=1-1, to=1-3]
+	\arrow["{\pi_n(f)}"', from=1-1, to=2-2]
+	\arrow["{\pi_n(f)}", from=1-3, to=2-4]
+	\arrow["{\pi_n(g)}", from=2-2, to=1-3]
+	\arrow["{\pi_n(fg)}", from=2-2, to=2-4]
+    \end{tikzcd}\]
+    其中根据 $f$ 和 $g$ 为同伦等价可知横向箭头均为同构, 视同构为弱等价, 则根据 6 选 2 性质可知所有态射均为弱等价, 即 $\pi_n(f)$ 为同构, 即 $f$ 为弱等价.
+\end{proof}
+\begin{remark}
+    上述命题反过来却是不对的, 比如说考虑平面 $\R^2$, 对于每个 $n \in \Z_{\geq 1}$, 考虑以下线段
+    \begin{itemize}
+        \item $A_n$, 从 $(-1,0)$ 到 $(0,1/n)$ 的线段.
+        \item $B_n$, 从 $(0,-1/n)$ 到 $(1,0)$ 的线段.
+        \item $C$, 从 $(-1,0)$ 到 $(1,0)$ 的线段.
+    \end{itemize}
+    取 $\R^2$ 的子空间
+    \[
+    Z = \left(\bigcup_{n \in \Z_{\geq 1]}} A_n\right)\cup C \cup \left(\bigcup_{n\in \Z_{\geq 1}}B_n\right)
+    \]
+    选定基点为原点.则常值映射 $k \colon Z \to \{p\}$ 为弱同伦等价且不为同伦等价, 具体证明见\cite[Appendix A.8, Example 3]{fritsch1990cellular}.\\
+    但是, 在特殊情况下, 其逆是否是正确的? 并且这些特殊情况又和一般情况有什么关联呢? \\
+    这将在我们随后介绍的拓扑空间范畴的 Quillen 模型结构中得到解决.
+\end{remark}
+
+\subsection{Serre 纤维化}
+\begin{definition}
+    记
+    \[
+    J_{\cate{Top}} \coloneqq \left\{\mathbb{D}^n \xrightarrow{(\identity_{\mathbb{D}^n},\delta_0)} \mathbb{D}^n \times I\right\}\subset \Mor(\cate{Top})
+    \]
+    为由拓扑空间中 $n$-圆盘到其标准柱对象的嵌入.
+\end{definition}
+\begin{lemma}
+    前文定义的映射 $\mathbb{D}^n \hookrightarrow \mathbb{D}^n \times I$ 为有限相对胞腔复形.
+\end{lemma}
+\begin{proof}
+    存在同胚
+    \[\begin{tikzcd}
+	{\mathbb{D}^n} & {\mathbb{D}^n} \\
+	{\mathbb{D}^n\times I} & {\mathbb{D}^{n+1}}
+	\arrow[equal,from=1-1, to=1-2]
+	\arrow["{(\identity_{\mathbb{D}^n},\delta_0)}"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["\simeq"{marking, allow upside down}, draw=none, from=2-1, to=2-2]
+    \end{tikzcd}\]
+    使得右侧的态射为
+\end{proof}
+\section{同伦纤维列}
+\section{单纯同伦一瞥}
+\subsection{同伦假设}
+\subsection{构造的简单推广}
+\section{稳定同伦一瞥}
+\subsection{纬悬-环路伴随}
+\subsection{拓扑谱与稳定同伦}

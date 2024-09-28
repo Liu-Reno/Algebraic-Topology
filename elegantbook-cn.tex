@@ -1,0 +1,49 @@
+\documentclass[lang=cn,10pt,onecol]{elegantbook}
+\usepackage{mycommand}
+% 载入quiver
+\usepackage{quiver}
+% Main codes
+% ----------
+
+\usetikzlibrary{shapes.symbols}	% 稍后定义 hint 环境所需
+
+% 定义在 draftmark=true 模式下显示版本信息的指令
+\usepackage[iso, english]{isodate}  % 使 \today 印出 yyyy-mm-dd
+\usepackage{mathtools}
+
+\title{代数拓扑}
+
+
+\institute{呆驼调料包, 群号:679212917}
+\date{Oct 1, 2024}
+\version{4.3}
+\bioinfo{自定义}{信息}
+
+\extrainfo{使用 Elengantbook 模板}
+
+\setcounter{tocdepth}{3}
+
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+\addbibresource{引用.bib}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+\include{main/序章}
+\include{main/刘欧1}
+\include{main/yuuko8}
+\include{main/刘欧余纤维化}
+\printbibliography[heading=bibintoc]
+\end{document}
