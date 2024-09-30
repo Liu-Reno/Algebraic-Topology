@@ -1,4 +1,4 @@
-\chapter{抽象同伦论}
+\chapter{抽象同伦论}\label{抽象同伦论}
 \begin{introduction}
     \item 本节的核心内容为使用模型范畴的语言来处理拓扑空间, 并重写代数拓扑中的若干经典结论.
     \item 最后, 我们将给出纬悬-环路伴随, 由此一窥稳定同伦结构.
@@ -898,4 +898,106 @@ Pierre Gabriel 以及 Michel Zisman 在\cite[1.1]{Gabriel-Zisman67}给出局部�
 \subsection{构造的简单推广}
 \section{稳定同伦一瞥}\label{稳定同伦一瞥}
 \subsection{纬悬-环路伴随}
-\subsection{拓扑谱与稳定同伦}
+\subsection{上同调理论与 Brown 可表定理}
+\begin{remark}
+    本节为题外话, 乖宝宝不要看. $[X,Y]_* = \Hom_{h\cate{An}_*}(X,Y)$
+\end{remark}
+令 $\cate{An}$ 为空间(Kan 复形)构成的 $\infty$-范畴\footnote{或称生象范畴, 但是由于我们考虑带点空间, 因此使用空间一词.}, 则
+\begin{definition}
+    二元组 $(E^*,\partial)$ 被称为是上同调理论, 指
+    \[
+    E^* \colon h\cate{An}_* \to \cate{grAb}
+    \]
+    为从带点空间范畴的同伦范畴到分次 Abel 群范畴的函子, 且
+    \[
+    \partial \colon E^* \simeq E^{*+1}\circ \Sigma
+    \]
+    为自然同构, 满足以下条件
+    \begin{enumerate}
+        \item 对于每族带点空间 $\{X_{\alpha}\}_{\alpha \in A}$ 自然映射
+        \[
+        E^*(\coprod_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}E^*(X_{\alpha})
+        \]
+        为同构. 特别地 $E^*(*) \simeq 0$.
+        \item 对于余纤维列
+        \[
+        X' \to X \to X''
+        \]
+        有正合列
+        \[
+        E^*(X'') \to E^*(X) \to E^*(X').
+        \]
+    \end{enumerate}
+\end{definition}
+\begin{example}
+    对于带点空间 $X$, 其约化上同调 $\tilde{H}^*(X)$ 为上同调理论.
+\end{example}
+此时, 我们有如下的表示定理
+\begin{theorem}[Brown 可表定理]\label{定理-Brown 可表}
+    令 $h\cate{An}_*^{\geq 0}$ 为连通带点空间范畴的同伦范畴. 则函子 $F \colon (h\cate{An}_*^{\geq 0})^{\opposite}\to \cate{Set}$ 可表当且仅当其具有以下两个性质:
+    \begin{enumerate}
+        \item 对于每族连通带点空间 $\{X_{\alpha}\}_{\alpha \in A}$, 有双射
+        \[
+        F(\bigvee_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}F(X_{\alpha})
+        \]
+        \item 对于每个 $\cate{An}_*^{\geq 0}$ 中的推出图表
+        \[\begin{tikzcd}
+	X & Y \\
+	{X'} & {Y'}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        有满射
+        \[
+        F(Y') \to F(X') \dtimes{F(X)} F(Y)
+        \]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    (待补).
+\end{proof}
+\begin{corollary}
+    令 $E \colon h\cate{An}_* \to \cate{grAb}$ 为上同调理论. 则存在唯一的一族带点空间 $E_n \in \cate{An}_*$ 以及同伦等价
+    \[
+    \delta_n \colon E_n \xrightarrow{\Omega}E_{n+1}
+    \]
+    使得有自然同构
+    \[
+    \varphi_n \colon E^n(X) \simeq [X,E_n]_*
+    \]
+    且 $\partial \colon E^n(X) \simeq E^{n+1}(\Sigma X)$ 由下式给出
+    \[
+    E^n(X) \simeq [X,E_n]_* \simeq [X,\Omega E_{n+1}]_* \simeq [\Sigma X, E_{n+1}]_* \simeq E^{n+1}(\Sigma X).
+    \]
+\end{corollary}
+\begin{proof}
+    同上.
+\end{proof}
+这告诉我们可以定义出以下一列空间
+\begin{definition}[拓扑谱]
+    \textbf{拓扑谱} $E = (\{E_n\}_{n\in \Z}, \delta_n)$ 由以下信息构成:
+    \begin{itemize}
+        \item 一列带点空间 $X_0,X_1, \cdots$
+        \item 对任何 $n \geq 0$, 有带点映射 $\sigma_n \colon \Sigma X_n \to X_{n+1}$.
+    \end{itemize}
+    称 $X$ 为 \textbf{$\Omega$-谱}, 若:
+    \begin{itemize}
+        \item 对任何 $n \geq 0$ 有 $\sigma_n$ 诱导的 $X_n \to \Omega X_{n+1}$ 为弱同伦等价.
+    \end{itemize}
+    准确来说, 可以定义 $\Omega$-谱的 $\infty$-范畴为
+    \[
+    \cate{Sp} \simeq \prolim \left(\cate{An}_* \xleftarrow{\Omega} \cate{An}_* \xleftarrow{\Omega}\cate{An}_* \xleftarrow{\Omega} \cdots\right)
+    \]
+\end{definition}
+对于经典的上同调理论 $\tilde{H}^*(-,M)$ 使用定理~\ref{定理-Brown 可表}可以给出谱 $HM$, 称为 \textbf{Eilenberg-Maclane 谱}, 此时
+\[
+\pi_n(HM_m) = [S^n , HM_m]_* = \tilde{H}^n(S^n,M) = \left\{
+\begin{array}{cc}
+     M,& n=m \\
+     0,& \text{其它} 
+\end{array}\right.
+\]
+因此此时 $HM_m$ 实际为 Eilberg-Maclane 空间 $K(M,n)$.\\
+若 $E = (\{E_n\}_{n\in \Z}, \partial)$ 为 $\Omega$-谱, 记

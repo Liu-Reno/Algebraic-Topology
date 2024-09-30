@@ -175,8 +175,8 @@
     群就是只有一个对象, 且态射为群元素的群胚, 将群 $G$ 视为群胚的过程叫做群的胚化, 记为 $\underline{G}$.
 \end{example}
 事实上, 群胚是一个 (1,0)-范畴\footnote{所谓(m,n)-范畴是指 $k>n$ 的态射皆可逆的 $m$-范畴}, 并且是集合的推广. 如果只考虑 1-范畴, 则可以将群胚视为群的推广.\\
-事实上, 群胚是更贴合于拓扑空间结构的 1-范畴, 正如 $\infty$-群胚(或者说 Kan 复形)是贴合于拓扑空间结构的单纯集一般, 我们可以很自然地从拓扑空间中取出群胚(当然,只是从同伦的角度来看, 这是从拓扑空间造出 1-范畴的典范手段), 称为基本群胚.
-\begin{example}
+事实上, 群胚是更贴合于拓扑空间结构的 1-范畴, 我们可以很自然地从拓扑空间中取出群胚(当然,只是从同伦的角度来看, 这是从拓扑空间造出 1-范畴的典范手段), 称为基本群胚.
+\begin{example}\label{基本群胚}
     对于拓扑空间 $E$ ,其\textbf{基本群胚} $\Pi_{1}(E)$ 定义为如下范畴:
     \begin{itemize}
         \item $\Obj(\Pi_1(E)) = E$.
@@ -228,7 +228,7 @@
     \end{itemize}
 \end{definition}
 而后我们给出一些例子以资体会
-\begin{example}
+\begin{example}\label{例:函子}
     \begin{enumerate}
     \item 每个范畴 $\cal{C}$ 都有到自身的恒等函子, 记为 $\identity_{\cal{C}}$.
     \item 前文所提到的子范畴 $\cal{C}'$ 到原范畴 $\cal{C}$ 的含入可以构成函子, 称其为包含函子, 记作 $\iota : \cal{C}' \hookrightarrow \cal{C}$.
@@ -260,7 +260,7 @@
     \item 从拓扑空间到其基本群胚给出函子 $\Pi:\cate{Top} \to \cate{Groupoid}$, 群的胚化给出函子 $\underline{(-)}: \cate{Grp} \to \cate{Groupoid}$.
     \end{enumerate}
 \end{example}
-由于函子作用于两个层面, 并且回忆到我们先前所提到过的范畴论的哲学原理, 我们可以给出函子作为映射的部分性质, 由于范畴论以同构代替严格等式, 因此在对象上我们不苛求严格相等, 而在态射上, 我们以 $\Hom$-集为主体进行考虑,自然需要考虑单满性.
+由于函子作用于两个层面, 并且回忆到我们先前所提到过的范畴论的哲学原理, 我们可以给出函子作为映射的部分性质, 由于范畴论以同构代替严格等式, 因此在对象上我们不苛求严格相等, 而在态射上, 集合的同构就只有双射, 因此我们分为单满性进行考虑.
 \begin{definition}
     对于函子 $F: \cal{C} \to \cal{C}'$,
     \begin{enumerate}
@@ -934,6 +934,15 @@
             $f$ 满 $\Leftrightarrow$ $\Image(f) \rightiso Y$ 且 $f$ 单 $\Leftrightarrow$ $X\rightiso \Coim(f)$
         \end{center}
         但是 $\Coim(f)$ 不一定同构于 $\Image(f)$, 因此即单又满的态射不一定是同构. 当 $\Coim(f) \rightiso \Image(f)$ 时, 我们称 $f$ 为\textbf{严格}态射.
+        \item 商结构 $U/V$ 可以视为推出
+        \[\begin{tikzcd}
+	U & V \\
+	0 & {U/V}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
     \end{enumerate}
 \end{example}
 注意到, 在一般的范畴 $\cal{C}$ 中, 函子 $\alpha$ 的极限或余极限不总是存在, 我们比较喜欢在对于任意小范畴 $I$, (余)极限总是存在的范畴上工作, 这种性质我们称为完备性(当然, 你完全可以类比为我们在完备的度量空间中工作, 这是没有任何问题的.)
@@ -1169,7 +1178,7 @@
 \]
 以及对偶版本. 
 我们有以下重要引理
-\begin{theorem}[Yoneda]
+\begin{theorem}[Yoneda 引理]
     对于 $S \in \Obj(\mathcal{C})$ 以及 $A \in \Obj(\mathcal{C}^{\land})$ 映射
     \begin{align*}
         \Hom_{\mathcal{C}^{\wedge}}(h_{\mathcal{C}}(S),A) &\to A(S)\\
@@ -1251,112 +1260,563 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
     \].
     在\cite{aguilar2002algebraic}中, 就使用上述定义直接定义出上同调.
 \end{example}
-\subsubsection{题外话:上同调理论与 Brown 可表定理}
-\begin{remark}
-    本节为题外话, 乖宝宝不要看. $[X,Y]_* = \Hom_{h\cate{An}_*}(X,Y)$
-\end{remark}
-令 $\cate{An}$ 为空间(Kan 复形)构成的 $\infty$-范畴\footnote{或称生象范畴, 但是由于我们考虑带点空间, 因此使用空间一词.}, 则
-\begin{definition}
-    二元组 $(E^*,\partial)$ 被称为是上同调理论, 指
+
+\subsubsection{题外话 :层, 预层的前推拉回}
+层是一种可以粘接的预层(当然, 这依赖于拓扑), 或者说是满足``局部决定整体'' 性质的预层, 本小节考虑拓扑空间上的预层 $\cal{F}$.\\
+对于拓扑空间 $E$ 的开集 $U$, 取其任意一族开覆盖 $\{U_i\}_{i\in I}$, 所谓``粘接''首先就是说 $\mathcal{F}(U)$ 的信息完全可以由 $\{\mathcal{F}(U_i)\}_{i\in I}$ 所确定, 更准确来说, 对于 $i,j \in I$, 考虑限制态射 $\mathcal{F}(U_i) \to \mathcal{F}(U_i\cap U_j)$ 以及 $\mathcal{F}(U_j) \to \mathcal{F}(U_i\cap U_j)$, 它们相等的信息给出了粘接的条件, 或者说我们可以把这部分粘接起来, 这样我们得到的结果是在 $\mathcal{F}(U_i) \times \mathcal{F}(U_j)$ 中使得它们限制在 $\mathcal{F}(U_i \cap U_j)$ 上相同的部分. 现在我们考虑整个开覆盖以及限制态射
+\[\begin{tikzcd}
+	{\prod_{i\in I}\mathcal{F}(U_i)} & {\prod_{i,j\in I}\mathcal{F}(U_i \cap U_j)}
+	\arrow[shift left, from=1-1, to=1-2]
+	\arrow[shift right, from=1-1, to=1-2]
+\end{tikzcd}\]
+它们中相等的部分进行粘接, 得到的结果就是等子. 而我们考虑任意的开覆盖, 就可以将所有的东西粘接出来, 并且因此 $\mathcal{F}(U)$ 应当被定义为等子图表
+\[\begin{tikzcd}
+	{\mathcal{F}(U)} & {\prod_{i\in I}\mathcal{F}(U_i)} & {\prod_{i,j\in I}\mathcal{F}(U_i \cap U_j)}
+	\arrow[from=1-1, to=1-2]
+	\arrow[shift left, from=1-2, to=1-3]
+	\arrow[shift right, from=1-2, to=1-3]
+\end{tikzcd}\]
+由此总结出层的定义
+\begin{definition}[$\mathcal{D}$-值层]\label{定义:拓扑空间上的层公理}
+    设$X$为拓扑空间, $\mathcal{D}$为范畴,设$\mathcal{F}\in \presheaves(\open(X),\mathcal{D})$.满足以下条件的预层$\mathcal{F}$被称为是一个层:对任意开集$U\subset X$以及$U$的任意开覆盖$(U_i\hookrightarrow U)_{i\in I}$图表
     \[
-    E^* \colon h\cate{An}_* \to \cate{grAb}
+        \mathcal{F} (U)
+        \to \prod_{i \in I} \mathcal{F} (U_i)
+        \rightrightarrows \prod_{j,k \in I} \mathcal{F} (U_j \cap U_k)
     \]
-    为从带点空间范畴的同伦范畴到分次 Abel 群范畴的函子, 且
-    \[
-    \partial \colon E^* \simeq E^{*+1}\circ \Sigma
-    \]
-    为自然同构, 满足以下条件
+    都是等子图表, 其中
+    \begin{itemize}
+        \item
+            左边的箭头将 $\mathcal{F} (U)$ 限制到每个 $\mathcal{F} (U_i)$.
+        \item
+            右边上方的箭头将每个 $\mathcal{F} (U_i)$ 限制到每个 $\mathcal{F} (U_i \cap U_k)$.
+        \item
+            右边下方的箭头将每个 $\mathcal{F} (U_i)$ 限制到每个 $\mathcal{F} (U_j \cap U_i)$.
+    \end{itemize}
+    此图表称为\textbf{层公理}.
+\end{definition}
+接下来举几个层与预层并非层的例子.
+\begin{example}
     \begin{enumerate}
-        \item 对于每族带点空间 $\{X_{\alpha}\}_{\alpha \in A}$ 自然映射
+        \item 设$X$为拓扑空间,定义其上的连续函数层$\mathcal{F}$为
         \[
-        E^*(\coprod_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}E^*(X_{\alpha})
+            \mathcal{F}(U) := \left\{\text{连续函数} U \to \R \right\}
         \]
-        为同构. 特别地 $E^*(*) \simeq 0$.
-        \item 对于余纤维列
+        \item 取$X = \R^n$或微分流形时,定义其上的光滑函数层$\mathcal{F}$为
         \[
-        X' \to X \to X''
+            \mathcal{F}(U) := \left\{ C^{\infty} \text{函数} U \to \R\right\}
         \]
-        有正合列
+        \item 取$X$为拓扑空间, $A\in \operatorname{Ab}$为Abel群,定义$X$上取值于$A$的局部常值层$\underline{A}_X$为
         \[
-        E^*(X'') \to E^*(X) \to E^*(X').
+            \underline{A}_X := \left\{ \text{局部常值函数} U \to A \right\}
+        \]
+        此处$A$予以离散拓扑.
+    \end{enumerate}
+\end{example}
+关于层的进一步操作与代数拓扑的主题无关, 可阅读任何一本现代代数几何学教材.\\
+
+接下来说明两个关于预层的操作,分别称为前推预层和拉回预层,它可以帮助我们去变换不同的拓扑空间.\\
+现在考虑$f : X \to Y$为拓扑空间之间的连续映射,我们想定义出两种操作,一种是把$X$上的层推到$Y$上,而另一种是把$Y$上的层拉回到$X$上,这样才方便我们比较不同拓扑空间上的层.
+\begin{definition}[前推预层]
+    设$X,Y$为拓扑空间,$\mathcal{D}$为完备且余完备的范畴, $\mathcal{F}\in \presheaves(\open(X),\mathcal{D})$为$\mathcal{D}$-值预层, $f:X \to Y$为连续映射,可以得到其对应的连续函子$\open(Y) \to \open(X)$,它把$U\in \open(Y)$映为$f^{-1}(U)\in \open(X)$,此处将连续函子视同函子$K:\open(Y)^{\opposite}\to \open(X)^{\opposite}$.称$K^* : \presheaves(\open(X),\mathcal{D})\to \presheaves(\open(Y),\mathcal{D})$为$\mathcal{D}$-值预层范畴的前推函子它将预层$\mathcal{F}\in \presheaves(\open(X),\mathcal{D})$映为$Y$上的预层
+    \[
+        K^*\mathcal{F}: V\mapsto \mathcal{F}(f^{-1}V)
+    \]
+    此时$K^*\mathcal{F}$一般记为$f_*\mathcal{F}$称为$\mathcal{F}$关于$f$的前推预层.
+\end{definition}
+不难发现前推预层的定义可以毫无困难地延拓到层的情况上,此时称为前推层.既然有前推,我们还希望定义一个拉回的操作, 这时, 我们就可以应用我们先前学习的 Kan 延拓.
+\begin{definition}[拉回预层]
+    设$X,Y$为拓扑空间,$\mathcal{D}$为完备且余完备的范畴, $f:X \to Y$为连续映射,可以得到函子$K:\open(Y)^{\opposite}\to \open(X)^{\opposite}$.设$\mathcal{G}\in \presheaves(\open(Y),\mathcal{D})$为$Y$上的$\mathcal{D}$-值预层,而后考虑$\mathcal{G}$沿$K$的左Kan 延拓,以2-胞腔图解为
+    \[\begin{tikzcd}
+	{\open(Y)^{\opposite}} \\
+	{\open(X)^{\opposite}} & {\mathcal{D}}
+	\arrow["K", from=1-1, to=2-1]
+	\arrow["{\mathcal{G}}", bend left=40, from=1-1, to=2-2]
+	\arrow["{\operatorname{Lan}_K\mathcal{G}}"', from=2-1, to=2-2]
+   \end{tikzcd}\]
+   称$\operatorname{Lan}_K\mathcal{G}$为$\mathcal{G}$沿$f$的拉回预层,在代数几何语境下称为逆像,简记为$f^{-1}\mathcal{G}$\footnote{在模层情况下拉回为$f^*\mathcal{G}$,为避免冲突使用$f^{-1}\mathcal{G}$},在非代数几何的语境下记为$f^*\mathcal{G}$.具体写出即为
+   \[
+    f^{-1}\mathcal{G} : U \mapsto \underset{\substack{V\in \open(Y) \\ U\hookrightarrow f^{-1}V}}{\indlim}\mathcal{G}(V)
+   \]
+   这是因为
+   \[
+    U\hookrightarrow f^{-1}V \xleftrightarrow{\text{对应}} \open(X)^{\opposite}\text{的态射}K(V) \to U.
+   \]
+\end{definition}
+
+\subsection{伴随函子}
+在线性代数中, 我们曾对于非退化的双线性形式定义过伴随\cite[$\S 8.2$]{李文威线代}, 现在我们简要回顾它的概念:
+对于有限维 $\Bbbk$-向量空间 $V$ 和 $W$,
+\begin{center}
+    指定非退化双线性形式 $V \times W \xrightarrow{B}\Bbbk$ $\xLeftrightarrow{\qquad}$ 指定同构 $\varphi \colon W \rightiso V^{\vee}$ $\xLeftrightarrow{\qquad}$ 指定同构 $\psi \colon V \rightiso W^{\vee}$.
+\end{center}
+而 $B$ 在这些同构之下对应到 $V$ 或 $W$ 上的典范配对. 事实上, 双线性形式 $B$ 可以用来表示对偶空间的所有元素, 更精确地说:
+\begin{itemize}
+    \item 对于 $\lambda \in V^{\vee}$, 存在唯一的 $w \in W$ 使得 $\lambda = \varphi(w) \coloneqq B(-,w)$;
+    \item 对于 $\eta \in W^{\vee}$, 存在唯一的 $v \in V$ 使得 $\eta = \psi(v) \coloneqq B(v,-)$.
+\end{itemize}
+现在, 给定两个双线性形式 $B_1$ 和 $B_2$, 设 $B_1$ 非退化. 考虑以下两种情况
+\[\begin{tikzcd}
+	{V_1} & {V_1'} \\
+	&& F \\
+	{V_2} & {V_2'}
+	\arrow["\times"{marking, allow upside down}, draw=none, from=1-1, to=1-2]
+	\arrow["T"', from=1-1, to=3-1]
+	\arrow["{B_1}", from=1-2, to=2-3]
+	\arrow["\times"{marking, allow upside down}, draw=none, from=3-1, to=3-2]
+	\arrow[dashed, from=3-2, to=1-2]
+	\arrow["{B_2}"', from=3-2, to=2-3]
+\end{tikzcd} \quad 
+\begin{tikzcd}
+	{V_1} & {V_1'} \\
+	&& F \\
+	{V_2} & {V_2'}
+	\arrow["\times"{marking, allow upside down}, draw=none, from=1-1, to=1-2]
+	\arrow["{B_1}", from=1-2, to=2-3]
+	\arrow["T", from=1-2, to=3-2]
+	\arrow[dashed, from=3-1, to=1-1]
+	\arrow["\times"{marking, allow upside down}, draw=none, from=3-1, to=3-2]
+	\arrow["{B_2}"', from=3-2, to=2-3]
+\end{tikzcd}\]
+其中 $T$ 是给定的线性映射, 我们寻求虚线所示的线性映射, 它和 $T$ 之间须具备某种翘班似的``伴随关系''.
+\begin{definition}[线性映射的伴随映射]
+    考虑双线性形式 $B_i \in \op{Bil}(V_i,V_i';F)$, 其中 $i = 1,2$, 其中所有向量空间均有限维, 并假设 $B_1$ 非退化.
+    \begin{enumerate}
+        \item 存在唯一的线性映射
+        \begin{align*}
+            \Hom(V_1,v_2) &\to \Hom(V_2',V_1')\\
+            T &\mapsto T^*,
+        \end{align*}
+        其中 $T^*$ 称为 $T$ 相对于 $B_1$ 和 $B_2$ 的\textbf{右伴随}, 由下式刻画:
+        \[
+        B_2(Tv_1,v_2') = B_1(v_1,T^* v_2'), v_1 \in V_1, v_2' \in V_2'
+        \]
+        \item 存在唯一的线性映射
+        \begin{align*}
+            \Hom(V_1',v_2') &\to \Hom(V_2,V_1)\\
+            T &\mapsto ^*T,
+        \end{align*}
+        其中 $^* T$ 称为 $T$ 相对于 $B_1$ 和 $B_2$ 的\textbf{左伴随}, 由下式刻画:
+        \[
+        B_2(v_2,Tv_1') = B_1(^*Tv_2,v_1'), v_1'\in V_1', v_2 \in V_2.
         \]
     \end{enumerate}
 \end{definition}
-\begin{example}
-    对于带点空间 $X$, 其约化上同调 $\tilde{H}^*(X)$ 为上同调理论.
+现在, 我们 $B_1$ 视为 $\Hom_{\cal{C}}$ 而 $B_2$ 视为 $\Hom_{\cal{D}}$, 且 $T$ 变为函子, 则我们可以给出伴随在范畴上的推广\footnote{当然, 这只是一种形式上的推广.}.
+\begin{definition}[伴随函子]
+    设 $\mathcal{C},\mathcal{D}$ 为范畴, 设有函子 $F \colon \mathcal{C} \to \mathcal{D}$ 与 $G \colon \mathcal{D} \to \mathcal{C}$. 称 $F$ 和 $G$ 构成一对\textbf{伴随函子}, 如果对 $x\in \mathcal{C}$ 和 $y \in \mathcal{D}$, 有自然同构
+    \[
+    \varphi \colon \Hom_{\mathcal{D}}(Fx,y) \simeq \Hom_{\mathcal{C}}(x,Gy),
+    \]
+    此时, 将两边视为 $\mathcal{C}^{\opposite} \times \mathcal{D} \to \cate{Set}$ 的函子.\\
+    此时, 称 $F$ 是 $G$ 的\textbf{左伴随}, $G$ 是 $F$ 的\textbf{右伴随}, 并记 $F\dashv G$, 称 $(F,G,\varphi)$ 为伴随对.
+\end{definition}
+对于两个态射 $f \colon Fx \to y$ 以及 $g \colon x \to Gy$, 称它们是\textbf{相伴的}, 指在伴随函子的角度下它们互相对应, 此时称 $g$ 为 $f$ 的\textbf{右伴}而 $f$ 为 $g$ 的\textbf{左伴}. 有时也记 $g = f^{\sharp}$ 以及 $f = g^{\flat}$.\\
+现在我们来介绍常见的诸多伴随
+\begin{example}[自由-遗忘伴随]
+    自由-遗忘伴随是伴随函子的一类经典例子, 比方 $F \colon \cate{Set} \to \cate{Vect}(\Bbbk)$ 将集合 $X$ 映为其生成的自由模 $\bigoplus_{x\in X}\Bbbk$, 而遗忘函子 $G \colon \cate{vect}(\Bbbk) \to \cate{Set}$ 又将其遗忘为集合(即将向量空间视为集合). 则等式
+    \[
+    \Hom_{\cate{Vect}(\Bbbk)}(FX,V) \simeq \Hom_{\cate{Set}}(X,GV).
+    \]
+    这说明集合 $X$ 到向量空间 $V$ 的映射等价于 $X$ 所生成的向量空间到 $V$ 的线性映射.
 \end{example}
-此时, 我们有如下的表示定理
-\begin{theorem}[Brown 可表定理]\label{定理-Brown 可表}
-    令 $h\cate{An}_*^{\geq 0}$ 为连通带点空间范畴的同伦范畴. 则函子 $F \colon (h\cate{An}_*^{\geq 0})^{\opposite}\to \cate{Set}$ 可表当且仅当其具有以下两个性质:
+\begin{example}[对偶-反对偶伴随]
+    回忆到在例~\ref{例:函子}中定义的对偶函子和反对偶函子, 记 $DV = V^{\vee}$, 我们有自然的同构\cite[命题 8.1.5]{李文威线代}
+    \[\begin{tikzcd}
+	{\Hom(W,V^{\vee})} & {\op{Bil}(V,W;F)} & {\Hom(V,W^{\vee})} \\
+	{\left(w \mapsto B(-,w)\right)} & B & {\left(v \mapsto B(v,-)\right)} \\
+	\varphi & {[B(v,w) \coloneqq \left<\varphi(w),v\right>]} \\
+	& {[B(v,w) \coloneqq \left<\psi(v),w\right>]} & \psi
+	\arrow["\sim", from=1-1, to=1-2]
+	\arrow["\sim"', from=1-3, to=1-2]
+	\arrow[maps to, from=2-2, to=2-1]
+	\arrow[maps to, from=2-2, to=2-3]
+	\arrow[maps to, from=3-1, to=3-2]
+	\arrow[maps to, from=4-3, to=4-2]
+    \end{tikzcd}\]
+    其中 $\left<-,-\right>\colon V^{\vee} \times v\to F,(\lambda, v) \mapsto \lambda(v)$ 为典范配对.\\
+    给出伴随 $D^{\opposite} \dashv D$.
+\end{example}
+\begin{definition}[单位和余单位]
+    设 $(F,G,\varphi)$ 为伴随对, 定义态射
+    \[
+    \eta = (\eta_x)_{x\in \Obj(\cal{C})} \colon \identity_{\cal{C}} \Rightarrow GF
+    \]
+    为
+    \begin{align*}
+        \Hom_{\cal{D}}(Fx,Fx) &\xrightarrow{\varphi}\Hom_{\cal{C}}(x,GFx),\\
+        \identity_{Fx} &\mapsto \eta_x
+    \end{align*}
+    翻转箭头可定义 $\varepsilon = (\varepsilon_x)_{x} \colon FG \to \identity_{\cal{D}}$. 称 $\eta$ 为 $(F,G,\varphi)$ 的\textbf{单位}, 而 $\varepsilon$ 为 $(F,G,\varphi)$ 的\textbf{余单位}.
+\end{definition}
+至于验证 $\eta$ 和 $\varepsilon$ 为自然变换留给读者作为习题.
+\begin{lemma}[三角等式]
+    对于伴随对 $(F,G,\varphi)$, 我们有自然变换之间的等式, 为方便起见, 将其写为以下 2-胞腔的形式
+    \[\begin{tikzcd}
+	C && C \\
+	& D && D
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\identity_{C}}", from=1-1, to=1-3]
+	\arrow["F"', from=1-1, to=2-2]
+	\arrow["F", from=1-3, to=2-4]
+	\arrow["G"{description}, from=2-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\identity_D}"', from=2-2, to=2-4]
+	\arrow["\eta"', shorten <=3pt, Rightarrow, from=0, to=2-2]
+	\arrow["\varepsilon", shorten >=3pt, Rightarrow, from=1-3, to=1]
+\end{tikzcd}= \identity_F,\begin{tikzcd}
+	& C && C \\
+	D && D
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\identity_C}", from=1-2, to=1-4]
+	\arrow["F"{description}, from=1-2, to=2-3]
+	\arrow["G", from=2-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\identity_D}"', from=2-1, to=2-3]
+	\arrow["G"', from=2-3, to=1-4]
+	\arrow["\varepsilon"', shorten >=3pt, Rightarrow, from=1-2, to=1]
+	\arrow["\eta", shorten <=3pt, Rightarrow, from=0, to=2-3]
+\end{tikzcd}=\identity_G\]
+\end{lemma}
+\begin{proof}
+    留作习题.
+\end{proof}
+\begin{proposition}
+    给定函子
+    \begin{tikzcd}
+	{\mathcal{C}} & {\mathcal{D}}
+	\arrow["F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["G", curve={height=-12pt}, from=1-2, to=1-1]
+    \end{tikzcd},
+    以下的映射互为逆
+    \[\begin{tikzcd}
+	{\left\{\varphi \colon (F,G,\varphi) \text{为伴随对}\right\}} & {\{(\eta,\varepsilon)\text{满足三角等式}\}} \\
+	\varphi & {(\eta_X \coloneqq \varphi(\identity_{FX}), \varepsilon_Y \coloneqq \varphi^{-1}(\identity_{GY}))} \\
+	{\varphi(f) \coloneqq Gf \circ \eta_X} & {(\eta,\varepsilon)}
+	\arrow[shift left, from=1-1, to=1-2]
+	\arrow[shift left, from=1-2, to=1-1]
+	\arrow[maps to, from=2-1, to=2-2]
+	\arrow[maps to, from=3-2, to=3-1]
+    \end{tikzcd}\]
+\end{proposition}
+\begin{exercise}
+    请读者验证, 伴随函子的复合也是伴随函子, 即若 
+    \begin{tikzcd}
+	{\mathcal{C}_1} & {\mathcal{C}_2} & {\mathcal{C}_3}
+	\arrow["F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["G", curve={height=-12pt}, from=1-2, to=1-1]
+	\arrow["{F'}", curve={height=-12pt}, from=1-2, to=1-3]
+	\arrow["{G'}", curve={height=-12pt}, from=1-3, to=1-2]
+    \end{tikzcd}
+    中 $F\dashv G$, $F'\dashv G'$ 则 $F'F \dashv G'G$.
+\end{exercise}
+\begin{theorem}[伴随等价]
+    考虑互逆的函子 
+    \begin{tikzcd}
+	{\mathcal{C}} & {\mathcal{D}}
+	\arrow["F", curve={height=-12pt}, from=1-1, to=1-2]
+	\arrow["G", curve={height=-12pt}, from=1-2, to=1-1]
+    \end{tikzcd}
+    , 并给定同构 $\eta \colon \identity_{\cal{D}} \xRightarrow{\sim} GF$ 以及 $\varepsilon \colon FG \xRightarrow{\sim}\identity_{\cal{C}}$, 则存在唯一的 $\varepsilon' \colon FG \xRightarrow{\sim}\identity_{\cal{C}}$ 使得 $(F,G,\eta, \varepsilon')$ 以及 $(G,F,(\varepsilon')^{-1},\eta^{-1})$ 皆为伴随对.
+\end{theorem}
+\begin{proof}
+    \cite[定理 2.6.12]{李文威卷一}
+\end{proof}
+\begin{example}[代数-几何对偶]
+    回忆例~\ref{例:范畴等价} 中, 我们曾提过范畴等价 $(\cate{AffSch})^{\opposite}\simeq \cate{CRing}$, 根据前文可知这自然诱导出伴随 $\Spec \dashv \OO_X$ 以及 $\OO_X \dashv \Spec$, 这一对偶事实上可以推广到更一般的情况.
+\end{example}
+\begin{example}
+    根据我们推导极限的过程可以知道, 余极限是常值函子的左伴随而极限是常值函子的右伴随
+    \[\begin{tikzcd}
+	{\mathcal{C}^I} && {\mathcal{C}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "\indlim", shift left=4, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "\prolim"', shift right=4, from=1-1, to=1-3]
+	\arrow[""{name=2, anchor=center, inner sep=0}, "{\op{const}}"{description}, from=1-3, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=2]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=2, to=1]
+    \end{tikzcd}\]
+\end{example}
+\subsubsection{Kan 延拓的进一步讨论}
+\begin{proposition}\label{Pro:Kan延拓定义}
+    给定范畴$\mathcal{C},\mathcal{D},\mathcal{E}$和函子$K \colon \mathcal{C} \to \mathcal{D}$, $F \colon\mathcal{C} \to \mathcal{E}$.考虑拉回函子$K^* \mathcal{E}^{\mathcal{D}} \to \mathcal{E}^{\mathcal{C}}$.
     \begin{enumerate}
-        \item 对于每族连通带点空间 $\{X_{\alpha}\}_{\alpha \in A}$, 有双射
-        \[
-        F(\bigvee_{\alpha \in A}X_{\alpha}) \to \prod_{\alpha \in A}F(X_{\alpha})
-        \]
-        \item 对于每个 $\cate{An}_*^{\geq 0}$ 中的推出图表
-        \[\begin{tikzcd}
-	X & Y \\
-	{X'} & {Y'}
+        \item 精确到$\mathcal{E}^{\mathcal{D}}$中唯一的同构,左Kan延拓$(\Lan_KF,\eta)$若存在则唯一;右Kan延拓亦是如此.
+        \item 若沿$K$的左Kan延拓(或右Kan延拓)对所有$F$皆存在,则得到$K^*$的左伴随函子$\Lan_K \colon \mathcal{E}^{\mathcal{D}}\to \mathcal{E} \to \mathcal{C}$(或右伴随函子$\Ran_K \colon \mathcal{E}^{\mathcal{D}}\to \mathcal{E} \to \mathcal{C}$),定义\ref{Def:Kan延拓}中$\eta$(或$\varepsilon$)所构成的态射族正是伴随对中单位(余单位)态射.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    显然.
+\end{proof}
+\begin{remark}
+    有些教材直接使用这个命题作为Kan延拓定义.
+\end{remark}
+发现Kan延拓其实是在寻求一个$G \colon \mathcal{D} \to \mathcal{E}$使得$F$与$GK$之间有一个最佳的逼近.那么如何对于$d \in \Obj(\mathcal{D})$定义$Gd$就成了问题.唯一的线索是当$d = Kc$时, $Gd$在同构意义下应当被取为$Fc$.因此可以使用所有的$Fc$的$\indlim$(或$\prolim$)来逼近$Gd$,极限取遍所有的$c \in \Obj(\mathcal{C})$和态射$Kc \to d$(或$d \to Kc)$.为了记号上的方便,对于俯仰范畴进行一个扩充,得到以下定义.\footnote{其实是\parencite[定义1.6.2]{李文威卷二}}
+\begin{definition}
+    若$F \colon \mathcal{C} \to \mathcal{D}$为函子,且$d \in \mathcal{D}$为一个对象.定义$F_{/d}$为拉回
+    \[\begin{tikzcd}
+	{F_{/d}} & {\mathcal{D}_{/d}} \\
+	{\mathcal{C}} & {\mathcal{D}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["F", from=2-1, to=2-2]
+    \end{tikzcd}\]
+    即$F_{/d}$中对象为$(c\in \mathcal{C},\alpha \colon F(c) \to d)$态射为使得以下图表交换的$\beta$
+    \[\begin{tikzcd}
+	{F(c)} && {F(c')} \\
+	& d
+	\arrow["{F(\beta)}", from=1-1, to=1-3]
+	\arrow["\alpha"', from=1-1, to=2-2]
+	\arrow["{\alpha'}", from=1-3, to=2-2]
+    \end{tikzcd}\]
+    当$F$为子范畴的嵌入函子时,简写为$\mathcal{C}_{/d}$,类似定义$F_{d/}$和$\mathcal{C}_{d/}$.\\
+    可以发现$F_{/d}$(或$F_{d/}$)带有典范的投影函子$\prod_{/d}\colon F_{/d} \to \mathcal{C}$将$(c,\alpha\colon F(c) \to d)$(或$(c,\alpha\colon d \to F(c))$)映为$c$,态射$\beta$映为$\beta$.
+\end{definition}
+今后的重点在于合成函子$F \prod_{/d}\colon K_{/d} \to \mathcal{E}$和$F\prod_{d/}\colon K_{d/} \to \mathcal{E}$,它们分别映对象$(c,Kc \to d)$和$(c,d \to Kc)$为$Fc$.在极限存在的情况下,可以做几点观察:
+\begin{itemize}
+    \item 任何$d \to d'$诱导典范态射$\indlim F\prod_{/d} \to \indlim F \prod_{/d'}$;其刻画为使得图表
+    \[\begin{tikzcd}
+	Fc & Fc \\
+	{\indlim F\prod_{/d}} & {\indlim F\prod_{/d'}}
+	\arrow[equal, from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    对每个$(c,Kc \to d)\in \Obj(K_{/d})$交换(它诱导$(c,Kc \to d') \in \Obj(K_{/d'})$),纵向箭头即为$\indlim$自带的典范态射.
+    \item 考虑$(c,Kc \xrightarrow{\identity} Kc)\in \Obj(K_{/Kc})$得到典范态射$\eta_c \colon Fc \to \indlim F\prod_{/Kc}$.
+    \item 任何$c \to c'$皆诱导典范态射$\indlim F\prod_{/Kc}   \to \indlim F\prod_{/Kc'}$使得
+    \[\begin{tikzcd}
+	Fc & {Fc'} \\
+	{\indlim F\prod_{/Kc}} & {\indlim F\prod_{/Kc'}}
 	\arrow[from=1-1, to=1-2]
 	\arrow[from=1-1, to=2-1]
 	\arrow[from=1-2, to=2-2]
 	\arrow[from=2-1, to=2-2]
-        \end{tikzcd}\]
-        有满射
-        \[
-        F(Y') \to F(X') \dtimes{F(X)} F(Y)
-        \]
+    \end{tikzcd}\]
+    交换.鉴于对偶性,$\prolim F\prod_{d/}$也具备相应性质,如典范态射$\varepsilon_c \colon \prolim F \prod_{Kc/} \to Fc$等等.次一定理的陈述基于这些函子性.
+\end{itemize}
+\begin{theorem}\label{The:Kan延拓逐点构造}
+考虑函子$K \colon\mathcal{C} \to \mathcal{D}$和$F \colon \mathcal{C}  \to \mathcal{E}$.
+    \begin{enumerate}
+        \item 若对于每个$d\in \Obj(\mathcal{D})$,极限$\indlim(F\prod_{/d})$在$\mathcal{E}$中存在,则$(\Lan_K F)(d) \coloneqq \indlim (F\prod_{/d})$连同前文对应的交换图表给出的函子性确定了左Kan延拓$\Lan_K F \colon \mathcal{D} \to \mathcal{E}$,相应$\eta \colon F \to (\Lan_K F)K$来自于前文讨论的$(\eta_c)_{c\in \Obj(\mathcal{C})}$.
+        \item 若对于每个$d\in \Obj(\mathcal{D})$,极限$\prolim(F\prod_{d/})$在$\mathcal{E}$中存在,则$(\Ran_K F)(d) \coloneqq \prolim (F\prod_{d/})$连同函子性确定了右Kan延拓$\Ran_K F \colon \mathcal{D} \to \mathcal{E}$,相应$\varepsilon \colon (\Ran_KF )K  \to F$来自于前文讨论的$(\varepsilon_c)_{c\in \Obj(\mathcal{C})}$.
+        \item 若$K\colon \mathcal{C} \to \mathcal{D}$全忠实,则$\eta$与$\varepsilon$同构.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    将在第~\ref{稳定同伦一瞥}~中证明.
+    \begin{enumerate}
+        \item[1.与2.]由于1.与2.是对偶的,因此只需要证明1.的情况,这无非是依照泛性质验证Kan延拓定义,对于$L\colon \mathcal{D} \to \mathcal{E}$以及$\xi \colon F \to LK$利用余极限的泛性质得知存在$\chi_d \colon (\Lan_K F )(d) \to Ld$,具体刻画为图表
+        \[\begin{tikzcd}
+	Fc & {(\Lan_L F)(d)} \\
+	LKc & Ld
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\xi_c}"', from=1-1, to=2-1]
+	\arrow["{\chi_d}", from=1-2, to=2-2]
+	\arrow["{L(Kc \to d)}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        其自然给出$\chi \colon \Lan_K F \to L$.根据$\chi_d$定义可以得知$\xi_c = \chi_{Kc}\eta_c \colon Fc \to LKc$.这图表中取$d = Kc$即可. $\chi$的唯一性也是容易的.因此得知$\Lan_K F$确实为左Kan延拓.
+        \item[3.] 取定$c\in \Obj(\mathcal{C})$.由$K$的全忠实性可知$K_{/Kc}$有终对象$(c, Kc \xrightarrow{\identity} Kc)$,而$\eta \colon Fc \to \indlim F \prod_{/Kc}$来自于此终对象,故为同构.
+    \end{enumerate}
 \end{proof}
-\begin{corollary}
-    令 $E \colon h\cate{An}_* \to \cate{grAb}$ 为上同调理论. 则存在唯一的一族带点空间 $E_n \in \cate{An}_*$ 以及同伦等价
+\begin{remark}\label{Rk:拉回函子左右伴随}
+    若$\mathcal{C}$为小范畴,则$K_{/d}$和$K_{d/}$对每个$d \in \Obj(\mathcal{D})$都是小范畴.因此当$\mathcal{E}$余完备(或完备)时,命题\ref{Pro:Kan延拓定义}与定理\ref{The:Kan延拓逐点构造}可以说明拉回函子$K^*$必有左伴随(或右伴随).
+\end{remark}
+\begin{remark}
+    由此不难得知, 对于拓扑空间上的连续映射 $X \to Y$, 令 $\mathcal{F}\in (\open(X))^{\vee}$, $\mathcal{G}\in (\open(Y))^{\vee}$, 则 
     \[
-    \delta_n \colon E_n \xrightarrow{\Omega}E_{n+1}
+    \Hom_{\open(X)^{\vee}}(f^{-1}(\mathcal{G}),\mathcal{F}) \simeq \Hom_{\open(Y)^{\vee}}(\mathcal{G},f_*\mathcal{F}).
     \]
-    使得有自然同构
-    \[
-    \varphi_n \colon E^n(X) \simeq [X,E_n]_*
-    \]
-    且 $\partial \colon E^n(X) \simeq E^{n+1}(\Sigma X)$ 由下式给出
-    \[
-    E^n(X) \simeq [X,E_n]_* \simeq [X,\Omega E_{n+1}]_* \simeq [\Sigma X, E_{n+1}]_* \simeq E^{n+1}(\Sigma X).
-    \]
-\end{corollary}
-\begin{proof}
-    同上.
-\end{proof}
-这告诉我们可以定义出以下一列空间
-\begin{definition}[拓扑谱]
-    \textbf{拓扑谱} $E = (\{E_n\}_{n\in \Z}, \delta_n)$ 由以下信息构成:
+\end{remark}
+\subsubsection{2-范畴看伴随}
+事实上, 2-范畴才是一个合理的看待伴随的角度, 虽然读者目前可能还没有接触过何谓 2-范畴, 不妨将其视为带有一些额外的 2-箭头的范畴.
+\begin{definition}[伴随]
+    2-范畴中的一组伴随
+\begin{tikzcd}
+	D & C
+	\arrow[""{name=0, anchor=center, inner sep=0}, "g"', shift right, curve={height=8pt}, from=1-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "f"', shift right, curve={height=8pt}, from=1-2, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=1, to=0]
+\end{tikzcd}
+    是如下信息:
     \begin{itemize}
-        \item 一列带点空间 $X_0,X_1, \cdots$
-        \item 对任何 $n \geq 0$, 有带点映射 $\sigma_n \colon \Sigma X_n \to X_{n+1}$.
+        \item 一对对象 $C, D$,
+        \item 一对 1-态射 $f: C \to D$(称为左伴随), $g : D \to C$(称为右伴随),
+        \item 一对 2-态射 $\eta : \identity_C \Rightarrow gf$(称为单位), $\varepsilon: fg \Rightarrow \identity_D$(称为余单位).
     \end{itemize}
-    称 $X$ 为 \textbf{$\Omega$-谱}, 若:
-    \begin{itemize}
-        \item 对任何 $n \geq 0$ 有 $\sigma_n$ 诱导的 $X_n \to \Omega X_{n+1}$ 为弱同伦等价.
-    \end{itemize}
-    准确来说, 可以定义 $\Omega$-谱的 $\infty$-范畴为
-    \[
-    \cate{Sp} \simeq \prolim \left(\cate{An}_* \xleftarrow{\Omega} \cate{An}_* \xleftarrow{\Omega}\cate{An}_* \xleftarrow{\Omega} \cdots\right)
-    \]
+    满足以下条件
+    \[\begin{tikzcd}
+	C && C \\
+	& D && D
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\identity_{C}}", from=1-1, to=1-3]
+	\arrow["f"', from=1-1, to=2-2]
+	\arrow["f", from=1-3, to=2-4]
+	\arrow["g"{description}, from=2-2, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\identity_D}"', from=2-2, to=2-4]
+	\arrow["\eta"', shorten <=3pt, Rightarrow, from=0, to=2-2]
+	\arrow["\varepsilon", shorten >=3pt, Rightarrow, from=1-3, to=1]
+\end{tikzcd}= \identity_f,\begin{tikzcd}
+	& C && C \\
+	D && D
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\identity_C}", from=1-2, to=1-4]
+	\arrow["f"{description}, from=1-2, to=2-3]
+	\arrow["g", from=2-1, to=1-2]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\identity_D}"', from=2-1, to=2-3]
+	\arrow["g"', from=2-3, to=1-4]
+	\arrow["\varepsilon"', shorten >=3pt, Rightarrow, from=1-2, to=1]
+	\arrow["\eta", shorten <=3pt, Rightarrow, from=0, to=2-3]
+\end{tikzcd}=\identity_g\]
+此时也称二元组 $(\eta, \varepsilon)$ 使得 $f$ 作为 $g$ 的左伴随, 也称其使得 $g$ 作为 $f$ 的右伴随.
 \end{definition}
-对于经典的上同调理论 $\tilde{H}^*(-,M)$ 使用定理~\ref{定理-Brown 可表}可以给出谱 $HM$, 称为 \textbf{Eilenberg-Maclane 谱}, 此时
-\[
-\pi_n(HM_m) = [S^n , HM_m]_* = \tilde{H}^n(S^n,M) = \left\{
-\begin{array}{cc}
-     M,& n=m \\
-     0,& \text{其它} 
-\end{array}\right.
-\]
-因此此时 $HM_m$ 实际为 Eilberg-Maclane 空间 $K(M,n)$.
-\subsection{伴随函子}
-(未完待续)
+\begin{example}
+    令 $F \colon \mathcal{C} \to \mathcal{D}$ 以及 $G \colon \mathcal{D} \to \mathcal{C}$ 为 $1$-范畴之间的函子, 将其视为严格 $2$-范畴 $\cate{Cat}$ 中的 $1$-态射, 则 $F$ 与 $G$ 的伴随即为范畴论意义下的伴随函子.
+\end{example}
+(后文有缘再更新)
 \subsection{幺半范畴}
+\cite[第三章 幺半范畴]{李文威卷一}已经充分描述了何谓幺半范畴, 不必再画蛇添足.
 \subsection{群对象}
+在范畴论中, \textbf{群对象}是群的概念的推广.
+我们熟知, 群是带有乘法操作的集合, 使得乘法有单位元、逆元.
+我们可以将其推广为任何范畴 $\mathcal{C}$ 的对象,
+带有乘法操作, 并且乘法有单位元、逆元.
+这样的对象就是 $\mathcal{C}$ 中的群对象.
+
+设 $\mathcal{C}$ 是一个范畴, 具有有限乘积.
+特别地, $\mathcal{C}$ 有终对象 $*$.
+
+\begin{definition}
+    $\mathcal{C}$ 中的\textbf{群对象}是四元组
+    $(G,m,e,i)$, 其中
+
+\begin{itemize}
+    \item $G \in \mathcal{C}$ 是一个对象.
+    \item $m \colon G \times G \to G$ 是态射, 称为\textbf{乘法}.
+    \item $e \colon * \to G$ 是态射, 称为群对象的\textbf{单位元}.
+    \item $i \colon G \to G$ 是态射, 称为取\textbf{逆元}.
+\end{itemize}
+    使得以下图表交换:
+\begin{itemize}
+    \item (\textbf{结合律})
+    \[\begin{tikzcd}
+	{G\times G \times G} & {G\times G} \\
+	{G\times G} & G
+	\arrow["{\identity_G\times m}", from=1-1, to=1-2]
+	\arrow["{m\times\identity_G}"', from=1-1, to=2-1]
+	\arrow["m", from=1-2, to=2-2]
+	\arrow["m"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    \item (\textbf{单位律})
+    \[\begin{tikzcd}
+	& G \\
+	{G\times G} & G & {G\times G}
+	\arrow["{(\identity_G , e)}"', from=1-2, to=2-1]
+	\arrow["{\identity_G}"{description}, from=1-2, to=2-2]
+	\arrow["{(e,\identity_G)}", from=1-2, to=2-3]
+	\arrow["m"', from=2-1, to=2-2]
+	\arrow["m", from=2-3, to=2-2]
+    \end{tikzcd}\]
+    \item (\textbf{逆元})
+    \[\begin{tikzcd}
+	& G \\
+	{G\times G} & G & {G\times G}
+	\arrow["{(\identity_G , i)}"', from=1-2, to=2-1]
+	\arrow["e"{description}, from=1-2, to=2-2]
+	\arrow["{(i,\identity_G)}", from=1-2, to=2-3]
+	\arrow["m"', from=2-1, to=2-2]
+	\arrow["m", from=2-3, to=2-2]
+    \end{tikzcd}\]
+    其中 $e: G \to G$ 是复合
+    \[
+        G \longrightarrow
+        {*} \overset{e}{\longrightarrow}
+        G .
+    \]
+
+    若 $G$ 还满足以下条件:
+    \item (\textbf{交换律})
+    \[\begin{tikzcd}
+	{G\times G} && {G\times G} \\
+	& G
+	\arrow["\delta", from=1-1, to=1-3]
+	\arrow["m"', from=1-1, to=2-2]
+	\arrow["m", from=1-3, to=2-2]
+    \end{tikzcd}\]
+    其中映射 $\delta$ 为交换两个分量,
+    则称 $G$ 为\textbf{交换群对象}或 \textbf{Abel 群对象}.
+\end{itemize}
+
+\end{definition}
+
+有自然的方式定义群对象间的态射.
+
+\begin{definition}
+    设 $G_k = (G_k, m_k, e_k, i_k) \ (k=1,2)$ 为群对象.
+    一个同态 $f: G_1 \to G_2$ 是一个态射 $f: G_1 \to G_2$, 
+    使得它与群乘法相容, 即有交换图表
+    \[\begin{tikzcd}
+	{G_1\times G_1} & {G_2\times G_2} \\
+	{G_1} & {G_2}
+	\arrow["{f\times f}", from=1-1, to=1-2]
+	\arrow["{m_1}"', from=1-1, to=2-1]
+	\arrow["{m_2}", from=1-2, to=2-2]
+	\arrow["f"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+\end{definition}
+
+容易验证, 群同态的复合还是同态. 从而我们得到一个范畴.
+
+\begin{definition}
+    设 $\mathcal{C}$ 是一个有有限乘积的范畴.
+    $\mathcal{C}$ 的群对象范畴是如下范畴,
+    它的对象是 $\mathcal{C}$ 的群对象,
+    态射是群对象的同态.
+    $\mathcal{C}$ 的交换群对象范畴是群对象范畴的由交换群对象构成的全子范畴.
+\end{definition}
+
+\subsection{题外话 : 高阶范畴论一瞥(大纲阶段)}
+\begin{remark}
+    受时间限制, 本节肯定是讲不到的, 因此留作扩展阅读资料. 目前写的还挺烂, 等待修改.
+\end{remark}
+本节我们来讲述 $\infty$-范畴的两种模型, 也就是两种达到 $\infty$-范畴的方式\footnote{当然, 所谓 $\infty$-范畴都系指 $(\infty,1)$-范畴, 即对于 $k >1$ 的 $k$-态射都可逆的范畴.}.\\
+
+很早之前我们就已然知晓, 在 $1$-态射之间还具有 $2$-态射, 在 $2$-态射之间还具有 $3$-态射, etc. 现在, 我们试着去在合理的框架下去研究它们.\\
+
+首先我们试着搭建高阶态射, 首先我们当然还是得停留在 1-范畴上, 我们试着在 $\Hom(x,y)$ 中添入高阶态射, 最值得参考的例子就是 2-范畴. 在 2-范畴中, 我们通过``充实''于(当然, 比充实范畴更加宽松, 这是因为在我们考虑 $\Hom$ 从集合变为某个幺半范畴 $\mathcal{V}$ 的对象. 在集合,或者视为离散范畴中, 我们讨论两个点之间的同构就只能是严格相等, 而换成更一般的结构时, 我们就需要换为更合适的同构) $\cate{Cat}$ 的方式得到了 $2$-范畴, 即 $\Hom(x,y)$ 由集合变成了范畴.\\
+ 因此, 我们得到参考, 我们可以构造某个``充实''于 $(\infty,0)$-范畴的范畴来得到 $(\infty,1)$-范畴, 因此问题转化为如何寻找 $(\infty,0)$-范畴.\\
+要造出 $(\infty,0)$-范畴, 就先回忆 $(1,0)$-范畴, 即为群胚, 我们可以从拓扑空间中典范的取出群胚(例~\ref{基本群胚}), 这个时候, $\Hom(x,y)$ 为从点 $x$ 到 $y$ 的道路类, 此时我们商掉了道路之间的同伦等价\footnote{若读者已经阅读了第~\ref{抽象同伦论}~章, 可以知道此时我们将道路之间的同伦等价视为弱等价进行了局部化, 这样同伦等价的道路就变成了道路同伦类中的同一个元素.}, 我们也可以不商掉它们, 而是将其保留, 这样我们可以得到推广的基本群胚
+ \begin{example}[基本群胚]\label{Exp:群胚}
+    令 $E$ 为拓扑空间且 $0 \leq n \leq \infty$ .可以通过以下方式萃取出一个$n$-范畴 $\Pi_{\leq n} E$. 
+    \begin{itemize}
+        \item 对象:$E$中的点.
+        \item 态射:若$x,y\in E$,则从$x$到$y$的态射为一条以$x$为起点, $y$为终点的道路$[0,1]\to E$.
+        \item 2-态射:道路的同伦.
+        \item 3-态射:同伦的同伦,
+        \item $\cdots$
+    \end{itemize}
+    最终,若$n < \infty$则两个$n$-态射可视为一致的当且仅当它们互相同伦(即商掉$>n$的同伦关系).\\
+    若$n = 0$则$\Pi_{\leq n}X = \Pi_0(E)$为$E$的连通分支构成的集合.若$n = 1$则得到$E$的基本群胚.因此$\Pi_{\leq n}E$称为$E$的基本$n$-群胚.由于每个$k$-态射均可逆,它被称为$n$-群胚(而不仅仅为$n$-范畴).
+\end{example}
+因此, 我们研究充实于拓扑空间的范畴即可体现出高阶态射(直至无穷), 但是这样无法保证复合的连续性, 我们需要选取一些能够使得复合连续的空间.我们知道在代数拓扑中, 复合连续可以作为指数律的推论, 因此我们使用充实于方便的空间范畴的范畴, 在本节中, 我们选取充实于 $\cate{CGwH}$ 的范畴, 称为拓扑范畴.
+\begin{definition}[拓扑范畴]
+    拓扑范畴是指充实于$\cate{CGWH}$(紧生成弱Hausdorff空间)的范畴,拓扑范畴所构成的范畴记为$\cate{Cat}_{\cate{top}}$.
+\end{definition}
+更精确地来说,一个拓扑范畴$\mathcal{C}$由以下资料组成:一族对象以及对于每对$X,Y\in \Obj(\mathcal{C})$都配备紧生成弱Hausdorff的拓扑空间$\iHom_{\mathcal{C}}(x,Y)$.并且这些映射空间配备由连续映射给出的结合律
+\[
+\iHom_{\mathcal{C}}(X_{n-1},X_n)\times \iHom_{\mathcal{C}}(X_{n-2},X_{n-1})\times \cdots \times \iHom_{\mathcal{C}}(X_0,X_1) \to \iHom_{\mathcal{C}}(X_0,X_n)
+\]
+这样的范畴就是 $\infty$-范畴的一个例子, 此时 1-态射体现为 $\iHom(X,Y)$ 中的点, 而 2-态射体现为 $\iHom(X,Y)$ 中的道路, etc.\\
+既然将高阶态射描述为同伦, 自然需要研究拓扑范畴的同伦结构, 遗憾的是, 由于拓扑范畴中的信息太多, 无法给出合理的模型结构.\\
+这提示我们需要某种工具取提取其中的同伦信息, 这种工具就是单纯集.我们可以将拓扑空间 $E$ 的基本 $\infty$-群胚描述为单纯集 $\Sing(E) = \Hom_{\cate{Top}}(|\Delta^n|,E)$, 我们把 $\infty$-群胚在单纯集中的对应称为 Kan 复形\footnote{事实上, 根据同伦假设, 有 $\infty$-范畴的等价 $\Sing \colon \cate{Top} \leftrightarrows \cate{An} \colon |-|$}, 它是所有尖角均可填充的单纯集. 因此我们只需要考虑充实于 Kan 复形的范畴即可, 这种范畴被称为是局部 Kan 的单纯范畴. 这套理论被称为是 $\infty$-范畴的一套模型.\\
+而 $\infty$-范畴不止具有一套模型(本文只讲述两套模型, 即拟范畴和单纯范畴), 事实上, 我们可以直接从单纯集出发去描绘 $\infty$-范畴, 在前文中我们说明可以使用单纯集来描述拓扑空间, 这说明单纯集可以很自然地描绘同伦结构, 那么我们问: 单纯集是否能够模拟一般的范畴结构呢? 答案是肯定的, 对于范畴 $\cal{C}$, 我们定义其脉为单纯集 $\nerve \mathcal{C} \coloneqq \Hom([n],\cal{C})$, 我们可以说明
+\begin{enumerate}
+        \item 存在小范畴$\mathcal{C}$使得$\nerve \mathcal{C} \simeq X$.
+        \item 其具备内尖角唯一填充性质,即对任意$0<i<n$以及态射$\sigma' : \Lambda_i^n \to X$,存在唯一的延拓$\sigma : \Delta^n \to X$使得以下图表
+        \[\begin{tikzcd}
+	{\Lambda_i^n} & X \\
+	{\Delta^n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[dashed, from=2-1, to=1-2]
+        \end{tikzcd}\]
+        交换.
+\end{enumerate}
+这说明我们可以通过单纯集来模拟范畴(具有严格的结合律, 体现为上文中``存在唯一延拓'',而外尖角的延拓性质则为范畴所不满足的一些态射和高阶态射性质, 例如可逆). 现在, 我们打算通过单纯集来给出一半贴近于拓扑空间(可以描述同伦, 态射复合也可以修改为在同伦意义下唯一)而一半贴近于范畴的结构, 这套结构即为 Boardman-Vogt所开创弱 Kan 复形理论.它经由Joyal之手推广为拟范畴理论\footnote{当然这里抄自\cite{HTT}}.
 \section{方便的空间范畴}
 本节来讲述方便的空间范畴概念, 一般来说, 方便的空间范畴指的是拓扑空间范畴中满足以下条件的饱和\footnote{replete, 子范畴 $\cal{D}$ 称为是饱和的, 指对于任意 $x\in \cal{D}$, 若在 $\cal{C}$ 中有 $f \colon y \simeq x$, 则 $f$ 和 $y$ 都在 $\cal{D}$ 中.}全子范畴. 本节主要参考\cite{StricklandCGWH}以及\cite[7.好用的空间范畴]{李思}
 \begin{definition}[方便的空间范畴]
