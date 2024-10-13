@@ -28,10 +28,12 @@
 
 \begin{flushright}\begin{minipage}{0.3 \textwidth}
 	\begin{tabular}{c}
-		{作者: \kaishu 刘欧} \\
+		{作者: \kaishu 红糖} \\
 		2024.9  
 	\end{tabular}
 \end{minipage}\end{flushright}
+本章主要参考\cite[7. 一个好用的空间范畴]{李思},\cite[第二章, 第三章]{李文威卷一},\cite[第一章]{李文威卷二},\cite[Chapter 1]{Kerodon},\cite{HTT},\cite[对应词条]{BananaSpace}, \cite[对应词条]{nlab:homepage},\cite{CisinskiFormalization},\cite{陈麟}.以及一些个人理解.
+
 \section{范畴, 函子, 自然变换}
 
 本节来介绍基础的范畴与函子概念
@@ -140,8 +142,8 @@
         \item 全体 Abel 群构成的范畴 $\cate{Ab}$, 它是 $\cate{Grp}$ 的全子范畴.
         \item(这两个例子可以不看XD) 以测度空间作为对象, 对于其间可测映射取以几乎处处相等(即不相等的地方在零测集内)作为等价关系的等价类(还需要保证可测映射关于零测集的原像为零测集), 可以得到范畴 $\cate{Measure}$, 但是这个范畴的信息太多, 每个对象都带有一个特定的测度, 这会导致我们做出一些不典范的选择.
         \item 一般而言, 我们考虑强化可测空间, 它是三元组 $(X,M,N)$, 其中 $M$ 为 $\sigma$-代数而 $N$ 为其表示零测部分所构成的 $\sigma$-理想, 对于可测函数 $f : (X,M,N) \to (Y,M',N')$ , 若对于任意 $n\in N'$, 都有 $f^{-1}(n) \in N$, 则称 $f$ 为保零测的.此外, 对于 $f,g : (X,M,N) \to (Y,M',N')$, 若对于任意 $m\in M'$ 有 $f^{-1}m'\oplus g^{-1}m'\in N$, 则称它们几乎处处弱相等.
-        从而我们得到以强化可测空间作为对象, 保零测的可测函数集商去几乎处处弱相等的可测函数作为态射集所得到的范畴, 记为$\cate{EMS}$, 更加详细的内容可见\href{https://ncatlab.org/nlab/show/categories+of+measure+theory}{nlab}.
-        \item 我们可以给出全体(小)范畴所构成的范畴 $\cate{Cat}$, 但后文我们将发现, 仅仅视其为 1-范畴是不自然的, 因为这样会损失自然变换(即2-态射)的信息, 它应该被视为一种 2-范畴, 详见无穷范畴笔记附录.
+        从而我们得到以强化可测空间作为对象, 保零测的可测函数集商去几乎处处弱相等的可测函数作为态射集所得到的范畴, 记为$\cate{EMS}$, 更加详细的内容可见\cite[\href{https://ncatlab.org/nlab/show/categories+of+measure+theory}{nlab}]{nlab:homepage}.
+        \item 我们可以给出全体(小)范畴所构成的范畴 $\cate{Cat}$, 但后文我们将发现, 仅仅视其为 1-范畴是不自然的, 因为这样会损失自然变换(即2-态射)的信息, 它应该被视为一种 2-范畴(严格2-范畴), 参见\cite[2-范畴词条]{BananaSpace}.
     \end{enumerate}
 \end{example}
 在谈论函子之前, 请容许我们对于范畴进行多一点点的观察, 就是考虑范畴内态射的性质.显然的, 我们可以将单满性以及同构移入范畴之中.
@@ -1178,7 +1180,7 @@
 \]
 以及对偶版本. 
 我们有以下重要引理
-\begin{theorem}[Yoneda 引理]
+\begin{lemma}[Yoneda 引理]\label{引理:Yoneda}
     对于 $S \in \Obj(\mathcal{C})$ 以及 $A \in \Obj(\mathcal{C}^{\land})$ 映射
     \begin{align*}
         \Hom_{\mathcal{C}^{\wedge}}(h_{\mathcal{C}}(S),A) &\to A(S)\\
@@ -1186,7 +1188,7 @@
     \end{align*}
     为双射; 它给出函子的同构 $\Hom_{\cal{C}^{\wedge}}(h_{\mathcal{C}}(-),-) \rightiso \ev^{\wedge}$. 函子 $h_{\cal{C}}$ 是全忠实的.\\
     反之可以得到对偶情况.
-\end{theorem}
+\end{lemma}
 \begin{proof}
     该证明其实是无趣的集合论证明, 只需证明上述映射可逆. 也就是说对于 $A(S)$ 中的元素 $u_S$, 我们要将其视为某个自然变换 $\phi$ 的像 $\phi_S(\identity_S)$, 而后反向构造出对应的 $\phi$ 即可. 考虑图表
     \[\begin{tikzcd}
@@ -1414,7 +1416,7 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
 对于两个态射 $f \colon Fx \to y$ 以及 $g \colon x \to Gy$, 称它们是\textbf{相伴的}, 指在伴随函子的角度下它们互相对应, 此时称 $g$ 为 $f$ 的\textbf{右伴}而 $f$ 为 $g$ 的\textbf{左伴}. 有时也记 $g = f^{\sharp}$ 以及 $f = g^{\flat}$.\\
 现在我们来介绍常见的诸多伴随
 \begin{example}[自由-遗忘伴随]
-    自由-遗忘伴随是伴随函子的一类经典例子, 比方 $F \colon \cate{Set} \to \cate{Vect}(\Bbbk)$ 将集合 $X$ 映为其生成的自由模 $\bigoplus_{x\in X}\Bbbk$, 而遗忘函子 $G \colon \cate{vect}(\Bbbk) \to \cate{Set}$ 又将其遗忘为集合(即将向量空间视为集合). 则等式
+    自由-遗忘伴随是伴随函子的一类经典例子, 比方 $F \colon \cate{Set} \to \cate{Vect}(\Bbbk)$ 将集合 $X$ 映为其生成的自由模 $\bigoplus_{x\in X}\Bbbk$, 而遗忘函子 $G \colon \cate{Vect}(\Bbbk) \to \cate{Set}$ 又将其遗忘为集合(即将向量空间视为集合). 则等式
     \[
     \Hom_{\cate{Vect}(\Bbbk)}(FX,V) \simeq \Hom_{\cate{Set}}(X,GV).
     \]
@@ -1532,7 +1534,81 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
 	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=2, to=1]
     \end{tikzcd}\]
 \end{example}
+\subsubsection{伴随函子定理}
+现在,来探讨一个函子何时具有左右伴随, 我们只讨论最基础的广义伴随函子定理, 特殊伴随函子定理以及在可表现范畴上的伴随函子定理暂且不表.
+\begin{definition}
+    令 $\cal{C}$, $\cal{D}$ 为范畴, 若函子 $F \colon \mathcal{C}\to \mathcal{D}$ 保所有的 $\prolim$, 则称其为\textbf{连续}的.\\
+    若函子 $F \colon \mathcal{C} \to \mathcal{D}$ 保所有的 $\indlim$, 则称其为\textbf{余连续}的.
+\end{definition}
+\begin{proposition}
+    右伴随函子都是连续的, 左伴随函子都是余连续的.
+\end{proposition}
+\begin{proof}
+    不过简单的泛性质练习.
+\end{proof}
+现在, 我们思考这个命题反过来是否成立. 答案是成立, 但是需要有特定的条件.\\
+首先, 我们翻译 $G \colon \mathcal{D} \to \mathcal{C}$ 有左伴随的条件.
+\begin{proposition}
+    $G \colon \mathcal{D} \to \mathcal{C}$ 有左伴随当且仅当对于任意 $c \in \Obj(\cal{C})$, $G_{c/}$ 都有始对象.
+\end{proposition}
+\begin{proof}
+    首先, 对于任意 $c \in \mathcal{C}$, 考虑 $G_{c/}$, 其元素形如 $c \xrightarrow{\beta} Gd$, 其中 $d \in \mathcal{D}$, 而态射为使得以下图表交换的 $Gd \to Gd'$
+    \[\begin{tikzcd}
+	& c \\
+	Gd && {Gd'}
+	\arrow[from=1-2, to=2-1]
+	\arrow[from=1-2, to=2-3]
+	\arrow[from=2-1, to=2-3]
+    \end{tikzcd}\]
+    由此可见, $(d_0,\beta_0)$ 为始对象当且仅当有双射
+    \begin{align*}
+        \Hom_{\cal{D}}(d_0,d) &\xrightarrow{1:1} \Hom_{\cal{C}}(c,Gd)\\
+        \alpha &\mapsto \beta \coloneqq (G\alpha) \beta_0
+    \end{align*}
+    若 $G$ 有左伴随, 则取 $d_0 = Fc$ 验证即可, 不难发现 $Gd_0 = GFc$, 因此 $\beta_0 = \eta_c$ 为单位, 由单位给出的双射可知 $d_0$ 确实为始对象.\\
+    若对于任意 $c\in \Obj(\mathcal{C})$, 都有 $G_{c/}$ 存在始对象, 则令 $F(c) = d_0$ 给出函子, 由前文可知自然给出双射, 因此得到伴随.
+\end{proof}
+因此, 问题转变为研究 $G_{c/}$ 何时有始对象, 我们引入弱始系来说明这一点.
+\begin{definition}[弱始对象]
+    设 $\mathcal{E}$ 为范畴. 称 $\Obj(\mathcal{E})$ 的非空小子集为\textbf{弱始系}, 如果对每个 $e'\in \Obj(\mathcal{E})$ 都存在 $e \in \Gamma$ 使得 $\Hom_{\mathcal{E}}(e,e') \neq\varnothing$, 若 $e \in \mathcal{E}$ 且 $\{e\}$ 为弱始系, 则称 $e$ 为\textbf{弱始对象}.
+\end{definition}
+不难发现, 对于弱始系 $\Gamma$, 有 $\prod_{e\in \Gamma} e$ 为弱始对象, 因此, 我们要求完备性.\\
+对于 $G_{c/}$, 若对于每个 $f \colon c \to Gd$ 都存在 $i \in I$ 以及态射 $\alpha \colon d_i \to d$ 使得 $f$ 可以分解为 $c \xrightarrow{f_i}Gd_i \xrightarrow{G\alpha}Gd$, 则 $\{(d_i,(c\to Gd_i))\}$ 给出弱始系.
+\begin{lemma}
+    设范畴 $\mathcal{E}$ 完备. 若其有弱始系 $\Gamma$, 则其有始对象.
+\end{lemma}
+\begin{proof}
+    由完备性可知弱始对象的存在性, 接下来取 $\mathcal{E}$ 的全子范畴 $I$, $\Obj(I) = \{e\}$. 完备性确保 $I \hookrightarrow \mathcal{E}$ 中 $\prolim$ 的存在性, 记其为 $x$, 根据极限定义, 可以给出其泛性质, 记典范态射 $i \colon x \to e$, 有
+    \begin{align*}
+        i_* \colon \Hom_{\mathcal{E}}(t,x) &\xrightarrow{1:1} \{\phi \in \Hom(t,e) \colon \forall \theta , \theta' \in \Hom_{\mathcal{E}}(e,e), \theta \phi = \theta'\phi\}\\
+        \psi &\mapsto i\psi
+    \end{align*}
+    显然有 $i$ 为单态射.\\
+    接下来说明 $x$ 是始对象, 对于任意 $g \colon x \to y$, 由于 $e$ 为弱始对象, 因此 $\Hom(e,y) \neq \varnothing$, 因此考虑 $f \colon x \xrightarrow{i} e\to y$, 此处 $e \to y$ 是任意选取的, 我们来说明 $f = g$, 考虑 $\ker(f,g)$, 它带有典范态射 $j \colon \ker(f,g) \hookrightarrow X$, 由于 $e$ 为弱始对象, 因此存在 $k \colon e \to \ker(f,g)$, 由此给出 $ijk \colon e \to e$, 在 $x$ 的泛性质中取 $\psi = \identity_x$, 由此得到 $i_*(\identity_x) = i$, 即 $i \in \{\phi \in \Hom(t,e) \colon \forall \theta , \theta' \in \Hom_{\mathcal{E}}(e,e), \theta \phi = \theta'\phi\}$, 而 $ijk, \identity_e \in \Hom_{\mathcal{E}}(e,e)$, 因此 $(ijk)i = \identity_e i = i = i(\identity_x)$ 因此得到 $i(jki) = i(\identity_x)$, 由 $i$ 的单性可知 $jki = \identity_x$. 从而 $f = fjki = gjki = g$.
+\end{proof}
+因此我们还需要说明 $G_{c/}$ 是完备的.
+\begin{proposition}
+    范畴 $\mathcal{D}$ 完备, $G \colon \mathcal{D} \to \mathcal{C}$ 保小 $\prolim$. 取 $c \in \Obj(\mathcal{C})$.
+    \begin{itemize}
+        \item 则函子 $\prod_{c/}$ 保守($\prod_{c/} f$ 为同构当且仅当 $f$ 为同构), 且生所有小 $\prolim$.
+        \item 范畴 $G_{c/}$ 完备.
+        \item $\prod_{c/}$ 映单态射为单态射.
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    \cite[命题 1.11.4]{李文威卷二}.
+\end{proof}
+现在, 可以给出伴随函子定理.
+\begin{theorem}[P.Freyd 伴随函子定理]
+    考虑 $\mathcal{C}$, $\mathcal{D}$.
+    \begin{enumerate}
+        \item 设 $\mathcal{D}$ 为完备范畴, 函子 $G \colon \mathcal{D} \to \mathcal{C}$ 是连续的, 则 $G$ 有左伴随当且仅当以下解集条件成立: 对于每个 $c \in \mathcal{C}$, 存在一族态射 $\{f_i \colon c \to Gd_i\}$ 使得每个 $f \colon c \to Gd$ 都存在 $i \in I$ 以及态射 $\alpha \colon d_i \to d$ 使得 $f$ 可以分解为 $c \xrightarrow{f_i}Gd_i \xrightarrow{G\alpha}Gd$.
+        \item 读者自己推对偶情况.
+    \end{enumerate}
+\end{theorem}
+事实上, 我们可以将其推广到一般的可表现范畴上, 不过我们不讲可表现范畴, 因此读者可以自行搜索, 注意到可表现范畴不是对偶概念($\kappa$-可达且余完备, 或者说可以由一些小对象由余极限生成), 因此其上伴随函子定理不对偶.
 \subsubsection{Kan 延拓的进一步讨论}
+一种构造左右伴随的常见办法就是 Kan 延拓, 或者说 Kan 延拓在函子范畴上的展现.
 \begin{proposition}\label{Pro:Kan延拓定义}
     给定范畴$\mathcal{C},\mathcal{D},\mathcal{E}$和函子$K \colon \mathcal{C} \to \mathcal{D}$, $F \colon\mathcal{C} \to \mathcal{E}$.考虑拉回函子$K^* \mathcal{E}^{\mathcal{D}} \to \mathcal{E}^{\mathcal{C}}$.
     \begin{enumerate}
@@ -1769,14 +1845,22 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
     $\mathcal{C}$ 的交换群对象范畴是群对象范畴的由交换群对象构成的全子范畴.
 \end{definition}
 
-\subsection{题外话 : 高阶范畴论一瞥(大纲阶段)}
+\section{题外话 : 高阶范畴论一瞥(草创阶段)}
 \begin{remark}
-    受时间限制, 本节肯定是讲不到的, 因此留作扩展阅读资料. 目前写的还挺烂, 等待修改.
+    受时间限制, 本节肯定是讲不到的, 因此留作扩展阅读资料. 目前写的还挺烂, 等待修改, 本节只对于高阶范畴论进行一些概览, 真正的内容见 $\infty$-范畴笔记.
 \end{remark}
+从代数拓扑的角度看, 研究高阶范畴结构的动机为:
+\begin{center}
+    To capture all homotopy-invariant information, it is not enough to record homotopies between maps, rather, we need to record all the higher homotopies.
+\end{center}
 本节我们来讲述 $\infty$-范畴的两种模型, 也就是两种达到 $\infty$-范畴的方式\footnote{当然, 所谓 $\infty$-范畴都系指 $(\infty,1)$-范畴, 即对于 $k >1$ 的 $k$-态射都可逆的范畴.}.\\
-
+在此之前, 我们希望读者知晓在高阶范畴论中我们有以下原理:
+\begin{center}
+    Whenever we would like to express that two things are equal, we should always remember how the two things are equal by specifying an isomorphism between them.\\
+    \hfill ---\cite[]{CisinskiFormalization}
+\end{center}
+    
 很早之前我们就已然知晓, 在 $1$-态射之间还具有 $2$-态射, 在 $2$-态射之间还具有 $3$-态射, etc. 现在, 我们试着去在合理的框架下去研究它们.\\
-
 首先我们试着搭建高阶态射, 首先我们当然还是得停留在 1-范畴上, 我们试着在 $\Hom(x,y)$ 中添入高阶态射, 最值得参考的例子就是 2-范畴. 在 2-范畴中, 我们通过``充实''于(当然, 比充实范畴更加宽松, 这是因为在我们考虑 $\Hom$ 从集合变为某个幺半范畴 $\mathcal{V}$ 的对象. 在集合,或者视为离散范畴中, 我们讨论两个点之间的同构就只能是严格相等, 而换成更一般的结构时, 我们就需要换为更合适的同构) $\cate{Cat}$ 的方式得到了 $2$-范畴, 即 $\Hom(x,y)$ 由集合变成了范畴.\\
  因此, 我们得到参考, 我们可以构造某个``充实''于 $(\infty,0)$-范畴的范畴来得到 $(\infty,1)$-范畴, 因此问题转化为如何寻找 $(\infty,0)$-范畴.\\
 要造出 $(\infty,0)$-范畴, 就先回忆 $(1,0)$-范畴, 即为群胚, 我们可以从拓扑空间中典范的取出群胚(例~\ref{基本群胚}), 这个时候, $\Hom(x,y)$ 为从点 $x$ 到 $y$ 的道路类, 此时我们商掉了道路之间的同伦等价\footnote{若读者已经阅读了第~\ref{抽象同伦论}~章, 可以知道此时我们将道路之间的同伦等价视为弱等价进行了局部化, 这样同伦等价的道路就变成了道路同伦类中的同一个元素.}, 我们也可以不商掉它们, 而是将其保留, 这样我们可以得到推广的基本群胚
@@ -1801,9 +1885,358 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
 \iHom_{\mathcal{C}}(X_{n-1},X_n)\times \iHom_{\mathcal{C}}(X_{n-2},X_{n-1})\times \cdots \times \iHom_{\mathcal{C}}(X_0,X_1) \to \iHom_{\mathcal{C}}(X_0,X_n)
 \]
 这样的范畴就是 $\infty$-范畴的一个例子, 此时 1-态射体现为 $\iHom(X,Y)$ 中的点, 而 2-态射体现为 $\iHom(X,Y)$ 中的道路, etc.\\
-既然将高阶态射描述为同伦, 自然需要研究拓扑范畴的同伦结构, 遗憾的是, 由于拓扑范畴中的信息太多, 无法给出合理的模型结构.\\
-这提示我们需要某种工具取提取其中的同伦信息, 这种工具就是单纯集.我们可以将拓扑空间 $E$ 的基本 $\infty$-群胚描述为单纯集 $\Sing(E) = \Hom_{\cate{Top}}(|\Delta^n|,E)$, 我们把 $\infty$-群胚在单纯集中的对应称为 Kan 复形\footnote{事实上, 根据同伦假设, 有 $\infty$-范畴的等价 $\Sing \colon \cate{Top} \leftrightarrows \cate{An} \colon |-|$}, 它是所有尖角均可填充的单纯集. 因此我们只需要考虑充实于 Kan 复形的范畴即可, 这种范畴被称为是局部 Kan 的单纯范畴. 这套理论被称为是 $\infty$-范畴的一套模型.\\
-而 $\infty$-范畴不止具有一套模型(本文只讲述两套模型, 即拟范畴和单纯范畴), 事实上, 我们可以直接从单纯集出发去描绘 $\infty$-范畴, 在前文中我们说明可以使用单纯集来描述拓扑空间, 这说明单纯集可以很自然地描绘同伦结构, 那么我们问: 单纯集是否能够模拟一般的范畴结构呢? 答案是肯定的, 对于范畴 $\cal{C}$, 我们定义其脉为单纯集 $\nerve \mathcal{C} \coloneqq \Hom([n],\cal{C})$, 我们可以说明
+此时, 我们将 $\infty$-范畴视为带有同伦结构的范畴, 事实上这就是正确的进路.
+\begin{center}
+    $\infty$-范畴理论 = 范畴论 + 同伦论.
+\end{center}
+我们将在第~\ref{抽象同伦论}~章中介绍如何研究范畴上的同伦, 或者说研究同伦理论, 这套理论称为抽象同伦论, 粗略来说, 我们在范畴上定义出一种叫做弱等价的宽子范畴(对象和原范畴一致), 这些弱等价是同伦等价(更确切来说, 是弱同伦等价)的推广, 但是为了具体研究它, 我们一般会增加额外信息使得它们更容易描述, 这些信息分为两类, 分别模拟好的单射以及好的满射, 称为余纤维化和纤维化, 带有这写额外信息的弱等价范畴称为模型范畴. 当我们想从外部来研究 $\infty$-范畴的同伦以及 $\infty$-范畴模型的等价性时, 我们就需要它.\\
+遗憾的是, 拓扑范畴所构成的范畴上无法构建良好的模型结构\cite[Lecture 2, Exercise 3.6 以及 3.7]{陈麟}, 原因在于其信息太多. 应当使用一种组合工具对其信息进行萃取, 只保留我们关心的同伦信息, 这种组合工具即为单纯集.
+\subsection{单纯集概览}
+\begin{definition}[单形范畴]
+    令$\Delta$为以下资料所构成的范畴:
+    \begin{itemize}
+        \item 对象:全序集$[n]=\{0<1<\cdots<n-1<n\}$.
+        \item 态射:$[m]$到$[n]$的保序映射.
+    \end{itemize}
+    将$\Delta$称为单形范畴.
+\end{definition}
+\begin{remark}\label{Rk:单纯范畴分解}
+    可以发现单纯范畴中任意态射$[l]\to [n]$均可唯一分解为保序满射和保序单射的合成
+    \[[l]\twoheadrightarrow [m]\hookrightarrow [n], n\geq m \leq l,\]
+    而如上的单射(或满射)又可以拆解为片段,使得每步恰好遗漏一个元素(或恰好合并两个元素);换言之,所有态射均可分解为
+    \begin{itemize}
+        \item 面态射, $\delta^i=\delta_n^i:[n-1]\hookrightarrow [n]$, $0\leq i \leq n$,仅仅遗漏$i\in[n]$.
+        \item 退化态射, $\sigma^j = \sigma_n^j: [n+1] \twoheadrightarrow [n]$, $0\leq j \leq n$,取两次$j\in[n]$的保序满射.
+    \end{itemize}
+    直观一点的看,面态射可以视为为将一个面嵌入到单形中(或者说取出一个面),而退化态射可以被视为通过增加了一些恒等态射作为``面''来得到更高阶的单形,事实上可以将这些``面''去掉,并不会影响单形的信息,这种单形就叫做退化单形.
+\end{remark}
+而后,定义单形对象
+\begin{definition}[单形对象]\label{Def:单形对象}
+    给定范畴$\mathcal{C}$,
+    \begin{itemize}
+        \item 其中的单形对象意谓函子$\Delta^{\opposite} \to \mathcal{C}$,全体单形对象构成的范畴记为$\mathsf{s}\mathcal{C}:= \mathcal{C}^{\Delta^{\opposite}}$.
+        \item 余单形对象意谓函子$\Delta \to \mathcal{C}$,全体余单形对象构成的范畴记为$\mathsf{cs}\mathcal{C}:= \mathcal{C}^{\Delta}$.
+    \end{itemize}
+\end{definition}
+\begin{definition}[单纯集]
+    当定义\ref{Def:单形对象}中$\mathcal{C}$被替换为集合范畴$\cate{Set}$时,得到的单形对象称为单纯集.全体单纯集构成的范畴记为$\cate{sSet}$.
+\end{definition}
+\begin{definition}[标准$n$-单形]
+    对所有$n \in \Z_{\geq 0}$,记$\Hom_{\Delta}(-,[n]): \Delta^{\opposite}\to \cate{Set}$确定的单纯集为$\Delta^n$,称为标准$n$-单形.
+\end{definition}
+\begin{remark}
+    因此$(\Delta^n)_m = \Hom_{\Delta}([m],[n])$是全体保序映射$[m]\to [n]$. $\phi: [m]\to [m']$诱导的$(\Delta^n)_{m'} \to (\Delta^n)_{m}$正是映射的拉回$\phi^* : f \mapsto f\phi$.此外,由Yoneda 引理(定理~\ref{引理:Yoneda})可以得知$\Hom_{\cate{sSet}}(\Delta^n,S) \simeq S_n$.
+\end{remark}
+根据 Yoneda 引理, 还可以给出以下推论
+\begin{corollary}\label{Cor:单纯集逼近}
+    对于任意一个单纯集$X$都有
+    \[
+    X \simeq \underset{([n],\sigma)\in\Delta_{/X} }{\indlim} \Delta^n.
+    \]
+\end{corollary}
+\subsubsection{几何实现}
+通过标准$n$-单形,我们可以勾连$\cate{sSet}$与$\cate{Top}$得到我们熟知的单形.记$\R^{n+1}$的有序基为$e_0,\cdots,e_n$.定义
+\[\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,200); %set diagram left start at 0, and has height of 200
+%Straight Lines [id:da08262452045611424] 
+\draw    (429.72,126.91) -- (429.72,60.74) ;
+\draw [shift={(429.72,58.74)}, rotate = 90] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da7995058606515195] 
+\draw    (429.72,126.91) -- (496.43,126.91) ;
+\draw [shift={(498.43,126.91)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da8936249968070875] 
+\draw    (429.72,126.91) -- (399.12,156.17) ;
+\draw [shift={(397.68,157.56)}, rotate = 316.27] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Polygon [id:ds9544209503649113] 
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=0.3 ] (429.72,92.82) -- (413.7,142.23) -- (464.07,126.91) -- (429.72,92.82) -- cycle ;
+% Text Node
+\draw (14,77.96) node [anchor=north west][inner sep=0.75pt]  [font=\large]  {$| \Delta^n | :=\left\{( x_{0} ,\cdots ,x_{n}) \in (\mathbb{R}_{\geq 0})^{n+1} :\sum _{i=0}^{n} x_{i} =1\right\}$};
+% Text Node
+\draw (426.35,39.4) node [anchor=north west][inner sep=0.75pt]    {$e_{1}$};
+% Text Node
+\draw (383.94,136.01) node [anchor=north west][inner sep=0.75pt]    {$e_{0}$};
+% Text Node
+\draw (484.17,102.09) node [anchor=north west][inner sep=0.75pt]    {$e_{2}$};
+% Text Node
+\draw (444.58,139.43) node [anchor=north west][inner sep=0.75pt]   [align=left] {(n=2时)};
+\end{tikzpicture}\]
+称其为拓扑 $n$-单形, 它的顶点通过$i\leftrightarrow e_i$由$0,\cdots,n$标号,其内部带有标准定向,使$e_1-e_0$, $\cdots$ , $e_n-e_{n-1}$处处给出正向有序基.\\
+
+任意保序映射$f : [m] \to [n]$都诱导映射
+\begin{align*}
+    |f|:|\Delta^m| &\longrightarrow |\Delta^n|\\
+    \sum_{i=0}^m y_ie_i &\longmapsto \sum_{i=0}^n y_i e_{f(i)}.
+\end{align*}
+当$f$非满时, $|f|$的像落在边界.可用嵌入$|\delta^i| :|\Delta^{n-1}| \to |\Delta^n|$比较$|\Delta^{n-1}|$内部的定向和$|\Delta^n|$在其边界上诱导的定向:行列式的常规练习可知两者相差$(-1)^i$.因此得到函子
+\[
+|-| : \Delta \to \cate{Top}\quad \left\{\begin{array}{c}
+     \text{对象}\quad [n]\mapsto |\Delta^n|  \\
+     \text{态射}\qquad f \mapsto |f|
+\end{array} \right.
+\]
+考虑图表
+\[\begin{tikzcd}
+	\Delta \\
+	{\cate{sSet}} & {\cate{Top}}
+	\arrow["{h_{\Delta}(-):[n] \mapsto \Delta^n}"', from=1-1, to=2-1]
+	\arrow["{|-|\colon[n] \mapsto |\Delta^n|}", from=1-1, to=2-2]
+\end{tikzcd}\]
+现在我们希望将其延拓为$\cate{sSet} \to \cate{Top}$的函子.
+由推论~\ref{Cor:单纯集逼近}可知对于任意单纯集 $X$ 都有 $X = \underset{(n,\sigma)}{\indlim} \Delta^n$. 而且 $\cate{Top}$ 又是余完备的,因此可以给出:
+\begin{definition}[几何实现函子]
+    函子$|-|:\cate{sSet} \to \cate{Top}$定义如下:设$X$为单纯集,则
+    \[
+    |X| := \underset{n,\sigma}{\indlim}|\Delta^n|,
+    \]
+    其中$n\in \Z_{\geq 0}$,而$\sigma\in X_n$为$n$-单形,这些资料$([n],\sigma)$形成范畴,使得从$([n],\sigma)$到$([m],\delta)$的态射无非是让
+    \[\begin{tikzcd}
+	{\Delta^n} && {\Delta^m} \\
+	& X
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["\sigma"', from=1-1, to=2-2]
+	\arrow["\delta", from=1-3, to=2-2]
+    \end{tikzcd}\]
+    交换的$f \in \Hom_{\Delta}([n],[m])$,或者等价地说,要求$f^*:X_m \to X_n$满足$f^*(\delta) = \sigma$.
+\end{definition}
+可以定义出几何实现的右伴随.
+\begin{definition}[奇异集函子]
+    对于任意拓扑空间$E$,定义单纯形集$\Sing(E)$使得
+    \[
+    \Sing(E)_n \coloneqq \Hom_{\cate{Top}}(|\Delta^n|,E), n\in \Z_{\geq 0},
+    \]
+    而$d_i: \Sing(E)_n \to \Sing(E)_{n-1}$(或$s_j \Sing(E)_n \to \Sing(E)_{n+1}$)是沿着$|\delta^i| :|\Delta^{n-1}| \to |\Delta^n|$(或$|s^j| : |\Delta^{n+1}|\to |\Delta^n|$)的拉回,称之为$E$对应的奇异单纯集.这给出函子
+    \[
+    \Sing : \cate{Top} \to \cate{sSet}.
+    \]
+\end{definition}
+不难发现奇异集函子就正是奇异同调所使用的奇异复形.
+\begin{theorem}\label{The:几何实现是奇异集函子的左伴随}
+    几何实现是奇异集函子的左伴随,换言之,有一一对应
+    \[\begin{tikzcd}
+	{\Hom_{\cate{Top}}(|X|,E)} & {\Hom_{\cate{sSet}}(X,\Sing(E))} \\
+	\varphi & {\left[X_n \xrightarrow{x\mapsto \varphi\circ i_{n,x}}\Hom_{\cate{Top}}(|\Delta^n|,E)\right]} \\
+	{\underset{([n],\sigma)}{\indlim}\left(|\Delta^n| \xrightarrow{\psi_n(x)}E\right)  } & {\psi = [\psi_n : X_n \to \Hom_{\cate{Top}}(|\Delta^n|,E)]_{n\geq 0}}
+	\arrow["{1:1}", tail reversed, from=1-1, to=1-2]
+	\arrow[maps to, from=2-1, to=2-2]
+	\arrow[maps to, from=3-2, to=3-1]
+    \end{tikzcd}\]
+    其中$X$为单纯集而$E$为拓扑空间.
+\end{theorem}
+
+\subsubsection{子结构}
+在介绍 Kan 复形之前, 我们需要介绍几个单纯集的子结构, 这样我们才能描述它
+\begin{definition}[尖角]
+    对于$0\leq k \leq n$定义$\Delta^n$的子函子$\Lambda_k^n$为
+    \[
+    (\Lambda_k^n)_m := \{f\in \Hom([m],[n]), \Image(f) \not\supset [n]\setminus\{k\}\},m \in \Z_{\geq 0}
+    \]
+    对$k=0,n$时,分别称为左,右尖角,统称外尖角,而$1\leq k \leq n-1$时,称为内尖角.
+\end{definition}
+在 $n = 2$, $k = 0$ 时, 可以将标准 2-单形和 $\Lambda_0^2$ 表为
+\[\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,240); %set diagram left start at 0, and has height of 240
+
+%Shape: Free Drawing [id:dp20250857537916134] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (186.11,144.56) .. controls (186.11,144.56) and (186.11,144.56) .. (186.11,144.56) ;
+%Shape: Free Drawing [id:dp8560192570653509] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (186.11,76.56) .. controls (186.11,76.56) and (186.11,76.56) .. (186.11,76.56) ;
+%Shape: Free Drawing [id:dp26889850065743715] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (116.11,75.56) .. controls (116.11,75.56) and (116.11,75.56) .. (116.11,75.56) ;
+%Straight Lines [id:da250770434621995] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (185.61,85.78) -- (186.57,131.78) ;
+\draw [shift={(186.61,133.78)}, rotate = 268.81] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da5472503346326145] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (125.11,75.56) -- (171.11,75.56) ;
+\draw [shift={(173.11,75.56)}, rotate = 180] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da15503202104425817] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (126.11,83.56) -- (177.7,135.14) ;
+\draw [shift={(179.11,136.56)}, rotate = 225] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Polygon [id:ds5516763594874212] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=0.3 ] (116.11,75.53) -- (186.11,75.53) -- (186.11,144.03) -- (116.11,75.53) -- cycle ;
+%Shape: Free Drawing [id:dp735452156887185] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (510.11,148.11) .. controls (510.11,148.11) and (510.11,148.11) .. (510.11,148.11) ;
+%Shape: Free Drawing [id:dp12785217588086462] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (510.11,81.11) .. controls (510.11,81.11) and (510.11,81.11) .. (510.11,81.11) ;
+%Shape: Free Drawing [id:dp4480432189571355] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (441.11,80.11) .. controls (441.11,80.11) and (441.11,80.11) .. (441.11,80.11) ;
+%Straight Lines [id:da8320855200603781] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (450.11,80.11) -- (496.11,80.11) ;
+\draw [shift={(498.11,80.11)}, rotate = 180] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da24624276797536426] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (451.11,88.11) -- (502.7,139.7) ;
+\draw [shift={(504.11,141.11)}, rotate = 225] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da36924497043702464] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=0.4 ] [dash pattern={on 4.5pt off 4.5pt}]  (510.11,91.78) -- (510.11,133.78) ;
+\draw [shift={(510.11,135.78)}, rotate = 270] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=0.4 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+% Text Node
+\draw (59,91.4) node [anchor=north west][inner sep=0.75pt]    {$\Delta ^{2} :$};
+% Text Node
+\draw (109,51.4) node [anchor=north west][inner sep=0.75pt]    {$0$};
+% Text Node
+\draw (180,49.4) node [anchor=north west][inner sep=0.75pt]    {$1$};
+% Text Node
+\draw (182,157.4) node [anchor=north west][inner sep=0.75pt]    {$2$};
+% Text Node
+\draw (394,89.4) node [anchor=north west][inner sep=0.75pt]    {$\Lambda _{0}^{2}$};
+% Text Node
+\draw (434,55.96) node [anchor=north west][inner sep=0.75pt]    {$0$};
+% Text Node
+\draw (505,53.96) node [anchor=north west][inner sep=0.75pt]    {$1$};
+% Text Node
+\draw (505,158.96) node [anchor=north west][inner sep=0.75pt]    {$2$};
+
+
+\end{tikzpicture}\]
+尖角的填充可以体现出态射的结合律以及态射的可逆性, 比如说考虑以下尖角 $\sigma \colon \Lambda_0^2 \to X$
+\[\begin{tikzcd}
+	& y \\
+	x && x
+	\arrow["f", from=2-1, to=1-2]
+	\arrow["{\identity_x}"', from=2-1, to=2-3]
+\end{tikzcd}\]
+它进行填充所得到的结果就是 $f$ 的左逆. 再比如说考虑 $\sigma' \colon \Lambda_2^3 \to X$
+\[\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Boxed Line [id:dp712419722419394] 
+\draw [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=0.3 ]   (265.11,114.11) -- (366.11,113.11) -- (403.11,164.11) -- cycle ;
+%Shape: Boxed Line [id:dp06884731912188236] 
+\draw [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=0.3 ]   (265.11,114.11) -- (350.11,199.11) -- (403.11,164.11) -- cycle ;
+%Shape: Free Drawing [id:dp01829448777195708] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (265.58,114.63) .. controls (265.58,114.63) and (265.58,114.63) .. (265.58,114.63) ;
+%Shape: Free Drawing [id:dp6329653420526828] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (350.92,199.97) .. controls (350.92,199.97) and (350.92,199.97) .. (350.92,199.97) ;
+%Shape: Free Drawing [id:dp6342498607996421] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (402.62,164.65) .. controls (402.62,164.65) and (402.62,164.65) .. (402.62,164.65) ;
+%Straight Lines [id:da526633051382492] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (339.11,187.11) -- (277.55,127.5) ;
+\draw [shift={(276.11,126.11)}, rotate = 44.08] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Free Drawing [id:dp44772844349269714] 
+\draw  [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=6] [line join = round][line cap = round] (365.34,113.07) .. controls (365.34,113.07) and (365.34,113.07) .. (365.34,113.07) ;
+%Straight Lines [id:da9429587691776815] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (393.11,171.11) -- (360.77,192.99) ;
+\draw [shift={(359.11,194.11)}, rotate = 325.92] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da7210386732599512] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (283.1,113.83) -- (350.11,114.1) ;
+\draw [shift={(352.11,114.11)}, rotate = 180.23] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da9610602919544413] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (353.11,187.11) -- (361.8,132.09) ;
+\draw [shift={(362.11,130.11)}, rotate = 98.97] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da8120815388496025] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (391.11,160.11) -- (293.99,124.79) ;
+\draw [shift={(292.11,124.11)}, rotate = 19.98] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da274468734769862] 
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (395.11,154.11) -- (373.28,123.74) ;
+\draw [shift={(372.11,122.11)}, rotate = 54.29] [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Boxed Line [id:dp5693420491484811] 
+\draw [draw opacity=0][fill={rgb, 255:red, 208; green, 2; blue, 27 }  ,fill opacity=0.3 ]   (265.11,114.11) -- (366.11,113.11) -- (350.11,199.11) -- cycle ;
+
+% Text Node
+\draw (149.73,124.92) node [anchor=north west][inner sep=0.75pt]    {$\sigma ':\Lambda _{2}^{3}\rightarrow X$};
+% Text Node
+\draw (345,215.4) node [anchor=north west][inner sep=0.75pt]    {$y$};
+% Text Node
+\draw (415,168.4) node [anchor=north west][inner sep=0.75pt]    {$x$};
+% Text Node
+\draw (364,85.4) node [anchor=north west][inner sep=0.75pt]    {$w$};
+% Text Node
+\draw (378.11,186.01) node [anchor=north west][inner sep=0.75pt]    {$f$};
+% Text Node
+\draw (300,146.4) node [anchor=north west][inner sep=0.75pt]    {$g$};
+% Text Node
+\draw (313.43,120.38) node [anchor=north west][inner sep=0.75pt]  [rotate=-19.28]  {$g\circ f$};
+% Text Node
+\draw (318,92.4) node [anchor=north west][inner sep=0.75pt]    {$h$};
+% Text Node
+\draw (339.95,154.66) node [anchor=north west][inner sep=0.75pt]  [rotate=-6.42]  {$h\circ g$};
+% Text Node
+\draw (374.69,130.9) node [anchor=north west][inner sep=0.75pt]  [rotate=-357.41]  {$h\circ ( g\circ f)$};
+% Text Node
+\draw (261.02,84.17) node [anchor=north west][inner sep=0.75pt]    {$z$};
+
+
+\end{tikzpicture}\]
+此时填充给出结合律 $(h\circ g)\circ f \simeq h \circ (g \circ f)$, 此处为同伦的填充而非严格相等.
+\subsection{同伦假设一瞥}
+\begin{definition}[Kan复形]\label{定义:Kan 复形}
+    令$X$为一个单纯集.若所有的尖角均可填充,即对于$0\leq i\leq n$以下图表
+    \[\begin{tikzcd}
+	{\Lambda_i^n} & X \\
+	{\Delta^n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[dashed, from=2-1, to=1-2]
+    \end{tikzcd}\]
+    交换.则称$X$为Kan复形.
+\end{definition}
+不难发现 Kan 复形就是长得像拓扑空间的单纯集, 或者说编码了拓扑空间的单纯集.
+\begin{exercise}
+    验证对于拓扑空间 $E$, 有 $\Sing(E)$ 为 Kan 复形.
+\end{exercise}
+由 Kan 复形, 可以给出单纯集上的 Kan-Quillen 模型结构(在此不妨理解为单纯集上以 Kan 复形为核心的同伦理论).而在代数拓扑中, 我们所使用的模型结构为 Quillen 模型结构.
+我们有以下定理
+\begin{theorem}[同伦假设]
+    有 Quillen 等价
+    \[\begin{tikzcd}
+	{|-|} & {\cate{sSet}_{\op{Kan-Quillen}}} & {\cate{Top}_{\op{Quillen}}} & \Sing
+	\arrow["\colon"{description}, draw=none, from=1-1, to=1-2]
+	\arrow[shift left, from=1-2, to=1-3]
+	\arrow[shift left, from=1-3, to=1-2]
+	\arrow["\colon"{marking, allow upside down}, draw=none, from=1-4, to=1-3]
+    \end{tikzcd}\]
+\end{theorem}
+\begin{remark}
+    由此给出可表现 $\infty$-范畴的等价
+    \[
+    \cate{Top} \simeq \cate{An}.
+    \]
+\end{remark}
+证明将放在第~\ref{抽象同伦论}~章.\\
+因此, 只需要研究 Kan 复形就可以研究拓扑空间的全体信息, 我们也将 Kan 复形称为 $\infty$-群胚(事实上, 它只是 $\infty$-群胚的一个模型).
+\subsection{局部 Kan 的单纯范畴}
+由同伦假设, 可以将我们的重心从拓扑范畴变为``充实于'' Kan 复形的范畴, 此时 $\iHom(x,y)$ 中的 $1$-态射即为 Kan 复形中的 $0$-单形, $2$-态射即为 Kan 复形中的 $1$-单形.
+\begin{definition}[单纯范畴]
+    充实于 $\cate{sSet}$ 的范畴称为单纯范畴.
+\end{definition}
+\begin{definition}[局部 Kan]
+    对于单纯范畴 $\mathcal{C}$, 若 $\iHom(x,y)$ 为 Kan 复形, 则称其为局部 Kan 的单纯范畴.
+\end{definition}
+不难发现, 局部 Kan 的单纯范畴就是我们所寻求的 $(\infty,1)$-范畴理论, 它的优点是我们容易自行的发现它.\\
+在单纯范畴上, 我们有合适的模型结构, 详见\cite[\href{https://ncatlab.org/nlab/show/model+structure+on+sSet-categories}{Model structure on sSet-Categories}]{nlab:homepage}
+\subsection{拟范畴}
+但是单纯范畴操作起来不够方便, 并且高阶态射无法简洁地表现出来.\\
+我们现在已经有一个足够好的表现同伦理论的工具---单纯集, 我们不妨试着用单纯集来描述范畴, 然后再使用单纯集寻找范畴和拓扑空间中的一个中间量(使得 1-单形不可逆而高阶态射可以良好表达且可逆的结构).\\
+首先, 使用单纯集逼近范畴, 事实上, 我们只需要描述出严格的结合律:
+\begin{definition}[范畴的脉]\label{定义:脉}\index{mai@脉 (nerve)}
+    设$\mathcal{C}$为小范畴,由此定义函子
+    \[
+    \Delta^{\opposite} \to \cate{Set} , [n] \mapsto \{\text{所有函子}[n] \to \mathcal{C}\}
+    \]
+    如视为单纯集,则记为$\nerve \mathcal{C}$,称之为$\mathcal{C}$的脉.
+\end{definition}
+\begin{remark}
+    脉的定义是可以推广到任意余完备范畴上的, 并且总是有一个实现与之对应, 这不是本节的主题,故不提.
+\end{remark}
+指定$\nerve \mathcal{C}_n$中的元素相当于指定函子$[n] \to \mathcal{C}$,即在$\mathcal{C}$中指定态射链
+    \[
+    (f_1,\cdots,f_n) : C_0 \xrightarrow{f_1} C_1 \xrightarrow{f_2} \cdots \xrightarrow{f_n}C_n;
+    \]
+因此$\nerve \mathcal{C}_0$可以等同于$\Obj(\mathcal{C})$,而$\nerve\mathcal{C}_1$可以等同于$\Mor(\mathcal{C})$.面态射$d_i : \nerve \mathcal{C}_n \to \nerve\mathcal{C}_{n-1}$和退化映射$s_j : \nerve \mathcal{C}_n \to \nerve\mathcal{C}_{n+1}$的映法是
+\[
+d_i(f_1,\cdots,f_n) = \left\{\begin{array}{ccc}
+    &(f_2,\cdots,f_n), & i=0 \\
+    &(\cdots,f_{i+1}\circ f_i,\cdots), & 0<i<n\\
+    &(f_1,\cdots,f_{n-1}), & i=n
+\end{array}\right.\]\[
+s_j(f_1,\cdots,f_n) = \left\{\begin{array}{ccc}
+    &(\identity_{C_0},f_1,\cdots,f_n), & i=0 \\
+    &(\cdots,f_j,\identity_{C_j},f_{j+1},\cdots), & 0<i<n\\
+    &(f_1,\cdots,f_{n},\identity_{C_n}), & i=n
+\end{array}\right.
+\]
+脉是范畴通过组合/拓扑资料的具象化,它包含原范畴的全部信息.我们首先来刻画有哪些单纯集是脉,这与后文定义拟范畴息息相关.\\
+我们可以说明
 \begin{enumerate}
         \item 存在小范畴$\mathcal{C}$使得$\nerve \mathcal{C} \simeq X$.
         \item 其具备内尖角唯一填充性质,即对任意$0<i<n$以及态射$\sigma' : \Lambda_i^n \to X$,存在唯一的延拓$\sigma : \Delta^n \to X$使得以下图表
@@ -1816,7 +2249,68 @@ Yoneda 观点是指, 对于范畴中的对象 $X$ 而言,
         \end{tikzcd}\]
         交换.
 \end{enumerate}
-这说明我们可以通过单纯集来模拟范畴(具有严格的结合律, 体现为上文中``存在唯一延拓'',而外尖角的延拓性质则为范畴所不满足的一些态射和高阶态射性质, 例如可逆). 现在, 我们打算通过单纯集来给出一半贴近于拓扑空间(可以描述同伦, 态射复合也可以修改为在同伦意义下唯一)而一半贴近于范畴的结构, 这套结构即为 Boardman-Vogt所开创弱 Kan 复形理论.它经由Joyal之手推广为拟范畴理论\footnote{当然这里抄自\cite{HTT}}.
+此处唯一填充表示严格的结合律, 读者不妨根据在尖角定义时给出的填充例子来体会这一点.\\
+不难发现, 外尖角的填充性质表示态射可逆等条件, 因此若 1-态射不可逆, 则外尖角可逆这一条件是需要去掉的.\\
+现在, 我们来寻找我们想要的介于拓扑空间和范畴之间的单纯集
+首先考虑任意一个单纯集$X$.我们可以尝试着将$X$想象成一个范畴,首先$X$中的点(即$X_0$的元素)就是其对象,态射则为$X$中的边($X_1$中的对象).一个$2$-单形$\sigma : \Delta^2 \to X$应当被视为图表
+\[\begin{tikzcd}
+	& B \\
+	A && C
+	\arrow["\psi", from=1-2, to=2-3]
+	\arrow["\phi", from=2-1, to=1-2]
+	\arrow["\theta"', from=2-1, to=2-3]
+\end{tikzcd}\]
+以及$\theta$与$\psi \circ \phi$的同伦,这将被视为图表的``交换性''(在高阶范畴论中,交换性不仅仅是一个条件:同伦$\theta \simeq \psi \circ \phi$是额外的资料.)高阶单形可以被认为反映了高阶图表的交换性.\\
+
+坏消息是,对于一般的单纯集$X$,上文的类比就略显乏力.这个问题的本质在于,哪怕我们可以把$X$中的$1$-单形视为态射,但是它们的合成却不总是存在.比如说取$\nerve \mathcal{C}$这个例子,对于态射$\theta : A\to C$,若存在一个$2$-单形$\sigma : \Delta^2 \to X$使得其表现为前文所示的交换图则称$\theta$为态射$\phi : X \to Y$与态射$\psi :Y \to Z$的合成.现在我们需要考虑两个潜在的问题:
+\begin{itemize}
+    \item 所需的$2$-单形$\sigma$不一定总是存在.
+    \item 即使其存在也不一定唯一,即我们可能不止$\theta$一个选择.
+\end{itemize}
+存在性要求$\sigma$总是可以被表述为单纯集$X$的延拓条件.注意到可组合的态射偶$(\psi ,\phi)$事实上确定了一个单纯集间的映射$\Lambda_1^2 \to X$.因此,断言$\sigma$总是能够被表述为一个延拓条件:任意形如$\Lambda_1^2 \to X$的单纯形间的映射都可以延拓到$\Delta^2$上,归结为以下图表
+\[\begin{tikzcd}
+	{\Lambda_1^2} & K \\
+	{\Delta^2}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[dashed, from=2-1, to=1-2]
+\end{tikzcd}\]
+而$\theta$的唯一性又是另一个问题.事实证明要求$\theta$被唯一确定是不必要(并且不自然)的.为了说明这一点,让我们回到例\ref{Exp:群胚}上.对于群胚中的两条道路,若它们同伦则被认为是等价的.基本群胚中,复合是由道路的合成给出的,即给定道路$q,p : [0,1] \to X$使得$p(0) = x$而$p(1)=q(0) = y$,且$q(1) = z$,则$p$与$q$的复合应当为一条连接$x$与$z$的道路.有很多方法得到这样连接$p$与$q$的道路.最简单的方式无非是
+\[
+r(t) = \left\{\begin{array}{cc}
+     p(2t)&\text{若}0\leq t \leq \frac{1}{2}  \\
+     q(2t-1)&\text{若}\frac{1}{2}\leq t\leq 1. 
+\end{array}\right.
+\]
+然而,同样可以使用以下方式进行合成
+\[
+r'(t) = \left\{\begin{array}{cc}
+   p(3t)  & \text{若} 0\leq t \leq \frac{1}{3} \\
+   q(\frac{3t-1}{2})& \text{若} \frac{1}{3}\leq t\leq 1.
+\end{array}\right.
+\]
+由于$r$与$r'$是同伦的,因此这并不妨碍选取.\\
+但是从$2$-范畴的角度上进行考虑时,这个问题就变得复杂了.考虑拓扑空间$E$的基本2-群胚,为使得态射的合成有明确的定义,我们必须选择一个等式来代替全部等式.此外,这并没有一个特别合适的选择.举个例子,前文所述的两个等式都无法表示严格的结合律.\\
+这个教训给我们带来了一个启发:在高阶范畴处,我们不应该要求两个态射具有唯一确定的组合(即唯一的填充).在基本群胚的例子中,道路的复合有许多种选择,但是它们是相互同伦的.此外,根据高阶范畴论的哲学原理:任何与复合同伦的道路都应当与复合本身一样好.从这一点出发,我们应当将复合视为一种关系而非函数,这在单纯集的形式中可以很好地得到展现:一个2-单形$\sigma :\Delta^2 \to X$应当被视为$d_0(\sigma) \circ d_2(\sigma)$同伦于$d_1(\sigma)$的``证据''.\\
+
+那么具体是什么样的条件才能够保证一个单纯集$X$表现得像一个更高阶的范畴呢?基于前文的讨论,我们发现这只需要让$X$满足对于尖角$\Lambda_i^n$的填充性质,但是根据前文讨论可知只需要对于内尖角进行填充即可.因此得到定义
+\begin{definition}[拟范畴]\label{定义:无穷范畴}
+    拟范畴是一个满足以下性质的单纯集$X$:对任意的$0<i<n$以及任意单纯集间的映射$\Lambda_i^n \to X$,都可以填充为$f: \Delta^n \to K$.
+\end{definition}
+此时对于拟范畴 $\mathcal{C}$ 中的 $0$-单形(或者说对象) $x,y \in \mathcal{C}$, 容易发现 $\Hom(x,y)$ 为拉回
+\[\begin{tikzcd}
+	{\Hom(x,y)} & {\Fct(\Delta^1,\mathcal{C})} \\
+	{*} & {\mathcal{C}\times \mathcal{C}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["{(x,y)}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+不难说明其为 $\infty$-群胚, 也就是说我们确实定义出了一个 $(\infty,1)$-范畴.\\
+拟范畴也具有模型结构, 称为 Joyal 模型结构, 我们可以给出 Joyal 模型结构与单纯范畴上那个模型结构的 Quillen 等价.
+\subsection{模型无关}
+我们可以试着以公理化的方式定义 $\infty$-范畴, 当然此时我们一般称其为综合范畴, 感兴趣的读者可见\cite{CisinskiFormalization}.
+(未完待续)
 \section{方便的空间范畴}
 本节来讲述方便的空间范畴概念, 一般来说, 方便的空间范畴指的是拓扑空间范畴中满足以下条件的饱和\footnote{replete, 子范畴 $\cal{D}$ 称为是饱和的, 指对于任意 $x\in \cal{D}$, 若在 $\cal{C}$ 中有 $f \colon y \simeq x$, 则 $f$ 和 $y$ 都在 $\cal{D}$ 中.}全子范畴. 本节主要参考\cite{StricklandCGWH}以及\cite[7.好用的空间范畴]{李思}
 \begin{definition}[方便的空间范畴]

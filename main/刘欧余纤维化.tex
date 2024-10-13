@@ -1,9 +1,11 @@
 \chapter{抽象同伦论}\label{抽象同伦论}
 \begin{introduction}
     \item 本节的核心内容为使用模型范畴的语言来处理拓扑空间, 并重写代数拓扑中的若干经典结论.
+    \item 在拓扑空间的经典同伦理论中所构造的基本结构可以被抽象出来, 从而产生一种更加泛用的``抽象同伦理论'', 这种同伦理论主要在研究带有``弱等价''的范畴, 所谓弱等价就是一些满足某些性质的态射. 研究这种弱等价的理论称为``a category of models for a homotopy theory'', 简称模型范畴, 这套理论一开始由 Quillen 在其著作\parencite[Chapter 1.]{quillen2006homotopical}所提出\footnote{若有读者关于原始定义感兴趣, 请注意 base extension 和 cobase extension 不过是拉回和推出, 可见\parencite[\href{https://ncatlab.org/nlab/show/cobase+change}{cobase change}]{nlab:homepage}.}. 由于\cite{quillen2006homotopical} 中只有闭模型范畴时弱等价才为同伦等价, 因此我们直接使用 \cite{dwyer2004homotopy} 中关于模型范畴的定义, 这与\parencite[Definition 1.5.1.]{quillen2006homotopical}的闭模型范畴的定义是等价的. 本章先给出弱等价范畴以及一般的同伦范畴定义, 而后说明其局限性, 接下来讲述模型范畴, 最后给出后文相关的若干模型.不妨将本章视为同调代数与代数拓扑的推广.
     \item 最后, 我们将给出纬悬-环路伴随, 由此一窥稳定同伦结构.
 \end{introduction}
 \section{模型范畴}
+
 \subsection{同伦范畴}
 \begin{definition}[弱等价范畴]
     \textbf{弱等价}是指范畴 $\cal{C}$ 配上一个宽子范畴 $\cal{W}$(即包含全体对象的子范畴) 
@@ -400,10 +402,6 @@ Pierre Gabriel 以及 Michel Zisman 在\cite[1.1]{Gabriel-Zisman67}给出局部�
 \begin{example}
     记 $\cate{HCof}$, $\cate{HFib}$, $\cate{HoEq}$ 为闭 Hurewicz 余纤维化, Hurewicz 纤维化以及同伦等价所构成的类, 则 $(\cate{Top}, \cate{HCof}\cap \cate{Hoeq}, \cate{HFib})$ 以及 $(\cate{Top}, \cate{HCof}, \cate{HFib}\cap \cate{Hoeq})$ 均为弱分解系统.
 \end{example}
-由命题~\ref{命题:小对象论证}可以得到以下推论
-\begin{corollary}
-    令 $\cal{C}$ 为可表现范畴, $T = \{\phi_i : C_i \to D_i\}_{i\in I}$ 为 $\cal{C}$ 中以 $I$ 为指标的一些态射, 则 $(\mathcal{C},\chi(T),\chi_R(T))$ 为弱分解系统.
-\end{corollary}
 接下来给出一种非常有用的结论.
 \begin{proposition}
     令 $F\colon \mathcal{C} \rightleftarrows \mathcal{C}'\colon G$ 为一对伴随, 若 $(\mathcal{C},L,R)$ 与 $(\mathcal{C}',L',R')$ 为弱分解系统, 则 $F(L)\subset L'$ 当且仅当 $G(R')\subset R$.

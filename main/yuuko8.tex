@@ -181,8 +181,18 @@ CW-复形所构成的范畴由可以被 $n$ 维胞腔(像乐高一样, 具体由
     \end{tikzcd}\]
     我们称 $\mathbb{D}^n \coprod_f X$ 为 $X$ 粘接上一个 $n$ 维胞腔. $\Phi_f$ 称为粘接 $n$ 维胞腔的特征映射. 
 
-    \[
-        \begin{tikzpicture}
+    更一般的, 若有一族映射 $f_{\alpha} \colon S^{n-1} \to X$, 令 $f = \coprod f_{\alpha}$, 则推出
+    \[\begin{tikzcd}
+	{\coprod_{\alpha}S^{n-1}} & X \\
+	{\coprod_{\alpha}\mathbb{D}^n} & {\left(\coprod \mathbb{D}^n\right) \coprod_f X}
+	\arrow["f", from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[hook, from=1-2, to=2-2]
+	\arrow["{\Phi_f}", from=2-1, to=2-2]
+    \end{tikzcd}\]
+    称为往 $X$ 上粘接 $n$ 维胞腔.
+\end{definition}
+    \[\begin{tikzpicture}
 \draw [color={rgb, 255:red, 0; green, 55; blue, 255 }  ,draw opacity=1 ][fill={rgb, 255:red, 184; green, 233; blue, 134 }  ,fill opacity=0.55 ]   (438.64,178) .. controls (528.64,179.44) and (527.34,109.88) .. (438.34,110.17) ;
 %Shape: Arc [id:dp7271433133840051] 
 \draw  [draw opacity=0][fill={rgb, 255:red, 184; green, 233; blue, 134 }  ,fill opacity=0.55 ] (306.65,179.27) .. controls (286.42,187.81) and (258.65,193.07) .. (228,193.07) .. controls (166.13,193.07) and (115.97,171.61) .. (115.97,145.14) .. controls (115.97,118.67) and (166.13,97.21) .. (228,97.21) .. controls (258.33,97.21) and (285.85,102.37) .. (306.02,110.75) -- (228,145.14) -- cycle ; \draw  [color={rgb, 255:red, 0; green, 55; blue, 255 }  ,draw opacity=1 ] (306.65,179.27) .. controls (286.42,187.81) and (258.65,193.07) .. (228,193.07) .. controls (166.13,193.07) and (115.97,171.61) .. (115.97,145.14) .. controls (115.97,118.67) and (166.13,97.21) .. (228,97.21) .. controls (258.33,97.21) and (285.85,102.37) .. (306.02,110.75) ;  
@@ -212,17 +222,6 @@ CW-复形所构成的范畴由可以被 $n$ 维胞腔(像乐高一样, 具体由
 % Text Node
 \draw (223,201.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 133; green, 197; blue, 66 }  ,opacity=1 ]  {$X$};
 \end{tikzpicture}\]
-    更一般的, 若有一族映射 $f_{\alpha} \colon S^{n-1} \to X$, 令 $f = \coprod f_{\alpha}$, 则推出
-    \[\begin{tikzcd}
-	{\coprod_{\alpha}S^{n-1}} & X \\
-	{\coprod_{\alpha}\mathbb{D}^n} & {\left(\coprod \mathbb{D}^n\right) \coprod_f X}
-	\arrow["f", from=1-1, to=1-2]
-	\arrow[hook, from=1-1, to=2-1]
-	\arrow[hook, from=1-2, to=2-2]
-	\arrow["{\Phi_f}", from=2-1, to=2-2]
-    \end{tikzcd}\]
-    称为往 $X$ 上粘接 $n$ 维胞腔.
-\end{definition}
 \begin{example}
     $n$ 维球面 $\mathbb{S}^n$ 可以由在一个点上粘接 $n$ 维胞腔得到
     \[\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
@@ -252,4 +251,5 @@ CW-复形所构成的范畴由可以被 $n$ 维胞腔(像乐高一样, 具体由
     由 $X^{n-1}$ 为 $X^n$ 的闭子空间以及弱拓扑立刻得到.
 \end{proof}
 \section{CW-复形的拓扑性质}
+
 \section{CW-复形的同伦性质}
